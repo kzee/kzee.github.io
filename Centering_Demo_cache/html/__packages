@@ -1,9 +1,0 @@
-base
-Rcpp
-bmlm
-dplyr
-data.table
-brms
-ggplot2
-gridExtra
-rmarkdown
