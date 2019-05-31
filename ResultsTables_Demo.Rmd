@@ -1,0 +1,351 @@
+---
+title: "Generating Tables Displaying `lm()` and `lmer()` Output"
+output: 
+  html_document:
+    toc: true
+    toc_float: false 
+    includes:
+      after_body: footer2.html
+ 
+---
+<font size="3">
+
+
+```{r doc options, echo = F}
+knitr::opts_chunk$set(message = F, cache = T, warning = F)  
+```
+<br>
+
+# Overview 
+
+This guide demonstrates how you can use your `lm()` or `lmer()` model object to generate results tables for use in publications or presentations. 
+
+There are already some packages and R functions that do similar things. However, I have found that many of these ready-made options do not include features I want in my tables (e.g., 95% Confidence Intervals, degrees of freedom, ability to present results for multiple DVs in the same table). So, I simply wrote my own function!
+
+<br>
+
+# Load Libraries
+First, we will load the packages we will need for this demo. 
+
+```{r libraries, echo = TRUE, results = 'hide', message = FALSE}
+library(bmlm)
+library(car)
+library(lme4)
+library(lmerTest)
+library(broom)
+library(kableExtra)
+library(dplyr)
+```
+
+<br>
+
+
+# `lm()` Example
+
+## Data
+
+First, let's fit a model showing how we would put together a results table for a regression model. To do this, we will draw on the example used in my [Interaction Effects from Regression Models demo](Interactions_Demo.html). 
+
+To do this, we will use the Moore dataset from the `car` package. For details on this dataset, run `?Moore`. As the documentation from the package indicates, "the data are for subjects in a social-psychological experiment, who were faced with manipulated disagreement from a partner of either of low or high status. The subjects could either conform to the partner's judgment or stick with their own judgment."
+
+```{r lm data set}
+d <- Moore
+```
+
+<br>
+
+## Model 
+
+For our example, we will fit a model in which we will regress `conformity` onto authoritarianism (`fscore`), partner status (`partner.status`), and their interaction.
+
+We will first mean center authoritarianism and effect code partner status (.5 = high, -.5 = low).
+```{r variable prep}
+d$fscore.c <- as.vector(scale(d$fscore, center = T, scale = F))
+d$partner.eff <- ifelse(d$partner.status == "high", .5, -.5)
+```
+
+Then we can fit our regression model. 
+```{r fit lm}
+fit <- lm(conformity ~ fscore.c * partner.eff, data = d)
+summary(fit)
+```
+<br>
+
+## Table Function
+
+The function below uses the `lm` object to generate a dataframe with information from `summary()` and `confint()`. It relies on the `tidy()` function from the `broom` package, which converts information from the `lm` object into a dataframe. I have also added features so that estimates are rounded to two decimal places, and p-values are shown to three decimal places or noted as " < .001". Importantly, this function also adds additional columns showing the lower and upper bounds of the 95% CI for each predictor. I also included *r* as a measure of effect size, defined as *r* = $\sqrt{t^2 / (t^2 + df)}$. However, you could amend the code to include different measures of effect size. 
+
+```{r kzregtable function}
+kzregtable <- function(x) {
+  modtidy <- tidy(x)
+  citidy <- tidy(confint(x))
+  citidy$term <- citidy[,1]
+  tidymerged <- merge(modtidy, citidy, by = "term")
+  tidymerged$var <- paste(x$terms)[2]
+  tidymerged$df <- x$df.residual
+  colnames(tidymerged) <- c("term", "estimate", "std.error", "t.value", 
+                            "p.value", "term2", "lower", "upper", "var", "df")
+  tidymerged$p.round <- ifelse(tidymerged$p.value < .001, "<.001", format(round(tidymerged$p.value, digits =3), nsmall = 3))
+  tidymerged$estimate.round <-  format(round(tidymerged$estimate, digits =2), nsmall = 2)
+  tidymerged$t.value.round <- format(round(tidymerged$t.value, digits =2), nsmall = 2)
+  tidymerged$lower.round <- format(round(tidymerged$lower, digits =2), nsmall = 2)
+  tidymerged$upper.round <- format(round(tidymerged$upper, digits = 2), nsmall = 2)
+  tidymerged$std.error.round <- format(round(tidymerged$std.error, digits = 2), nsmall = 2)
+  tidymerged$r <- sqrt(tidymerged$t.value^2/(tidymerged$t.value^2+tidymerged$df))
+  tidymerged$err <- (1/sqrt(nobs(x)-3))
+  tidymerged$r.round <- format(round(tidymerged$r, digits = 2), nsmall = 2)
+  tidymerged2 <- dplyr::select(tidymerged, var, term, estimate.round, std.error.round, t.value.round, df, p.round,
+                               lower.round, upper.round, r.round)
+  colnames(tidymerged2) <- c("var", "term", "estimate", "se", "t", "df", "p", "lwr", "upr", "r")
+  print(tidymerged2)
+}
+```
+<br>
+
+## Generate and Customize Table
+
+We can now enter our model, `fit`, into the function
+```{r applying function to lm}
+fittable <- kzregtable(fit) 
+```
+
+To make our table more publication worthy, we might consider changing the names of the columns:
+```{r rename cols}
+colnames(fittable) <- c("DV", "Predictor", "Estimate", "SE", "t", "df", "p", "Lower", "Upper", "Effect Size")
+```
+
+...and the way the DV is presented:
+```{r add DV}
+fittable$DV <- "Conformity"
+```
+
+...and the way the Predictor variables are labeled:
+```{r relabel predictors}
+fittable$Predictor <- recode(fittable$Predictor, "(Intercept)" = "Intercept", "fscore.c" = "Authoritarianism", "partner.eff" = "Partner Status", "fscore.c:partner.eff" = "Authorit. x Partner Status")
+
+```
+
+...and the ordering of the Predictors:
+
+```{r reordering}
+fittable$order <- recode(fittable$Predictor, "Intercept" = 1, "Authoritarianism"= 2, "Partner Status" = 3, "Authorit. x Partner Status" = 4) 
+fittable <- dplyr::arrange(fittable, order) %>% select(-order)
+```
+
+
+Now that we have the elements we want the table, we can use the `kableExtra` package to change the appearance. 
+```{r polished table}
+kable(fittable) %>%
+  kable_styling(full_width = T)
+```
+
+
+<br>
+
+## Combining Results for Multiple DVs
+
+We could stop here. But, often we want to examine multiple DVs. To see how we can combine results from different models into a single table, let's simulate a new DV. We will imagine that in this study our new DV is liking of the partner. 
+
+```{r simulate new dv}
+set.seed(999)
+d$liking <- rnorm(nrow(d), mean = 5, sd = 2)
+```
+
+We will fit the same model above with our new variable as the outcome.
+```{r fit liking}
+fit2 <- lm(liking ~ fscore.c * partner.eff, data = d)
+summary(fit2)
+```
+
+We can now repeat the steps above for this DV. For clarity, I have simply repeated these steps for our new model object, `fit2`, but if you had several DVs you could streamline this by amending the original function, writing an additional function, etc. 
+
+```{r customize liking table}
+fittable2 <- kzregtable(fit2) 
+
+colnames(fittable2) <- c("DV", "Predictor", "Estimate", "SE", "t", "df", "p", "Lower", "Upper", "Effect Size")
+
+fittable2$DV <- "Liking"
+
+fittable2$Predictor <- recode(fittable2$Predictor, "(Intercept)" = "Intercept", "fscore.c" = "Authoritarianism", "partner.eff" = "Partner Status", "fscore.c:partner.eff" = "Authorit. x Partner Status")
+
+fittable2$order <- recode(fittable2$Predictor, "Intercept" = 1, "Authoritarianism"= 2, "Partner Status" = 3, "Authorit. x Partner Status" = 4) 
+
+fittable2 <- dplyr::arrange(fittable2, order) %>% select(-order)
+```
+
+<br>
+
+We now have our second set of results in table format. 
+```{r second table}
+kable(fittable2) %>%
+  kable_styling(full_width = T)
+```
+
+<br>
+
+From here, we can simply stack these dataframes on top of each other to create one results table. We can also add a horizontal line in between the results from our two models to enhance the presentation. 
+
+```{r combined table}
+bothresults <- rbind(fittable, fittable2)
+kable(bothresults) %>% 
+  kable_styling(full_width = T) %>% 
+  row_spec(1, extra_css = "border-top: solid;") %>% 
+  row_spec(4, extra_css = "border-bottom: solid;") %>% 
+  row_spec(8, extra_css = "border-bottom: solid;")
+
+```
+
+Note that if we were exporting to .pdf format, we would need to amend the `row_spec()` arguments as follows:
+```{r bothresults, eval = F}
+kable(bothresults) %>% 
+  kable_styling(full_width = T) %>% 
+  row_spec(1, hline_after = T) %>% 
+  row_spec(8, hline_after = T)
+```
+We now have a table that is ready to go into a publication or presentation!
+
+<br>
+
+# `lmer()` Example
+
+
+I also developed a companion function that does the same thing for multilevel results (fixed effect; I wrote a separate function for random effects tables). Here, *r* is the same measure of effect size specified above, but note that measures of effect size for multilevel analyses are more complicated and to my knowledge no clear guidelines currently exist about how to quantify multilevel effect sizes. 
+
+<br>
+
+## Data
+We will use the same example dataset that I used in my [Plotting Fixed Effects demo](PlotFixef_Demo.html), which comes from the `bmlm` package. 
+
+```{r lmer example data}
+d <- BLch9
+```
+<br>
+
+
+## Model
+We will fit a multilevel model here, but with only one random effect term (for simplicity).
+```{r lmer version, message=F, warning = F}
+fitlmer <- lmer(freldis ~ x + m + (m | id), data = d)
+summary(fitlmer)
+```
+
+<br>
+
+## Fixed Effects Table Function
+```{r table function for lmer}
+kzmlmtable <- function(x) {
+  modtidy <- tidy(summary(x)$coef)
+  modtidy$term <- modtidy$.rownames
+  citidy <- tidy(confint(x))
+  citidy$term <- citidy[,1]
+  tidymerged <- merge(modtidy, citidy, by = "term")
+  tidymerged$var <- deparse(substitute(x))
+  colnames(tidymerged) <-c("term", "term2", "estimate", "std.error", "df", "t.value",  "p.value",
+                           "term3",  "lower", "upper", "var")
+  tidymerged$p.round <- ifelse(tidymerged$p.value < .001, "<.001", format(round(tidymerged$p.value, digits =3), nsmall = 3))
+  tidymerged$estimate.round <-  format(round(tidymerged$estimate, digits =2), nsmall = 2)
+  tidymerged$t.value.round <- format(round(tidymerged$t.value, digits =2), nsmall = 2)
+  tidymerged$lower.round <- format(round(tidymerged$lower, digits =2), nsmall = 2)
+  tidymerged$upper.round <- format(round(tidymerged$upper, digits = 2), nsmall = 2)
+  tidymerged$df.round <- round(tidymerged$df, digits = 0)
+  #tidymerged$std.error.round <- sprintf('%.2f', round(tidymerged$std.error, digits = 2))
+  tidymerged$std.error.round <- format(round(tidymerged$std.error, digits = 2), nsmall = 2)
+  tidymerged$r <- sqrt((tidymerged$t.value^2)/((tidymerged$t.value^2)+tidymerged$df))
+  tidymerged$err <- (1/sqrt(summary(x)$ngrps-3))
+  tidymerged$r.round <- format(round(tidymerged$r, digits = 2), nsmall = 2)
+  tidymerged2 <- dplyr::select(tidymerged, var, term, estimate.round, std.error.round, t.value.round, df.round, p.round,
+                               lower.round, upper.round, r.round)
+  colnames(tidymerged2) <- c("var", "term", "estimate", "se", "t", "df", "p", "lwr", "upr", "r")
+  print(tidymerged2)
+}
+```
+
+<br>
+
+## Generate and Customize Fixed Effects Table
+We can now apply the multilevel version of our function, `kzmlmtable()`, to our model object. Note that this could take an extra minute and will likely generate some messages as part of the confidence interval estimation process. 
+```{r lmertable, message = F, warning = F}
+lmertable <- kzmlmtable(fitlmer)
+```
+<br>
+
+We can use similar steps above the further customize the table. 
+```{r lmertable final, echo = F}
+colnames(lmertable) <- c("DV", "Predictor", "Estimate", "SE", "t", "df", "p", "Lower", "Upper", "Effect Size")
+
+lmertable$DV <- "Relationship Dissatisfaction"
+
+lmertable$Predictor <- recode(lmertable$Predictor, "(Intercept)" = "Intercept", "m" = "Work Dissatisfaction", "x" = "Work Stressors")
+
+```
+
+```{r echo = F}
+kable(lmertable) %>%
+  kable_styling(full_width = T)
+```
+<br>
+ 
+ 
+## Random Effects Table Function
+
+As the last step, we will generate a table showing the random effects: the random intercept, the random slope for work dissatisfaction, and the intercept-slope correlation. The `lme4` packages does not provide *p*-values for random effects, but confidence intervals can be generated. 
+
+```{r raneftable}
+
+kzraneftable <- function(x) {
+    require(broom)
+    modtidy <- tidy(summary(x)$varcor)
+    modtidy$term1 <- paste(modtidy$var1, modtidy$var2, sep = "_", collapse = NULL)
+    modtidy$term <- c("inter","slope", "intslope", "resid") 
+    require(dplyr)
+    modtidy2 <- dplyr::select(modtidy, term, sdcor)
+    citidy <- tidy(confint(x))
+    citidy <- citidy[1:4, ]
+    citidy$term <- c("inter", "intslope", "slope", "resid") 
+    tidymerged <- dplyr::full_join(modtidy2, citidy, by = "term")
+    tidymerged$var <- deparse(substitute(x))
+    tidymerged$sd <- sprintf('%.2f', round(tidymerged$sdcor, digits =2))
+    tidymerged$lower <- sprintf('%.2f', round(tidymerged$X2.5, digits =2))
+    tidymerged$upper <- sprintf('%.2f', round(tidymerged$X97.5, digits = 2))
+    tidymerged <- dplyr::select(tidymerged, var, term, sd, lower, upper)
+    print(tidymerged)
+}
+```
+
+<br>
+
+
+## Generate and Customize Random Effects Table 
+
+We can feed our `lmer()` model object into this function to display the random effect estimates (in standard deviation units). You may receive a warning message about "tidying an S3 object..." but this can be ignored. 
+```{r raneftable for model, warning = F, message=F}
+lmerranef <- kzraneftable(fitlmer)
+```
+<br>
+
+Here's the polished version:
+
+```{r ranef customized}
+colnames(lmerranef) <- c("DV", "Term", "SD", "Lower", "Upper")
+
+lmerranef$DV <- "Relationship Dissatisfaction"
+
+lmerranef$Term <- recode(lmerranef$Term, "inter" = "Intercept", "slope" = "Work Dissatisfaction Slope", "intslope" = "Intercept-Slope", "resid" = "Residual")
+
+```
+
+```{r ranef table final, echo = F}
+kable(lmerranef) %>%
+  kable_styling(full_width = T)
+```
+<br>
+
+</font> 
+
+<font size="2"> 
+*[View .Rmd source code](/Users/zeekatherine/Desktop/WorkSchool/kzee.github.io/ResultsTables_Demo.Rmd){target="_blank"}*
+</font> 
+<font size="2"> 
+\
+*updated March 19, 2019*
+</font> 

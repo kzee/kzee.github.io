@@ -1,0 +1,37 @@
+
+---
+title: "Resources"
+output: 
+  html_document:
+    toc: false
+    includes:
+      after_body: footer.html
+---
+
+<font size="3"> 
+
+<br>
+
+## Statistics / R Resources
+
+- [*Intensive Longitudinal Methods* by Niall Bolger & J-P Laurenceau](http://www.intensivelongitudinal.com/){target="_blank"}
+- [Mediation & Moderation, Quantpsy by Kristopher Preacher](http://quantpsy.org/){target="_blank"}
+- [Tutorials by Matti Vuorre](https://vuorre.netlify.com/tags/tutorial/){target="_blank"}
+- [Gallery of Multilevel Papers](http://www.bristol.ac.uk/cmm/gallery){target="_blank"}
+- [R^2 for Multilevel Models Function](https://my.vanderbilt.edu/jasonrights/software/r2mlm/){target="_blank"}
+
+<br>
+
+## Professional Development Resources
+
+- [A Student's Guide to Undergrad Research](https://www.nature.com/articles/d41586-019-00871-x){target="_blank"}
+- [Rmarkdown Websites](https://www.emilyzabor.com/tutorials/rmarkdown_websites_tutorial.html){target="_blank"}
+- [Rock the Postdoc](https://osf.io/tm4pb/){target="_blank"}
+- [The key to a happy lab life is in the manual](https://www.nature.com/articles/d41586-018-06167-w){target="_blank"}
+- [Authorship Guidelines](https://www.apa.org/research/responsible/reflections-authorship.pdf){target="_blank"}
+
+</font> 
+
+
+<br>
+

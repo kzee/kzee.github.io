@@ -1,0 +1,33 @@
+---
+title: ''
+---
+
+```{r echo = F}
+knitr::opts_chunk$set(message = F, cache = T, warning = F)  
+```
+<font size="2"> 
+
+&nbsp;
+<hr />
+<!--  <p> Copyright &copy; 2019 Katherine S. Zee. All rights reserved. </p>   -->
+<p style="text-align: center;"><span style="color: #808080;"><em>kzee@psych.columbia.edu</em></span></p>
+</font> 
+
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
+
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+<a href="https://twitter.com/KatherineZee?lang=en/" target="_blank" class="fab fa-twitter"></a>
+<a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a>
+<a href="https://osf.io/g579q" target="_blank" class="ai ai-osf ai-1x"></a> 
+<a href="https://www.researchgate.net/profile/Katherine_Zee" target="_blank" class="fab fa-researchgate"></a>
+</p>
+
+<font size="2"> 
+<p style="text-align: center;"><span style="color: #808080;">The material above reflects the best of my knowledge on this topic. Please be sure to check your results and code carefully.</span></p>
+</font> 

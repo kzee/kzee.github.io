@@ -1,0 +1,105 @@
+
+---
+title: "Teaching"
+output: 
+  html_document:
+    toc: false
+    toc_float: false
+    includes:
+      after_body: footer.html
+---
+
+
+<font size="3"> 
+
+<br>
+
+## Graduate Teaching, Columbia University 
+
+####Social Psychology, Barnard College, 2019 <br>
+- Role: Grader <br>
+- Supervisor: Colin Leach <br>
+- Guest Lecture: "Interpersonal Relationships" 
+<br>
+<br>
+
+####Introduction to Social Cognition, 2019 <br>
+- Role: Guest Lecturer, "Social Support and Emotion" 
+<br>
+<br>
+
+####Analysis of Change (graduate course on multilevel modeling), 2018 <br>
+- Role: Teaching Assistant with weekly 2-hr lab <br>
+- Supervisor: Niall Bolger <br>
+- Evaluation: Mean = 4.6/5, Median = 5.0/5 
+<br>
+<br>
+
+####Psychophysiological Methods & Analysis (graduate course), 2018 <br>
+- Role: Guest Lecturer, "Dyadic Psychophysiological Methods & Analysis" 
+<br>
+<br>
+
+####Psychophysiological Methods & Analysis (graduate course), 2016 <br>
+- Role: Teaching Assistant with weekly 2-hr lab <br>
+- Supervisor: Niall Bolger <br>
+- Evaluation: Mean = 5.0/5, Median = 5.0/5 
+<br>
+<br>
+
+####Research Methods: Social Cognition and Emotion, 2015 – 2017 <br>
+- Role: Teaching Assistant with weekly 2-hr lab (5 sections over 3 semesters) <br>
+- Supervisor: Kevin Ochsner <br>
+- 2015 Evaluation: Mean = 4.7/5, Median = 5.0/5 <br>
+- 2016 Evaluation: Mean = 4.2/5, Median = 5.0/5 <br> 
+- 2017 Evaluation: Mean = 4.8/5, Median = 5.0/5 
+<br>
+<br>
+
+####The Science of Psychology, 2015 <br>
+- Role: Teaching Assistant <br>
+- Guest Lecture: "Attachment Across the Lifespan" <br>
+- Supervisor: Patricia Lindemann <br>
+- Evaluation: Mean = 4.2/5, Median = 4.0/5 
+<br>
+<br>
+
+<br>
+
+## Other Teaching	
+
+####Leadership in Organizations, London Business School, 2013 <br>
+- Role: Teaching Assistant <br>
+- Supervisor: Xi Zou
+<br>
+<br>
+
+####General Foundations of Psychology, Birkbeck, University of London, 2012 – 2013 <br>
+- Role: Seminar Leader (led weekly 2-hr seminar, 2 sections over 2 terms) <br>
+- Supervisor: Simon Green
+<br>
+<br>
+
+####Introduction to Developmental Psychology, Columbia University, 2012 <br>
+- Role: Undergraduate Teaching Assistant <br>
+- Supervisor: Lois Putnam
+<br>
+<br>
+
+####The Science of Psychology, Columbia University, 2011 <br>
+- Role: Undergraduate Teaching Assistant <br>
+- Supervisor: Patricia Lindemann
+<br>
+<br>
+
+<br>
+
+## Mentoring
+
+Supervised over 40 undergraduate and post-bac research assistants and honors students since 2014. 
+<br>
+<br>
+
+
+
+</font> 

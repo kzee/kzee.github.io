@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Generating Tables Displaying lm() and lmer() Output</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Katherine S. Zee</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="research.html">Research</a>
+</li>
+<li>
+  <a href="publications.html">Publications</a>
+</li>
+<li>
+  <a href="teaching.html">Teaching</a>
+</li>
+<li>
+  <a href="rcode.html">R Code</a>
+</li>
+<li>
+  <a href="resources.html">Resources</a>
+</li>
+<li>
+  <a href="files/KatherineZeeCV.pdf">CV</a>
+</li>
+<li>
+  <a href="contact.html">Contact</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Generating Tables Displaying <code>lm()</code> and <code>lmer()</code> Output</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#load-libraries">Load Libraries</a></li>
+<li><a href="#lm-example"><code>lm()</code> Example</a><ul>
+<li><a href="#data">Data</a></li>
+<li><a href="#model">Model</a></li>
+<li><a href="#table-function">Table Function</a></li>
+<li><a href="#generate-and-customize-table">Generate and Customize Table</a></li>
+<li><a href="#combining-results-for-multiple-dvs">Combining Results for Multiple DVs</a></li>
+</ul></li>
+<li><a href="#lmer-example"><code>lmer()</code> Example</a><ul>
+<li><a href="#data-1">Data</a></li>
+<li><a href="#model-1">Model</a></li>
+<li><a href="#fixed-effects-table-function">Fixed Effects Table Function</a></li>
+<li><a href="#generate-and-customize-fixed-effects-table">Generate and Customize Fixed Effects Table</a></li>
+<li><a href="#random-effects-table-function">Random Effects Table Function</a></li>
+<li><a href="#generate-and-customize-random-effects-table">Generate and Customize Random Effects Table</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p><font size="3"></p>
+<p><br></p>
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p>This guide demonstrates how you can use your <code>lm()</code> or <code>lmer()</code> model object to generate results tables for use in publications or presentations.</p>
+<p>There are already some packages and R functions that do similar things. However, I have found that many of these ready-made options do not include features I want in my tables (e.g., 95% Confidence Intervals, degrees of freedom, ability to present results for multiple DVs in the same table). So, I simply wrote my own function!</p>
+<p><br></p>
+</div>
+<div id="load-libraries" class="section level1">
+<h1>Load Libraries</h1>
+<p>First, we will load the packages we will need for this demo.</p>
+<pre class="r"><code>library(bmlm)
+library(car)
+library(lme4)
+library(lmerTest)
+library(broom)
+library(kableExtra)
+library(dplyr)</code></pre>
+<p><br></p>
+</div>
+<div id="lm-example" class="section level1">
+<h1><code>lm()</code> Example</h1>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>First, let’s fit a model showing how we would put together a results table for a regression model. To do this, we will draw on the example used in my <a href="Interactions_Demo.html">Interaction Effects from Regression Models demo</a>.</p>
+<p>To do this, we will use the Moore dataset from the <code>car</code> package. For details on this dataset, run <code>?Moore</code>. As the documentation from the package indicates, “the data are for subjects in a social-psychological experiment, who were faced with manipulated disagreement from a partner of either of low or high status. The subjects could either conform to the partner’s judgment or stick with their own judgment.”</p>
+<pre class="r"><code>d &lt;- Moore</code></pre>
+<p><br></p>
+</div>
+<div id="model" class="section level2">
+<h2>Model</h2>
+<p>For our example, we will fit a model in which we will regress <code>conformity</code> onto authoritarianism (<code>fscore</code>), partner status (<code>partner.status</code>), and their interaction.</p>
+<p>We will first mean center authoritarianism and effect code partner status (.5 = high, -.5 = low).</p>
+<pre class="r"><code>d$fscore.c &lt;- as.vector(scale(d$fscore, center = T, scale = F))
+d$partner.eff &lt;- ifelse(d$partner.status == &quot;high&quot;, .5, -.5)</code></pre>
+<p>Then we can fit our regression model.</p>
+<pre class="r"><code>fit &lt;- lm(conformity ~ fscore.c * partner.eff, data = d)
+summary(fit)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = conformity ~ fscore.c * partner.eff, data = d)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -7.5296 -2.5984 -0.4473  2.0994 12.4704 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          12.14060    0.68059  17.838  &lt; 2e-16 ***
+## fscore.c             -0.02055    0.04850  -0.424  0.67402    
+## partner.eff           4.27767    1.36117   3.143  0.00311 ** 
+## fscore.c:partner.eff -0.26110    0.09700  -2.692  0.01024 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.562 on 41 degrees of freedom
+## Multiple R-squared:  0.2942, Adjusted R-squared:  0.2426 
+## F-statistic: 5.698 on 3 and 41 DF,  p-value: 0.002347</code></pre>
+<p><br></p>
+</div>
+<div id="table-function" class="section level2">
+<h2>Table Function</h2>
+<p>The function below uses the <code>lm</code> object to generate a dataframe with information from <code>summary()</code> and <code>confint()</code>. It relies on the <code>tidy()</code> function from the <code>broom</code> package, which converts information from the <code>lm</code> object into a dataframe. I have also added features so that estimates are rounded to two decimal places, and p-values are shown to three decimal places or noted as &quot; &lt; .001“. Importantly, this function also adds additional columns showing the lower and upper bounds of the 95% CI for each predictor. I also included <em>r</em> as a measure of effect size, defined as <em>r</em> = <span class="math inline">\(\sqrt{t^2 / (t^2 + df)}\)</span>. However, you could amend the code to include different measures of effect size.</p>
+<pre class="r"><code>kzregtable &lt;- function(x) {
+  modtidy &lt;- tidy(x)
+  citidy &lt;- tidy(confint(x))
+  citidy$term &lt;- citidy[,1]
+  tidymerged &lt;- merge(modtidy, citidy, by = &quot;term&quot;)
+  tidymerged$var &lt;- paste(x$terms)[2]
+  tidymerged$df &lt;- x$df.residual
+  colnames(tidymerged) &lt;- c(&quot;term&quot;, &quot;estimate&quot;, &quot;std.error&quot;, &quot;t.value&quot;, 
+                            &quot;p.value&quot;, &quot;term2&quot;, &quot;lower&quot;, &quot;upper&quot;, &quot;var&quot;, &quot;df&quot;)
+  tidymerged$p.round &lt;- ifelse(tidymerged$p.value &lt; .001, &quot;&lt;.001&quot;, format(round(tidymerged$p.value, digits =3), nsmall = 3))
+  tidymerged$estimate.round &lt;-  format(round(tidymerged$estimate, digits =2), nsmall = 2)
+  tidymerged$t.value.round &lt;- format(round(tidymerged$t.value, digits =2), nsmall = 2)
+  tidymerged$lower.round &lt;- format(round(tidymerged$lower, digits =2), nsmall = 2)
+  tidymerged$upper.round &lt;- format(round(tidymerged$upper, digits = 2), nsmall = 2)
+  tidymerged$std.error.round &lt;- format(round(tidymerged$std.error, digits = 2), nsmall = 2)
+  tidymerged$r &lt;- sqrt(tidymerged$t.value^2/(tidymerged$t.value^2+tidymerged$df))
+  tidymerged$err &lt;- (1/sqrt(nobs(x)-3))
+  tidymerged$r.round &lt;- format(round(tidymerged$r, digits = 2), nsmall = 2)
+  tidymerged2 &lt;- dplyr::select(tidymerged, var, term, estimate.round, std.error.round, t.value.round, df, p.round,
+                               lower.round, upper.round, r.round)
+  colnames(tidymerged2) &lt;- c(&quot;var&quot;, &quot;term&quot;, &quot;estimate&quot;, &quot;se&quot;, &quot;t&quot;, &quot;df&quot;, &quot;p&quot;, &quot;lwr&quot;, &quot;upr&quot;, &quot;r&quot;)
+  print(tidymerged2)
+}</code></pre>
+<p><br></p>
+</div>
+<div id="generate-and-customize-table" class="section level2">
+<h2>Generate and Customize Table</h2>
+<p>We can now enter our model, <code>fit</code>, into the function</p>
+<pre class="r"><code>fittable &lt;- kzregtable(fit) </code></pre>
+<pre><code>##          var                 term estimate   se     t df     p   lwr   upr
+## 1 conformity          (Intercept)    12.14 0.68 17.84 41 &lt;.001 10.77 13.52
+## 2 conformity             fscore.c    -0.02 0.05 -0.42 41 0.674 -0.12  0.08
+## 3 conformity fscore.c:partner.eff    -0.26 0.10 -2.69 41 0.010 -0.46 -0.07
+## 4 conformity          partner.eff     4.28 1.36  3.14 41 0.003  1.53  7.03
+##      r
+## 1 0.94
+## 2 0.07
+## 3 0.39
+## 4 0.44</code></pre>
+<p>To make our table more publication worthy, we might consider changing the names of the columns:</p>
+<pre class="r"><code>colnames(fittable) &lt;- c(&quot;DV&quot;, &quot;Predictor&quot;, &quot;Estimate&quot;, &quot;SE&quot;, &quot;t&quot;, &quot;df&quot;, &quot;p&quot;, &quot;Lower&quot;, &quot;Upper&quot;, &quot;Effect Size&quot;)</code></pre>
+<p>…and the way the DV is presented:</p>
+<pre class="r"><code>fittable$DV &lt;- &quot;Conformity&quot;</code></pre>
+<p>…and the way the Predictor variables are labeled:</p>
+<pre class="r"><code>fittable$Predictor &lt;- recode(fittable$Predictor, &quot;(Intercept)&quot; = &quot;Intercept&quot;, &quot;fscore.c&quot; = &quot;Authoritarianism&quot;, &quot;partner.eff&quot; = &quot;Partner Status&quot;, &quot;fscore.c:partner.eff&quot; = &quot;Authorit. x Partner Status&quot;)</code></pre>
+<p>…and the ordering of the Predictors:</p>
+<pre class="r"><code>fittable$order &lt;- recode(fittable$Predictor, &quot;Intercept&quot; = 1, &quot;Authoritarianism&quot;= 2, &quot;Partner Status&quot; = 3, &quot;Authorit. x Partner Status&quot; = 4) 
+fittable &lt;- dplyr::arrange(fittable, order) %&gt;% select(-order)</code></pre>
+<p>Now that we have the elements we want the table, we can use the <code>kableExtra</code> package to change the appearance.</p>
+<pre class="r"><code>kable(fittable) %&gt;%
+  kable_styling(full_width = T)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+DV
+</th>
+<th style="text-align:left;">
+Predictor
+</th>
+<th style="text-align:left;">
+Estimate
+</th>
+<th style="text-align:left;">
+SE
+</th>
+<th style="text-align:left;">
+t
+</th>
+<th style="text-align:right;">
+df
+</th>
+<th style="text-align:left;">
+p
+</th>
+<th style="text-align:left;">
+Lower
+</th>
+<th style="text-align:left;">
+Upper
+</th>
+<th style="text-align:left;">
+Effect Size
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Conformity
+</td>
+<td style="text-align:left;">
+Intercept
+</td>
+<td style="text-align:left;">
+12.14
+</td>
+<td style="text-align:left;">
+0.68
+</td>
+<td style="text-align:left;">
+17.84
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:left;">
+&lt;.001
+</td>
+<td style="text-align:left;">
+10.77
+</td>
+<td style="text-align:left;">
+13.52
+</td>
+<td style="text-align:left;">
+0.94
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Conformity
+</td>
+<td style="text-align:left;">
+Authoritarianism
+</td>
+<td style="text-align:left;">
+-0.02
+</td>
+<td style="text-align:left;">
+0.05
+</td>
+<td style="text-align:left;">
+-0.42
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:left;">
+0.674
+</td>
+<td style="text-align:left;">
+-0.12
+</td>
+<td style="text-align:left;">
+0.08
+</td>
+<td style="text-align:left;">
+0.07
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Conformity
+</td>
+<td style="text-align:left;">
+Partner Status
+</td>
+<td style="text-align:left;">
+4.28
+</td>
+<td style="text-align:left;">
+1.36
+</td>
+<td style="text-align:left;">
+3.14
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:left;">
+0.003
+</td>
+<td style="text-align:left;">
+1.53
+</td>
+<td style="text-align:left;">
+7.03
+</td>
+<td style="text-align:left;">
+0.44
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Conformity
+</td>
+<td style="text-align:left;">
+Authorit. x Partner Status
+</td>
+<td style="text-align:left;">
+-0.26
+</td>
+<td style="text-align:left;">
+0.10
+</td>
+<td style="text-align:left;">
+-2.69
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:left;">
+0.010
+</td>
+<td style="text-align:left;">
+-0.46
+</td>
+<td style="text-align:left;">
+-0.07
+</td>
+<td style="text-align:left;">
+0.39
+</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</div>
+<div id="combining-results-for-multiple-dvs" class="section level2">
+<h2>Combining Results for Multiple DVs</h2>
+<p>We could stop here. But, often we want to examine multiple DVs. To see how we can combine results from different models into a single table, let’s simulate a new DV. We will imagine that in this study our new DV is liking of the partner.</p>
+<pre class="r"><code>set.seed(999)
+d$liking &lt;- rnorm(nrow(d), mean = 5, sd = 2)</code></pre>
+<p>We will fit the same model above with our new variable as the outcome.</p>
+<pre class="r"><code>fit2 &lt;- lm(liking ~ fscore.c * partner.eff, data = d)
+summary(fit2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = liking ~ fscore.c * partner.eff, data = d)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.6791 -1.6903  0.0363  1.6048  4.3318 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)           4.46977    0.29471  15.167   &lt;2e-16 ***
+## fscore.c              0.03304    0.02100   1.573    0.123    
+## partner.eff           0.03051    0.58942   0.052    0.959    
+## fscore.c:partner.eff  0.05331    0.04200   1.269    0.212    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.976 on 41 degrees of freedom
+## Multiple R-squared:  0.08392,    Adjusted R-squared:  0.01689 
+## F-statistic: 1.252 on 3 and 41 DF,  p-value: 0.3034</code></pre>
+<p>We can now repeat the steps above for this DV. For clarity, I have simply repeated these steps for our new model object, <code>fit2</code>, but if you had several DVs you could streamline this by amending the original function, writing an additional function, etc.</p>
+<pre class="r"><code>fittable2 &lt;- kzregtable(fit2) </code></pre>
+<pre><code>##      var                 term estimate   se     t df     p   lwr  upr    r
+## 1 liking          (Intercept)     4.47 0.29 15.17 41 &lt;.001  3.87 5.06 0.92
+## 2 liking             fscore.c     0.03 0.02  1.57 41 0.123 -0.01 0.08 0.24
+## 3 liking fscore.c:partner.eff     0.05 0.04  1.27 41 0.212 -0.03 0.14 0.19
+## 4 liking          partner.eff     0.03 0.59  0.05 41 0.959 -1.16 1.22 0.01</code></pre>
+<pre class="r"><code>colnames(fittable2) &lt;- c(&quot;DV&quot;, &quot;Predictor&quot;, &quot;Estimate&quot;, &quot;SE&quot;, &quot;t&quot;, &quot;df&quot;, &quot;p&quot;, &quot;Lower&quot;, &quot;Upper&quot;, &quot;Effect Size&quot;)
+
+fittable2$DV &lt;- &quot;Liking&quot;
+
+fittable2$Predictor &lt;- recode(fittable2$Predictor, &quot;(Intercept)&quot; = &quot;Intercept&quot;, &quot;fscore.c&quot; = &quot;Authoritarianism&quot;, &quot;partner.eff&quot; = &quot;Partner Status&quot;, &quot;fscore.c:partner.eff&quot; = &quot;Authorit. x Partner Status&quot;)
+
+fittable2$order &lt;- recode(fittable2$Predictor, &quot;Intercept&quot; = 1, &quot;Authoritarianism&quot;= 2, &quot;Partner Status&quot; = 3, &quot;Authorit. x Partner Status&quot; = 4) 
+
+fittable2 &lt;- dplyr::arrange(fittable2, order) %&gt;% select(-order)</code></pre>
+<p><br></p>
+<p>We now have our second set of results in table format.</p>
+<pre class="r"><code>kable(fittable2) %&gt;%
+  kable_styling(full_width = T)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+DV
+</th>
+<th style="text-align:left;">
+Predictor
+</th>
+<th style="text-align:left;">
+Estimate
+</th>
+<th style="text-align:left;">
+SE
+</th>
+<th style="text-align:left;">
+t
+</th>
+<th style="text-align:right;">
+df
+</th>
+<th style="text-align:left;">
+p
+</th>
+<th style="text-align:left;">
+Lower
+</th>
+<th style="text-align:left;">
+Upper
+</th>
+<th style="text-align:left;">
+Effect Size
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Liking
+</td>
+<td style="text-align:left;">
+Intercept
+</td>
+<td style="text-align:left;">
+4.47
+</td>
+<td style="text-align:left;">
+0.29
+</td>
+<td style="text-align:left;">
+15.17
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:left;">
+&lt;.001
+</td>
+<td style="text-align:left;">
+3.87
+</td>
+<td style="text-align:left;">
+5.06
+</td>
+<td style="text-align:left;">
+0.92
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Liking
+</td>
+<td style="text-align:left;">
+Authoritarianism
+</td>
+<td style="text-align:left;">
+0.03
+</td>
+<td style="text-align:left;">
+0.02
+</td>
+<td style="text-align:left;">
+1.57
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:left;">
+0.123
+</td>
+<td style="text-align:left;">
+-0.01
+</td>
+<td style="text-align:left;">
+0.08
+</td>
+<td style="text-align:left;">
+0.24
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Liking
+</td>
+<td style="text-align:left;">
+Partner Status
+</td>
+<td style="text-align:left;">
+0.03
+</td>
+<td style="text-align:left;">
+0.59
+</td>
+<td style="text-align:left;">
+0.05
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:left;">
+0.959
+</td>
+<td style="text-align:left;">
+-1.16
+</td>
+<td style="text-align:left;">
+1.22
+</td>
+<td style="text-align:left;">
+0.01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Liking
+</td>
+<td style="text-align:left;">
+Authorit. x Partner Status
+</td>
+<td style="text-align:left;">
+0.05
+</td>
+<td style="text-align:left;">
+0.04
+</td>
+<td style="text-align:left;">
+1.27
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:left;">
+0.212
+</td>
+<td style="text-align:left;">
+-0.03
+</td>
+<td style="text-align:left;">
+0.14
+</td>
+<td style="text-align:left;">
+0.19
+</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>From here, we can simply stack these dataframes on top of each other to create one results table. We can also add a horizontal line in between the results from our two models to enhance the presentation.</p>
+<pre class="r"><code>bothresults &lt;- rbind(fittable, fittable2)
+kable(bothresults) %&gt;% 
+  kable_styling(full_width = T) %&gt;% 
+  row_spec(1, extra_css = &quot;border-top: solid;&quot;) %&gt;% 
+  row_spec(4, extra_css = &quot;border-bottom: solid;&quot;) %&gt;% 
+  row_spec(8, extra_css = &quot;border-bottom: solid;&quot;)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+DV
+</th>
+<th style="text-align:left;">
+Predictor
+</th>
+<th style="text-align:left;">
+Estimate
+</th>
+<th style="text-align:left;">
+SE
+</th>
+<th style="text-align:left;">
+t
+</th>
+<th style="text-align:right;">
+df
+</th>
+<th style="text-align:left;">
+p
+</th>
+<th style="text-align:left;">
+Lower
+</th>
+<th style="text-align:left;">
+Upper
+</th>
+<th style="text-align:left;">
+Effect Size
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;border-top: solid;">
+Conformity
+</td>
+<td style="text-align:left;border-top: solid;">
+Intercept
+</td>
+<td style="text-align:left;border-top: solid;">
+12.14
+</td>
+<td style="text-align:left;border-top: solid;">
+0.68
+</td>
+<td style="text-align:left;border-top: solid;">
+17.84
+</td>
+<td style="text-align:right;border-top: solid;">
+41
+</td>
+<td style="text-align:left;border-top: solid;">
+&lt;.001
+</td>
+<td style="text-align:left;border-top: solid;">
+10.77
+</td>
+<td style="text-align:left;border-top: solid;">
+13.52
+</td>
+<td style="text-align:left;border-top: solid;">
+0.94
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Conformity
+</td>
+<td style="text-align:left;">
+Authoritarianism
+</td>
+<td style="text-align:left;">
+-0.02
+</td>
+<td style="text-align:left;">
+0.05
+</td>
+<td style="text-align:left;">
+-0.42
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:left;">
+0.674
+</td>
+<td style="text-align:left;">
+-0.12
+</td>
+<td style="text-align:left;">
+0.08
+</td>
+<td style="text-align:left;">
+0.07
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Conformity
+</td>
+<td style="text-align:left;">
+Partner Status
+</td>
+<td style="text-align:left;">
+4.28
+</td>
+<td style="text-align:left;">
+1.36
+</td>
+<td style="text-align:left;">
+3.14
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:left;">
+0.003
+</td>
+<td style="text-align:left;">
+1.53
+</td>
+<td style="text-align:left;">
+7.03
+</td>
+<td style="text-align:left;">
+0.44
+</td>
+</tr>
+<tr>
+<td style="text-align:left;border-bottom: solid;">
+Conformity
+</td>
+<td style="text-align:left;border-bottom: solid;">
+Authorit. x Partner Status
+</td>
+<td style="text-align:left;border-bottom: solid;">
+-0.26
+</td>
+<td style="text-align:left;border-bottom: solid;">
+0.10
+</td>
+<td style="text-align:left;border-bottom: solid;">
+-2.69
+</td>
+<td style="text-align:right;border-bottom: solid;">
+41
+</td>
+<td style="text-align:left;border-bottom: solid;">
+0.010
+</td>
+<td style="text-align:left;border-bottom: solid;">
+-0.46
+</td>
+<td style="text-align:left;border-bottom: solid;">
+-0.07
+</td>
+<td style="text-align:left;border-bottom: solid;">
+0.39
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Liking
+</td>
+<td style="text-align:left;">
+Intercept
+</td>
+<td style="text-align:left;">
+4.47
+</td>
+<td style="text-align:left;">
+0.29
+</td>
+<td style="text-align:left;">
+15.17
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:left;">
+&lt;.001
+</td>
+<td style="text-align:left;">
+3.87
+</td>
+<td style="text-align:left;">
+5.06
+</td>
+<td style="text-align:left;">
+0.92
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Liking
+</td>
+<td style="text-align:left;">
+Authoritarianism
+</td>
+<td style="text-align:left;">
+0.03
+</td>
+<td style="text-align:left;">
+0.02
+</td>
+<td style="text-align:left;">
+1.57
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:left;">
+0.123
+</td>
+<td style="text-align:left;">
+-0.01
+</td>
+<td style="text-align:left;">
+0.08
+</td>
+<td style="text-align:left;">
+0.24
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Liking
+</td>
+<td style="text-align:left;">
+Partner Status
+</td>
+<td style="text-align:left;">
+0.03
+</td>
+<td style="text-align:left;">
+0.59
+</td>
+<td style="text-align:left;">
+0.05
+</td>
+<td style="text-align:right;">
+41
+</td>
+<td style="text-align:left;">
+0.959
+</td>
+<td style="text-align:left;">
+-1.16
+</td>
+<td style="text-align:left;">
+1.22
+</td>
+<td style="text-align:left;">
+0.01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;border-bottom: solid;">
+Liking
+</td>
+<td style="text-align:left;border-bottom: solid;">
+Authorit. x Partner Status
+</td>
+<td style="text-align:left;border-bottom: solid;">
+0.05
+</td>
+<td style="text-align:left;border-bottom: solid;">
+0.04
+</td>
+<td style="text-align:left;border-bottom: solid;">
+1.27
+</td>
+<td style="text-align:right;border-bottom: solid;">
+41
+</td>
+<td style="text-align:left;border-bottom: solid;">
+0.212
+</td>
+<td style="text-align:left;border-bottom: solid;">
+-0.03
+</td>
+<td style="text-align:left;border-bottom: solid;">
+0.14
+</td>
+<td style="text-align:left;border-bottom: solid;">
+0.19
+</td>
+</tr>
+</tbody>
+</table>
+<p>Note that if we were exporting to .pdf format, we would need to amend the <code>row_spec()</code> arguments as follows:</p>
+<pre class="r"><code>kable(bothresults) %&gt;% 
+  kable_styling(full_width = T) %&gt;% 
+  row_spec(1, hline_after = T) %&gt;% 
+  row_spec(8, hline_after = T)</code></pre>
+<p>We now have a table that is ready to go into a publication or presentation!</p>
+<p><br></p>
+</div>
+</div>
+<div id="lmer-example" class="section level1">
+<h1><code>lmer()</code> Example</h1>
+<p>I also developed a companion function that does the same thing for multilevel results (fixed effect; I wrote a separate function for random effects tables). Here, <em>r</em> is the same measure of effect size specified above, but note that measures of effect size for multilevel analyses are more complicated and to my knowledge no clear guidelines currently exist about how to quantify multilevel effect sizes.</p>
+<p><br></p>
+<div id="data-1" class="section level2">
+<h2>Data</h2>
+<p>We will use the same example dataset that I used in my <a href="PlotFixef_Demo.html">Plotting Fixed Effects demo</a>, which comes from the <code>bmlm</code> package.</p>
+<pre class="r"><code>d &lt;- BLch9</code></pre>
+<p><br></p>
+</div>
+<div id="model-1" class="section level2">
+<h2>Model</h2>
+<p>We will fit a multilevel model here, but with only one random effect term (for simplicity).</p>
+<pre class="r"><code>fitlmer &lt;- lmer(freldis ~ x + m + (m | id), data = d)
+summary(fitlmer)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: freldis ~ x + m + (m | id)
+##    Data: d
+## 
+## REML criterion at convergence: 6148.2
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.4121 -0.6334 -0.0208  0.6498  3.2687 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev. Corr
+##  id       (Intercept) 0.93038  0.9646       
+##           m           0.05305  0.2303   0.61
+##  Residual             0.90788  0.9528       
+## Number of obs: 2100, groups:  id, 100
+## 
+## Fixed effects:
+##              Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept) 4.635e+00  9.867e-02 9.900e+01  46.978  &lt; 2e-16 ***
+## x           1.070e-01  2.149e-02 1.997e+03   4.979 6.92e-07 ***
+## m           1.573e-01  2.991e-02 1.010e+02   5.260 8.10e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##   (Intr) x     
+## x  0.000       
+## m  0.456 -0.097</code></pre>
+<p><br></p>
+</div>
+<div id="fixed-effects-table-function" class="section level2">
+<h2>Fixed Effects Table Function</h2>
+<pre class="r"><code>kzmlmtable &lt;- function(x) {
+  modtidy &lt;- tidy(summary(x)$coef)
+  modtidy$term &lt;- modtidy$.rownames
+  citidy &lt;- tidy(confint(x))
+  citidy$term &lt;- citidy[,1]
+  tidymerged &lt;- merge(modtidy, citidy, by = &quot;term&quot;)
+  tidymerged$var &lt;- deparse(substitute(x))
+  colnames(tidymerged) &lt;-c(&quot;term&quot;, &quot;term2&quot;, &quot;estimate&quot;, &quot;std.error&quot;, &quot;df&quot;, &quot;t.value&quot;,  &quot;p.value&quot;,
+                           &quot;term3&quot;,  &quot;lower&quot;, &quot;upper&quot;, &quot;var&quot;)
+  tidymerged$p.round &lt;- ifelse(tidymerged$p.value &lt; .001, &quot;&lt;.001&quot;, format(round(tidymerged$p.value, digits =3), nsmall = 3))
+  tidymerged$estimate.round &lt;-  format(round(tidymerged$estimate, digits =2), nsmall = 2)
+  tidymerged$t.value.round &lt;- format(round(tidymerged$t.value, digits =2), nsmall = 2)
+  tidymerged$lower.round &lt;- format(round(tidymerged$lower, digits =2), nsmall = 2)
+  tidymerged$upper.round &lt;- format(round(tidymerged$upper, digits = 2), nsmall = 2)
+  tidymerged$df.round &lt;- round(tidymerged$df, digits = 0)
+  #tidymerged$std.error.round &lt;- sprintf(&#39;%.2f&#39;, round(tidymerged$std.error, digits = 2))
+  tidymerged$std.error.round &lt;- format(round(tidymerged$std.error, digits = 2), nsmall = 2)
+  tidymerged$r &lt;- sqrt((tidymerged$t.value^2)/((tidymerged$t.value^2)+tidymerged$df))
+  tidymerged$err &lt;- (1/sqrt(summary(x)$ngrps-3))
+  tidymerged$r.round &lt;- format(round(tidymerged$r, digits = 2), nsmall = 2)
+  tidymerged2 &lt;- dplyr::select(tidymerged, var, term, estimate.round, std.error.round, t.value.round, df.round, p.round,
+                               lower.round, upper.round, r.round)
+  colnames(tidymerged2) &lt;- c(&quot;var&quot;, &quot;term&quot;, &quot;estimate&quot;, &quot;se&quot;, &quot;t&quot;, &quot;df&quot;, &quot;p&quot;, &quot;lwr&quot;, &quot;upr&quot;, &quot;r&quot;)
+  print(tidymerged2)
+}</code></pre>
+<p><br></p>
+</div>
+<div id="generate-and-customize-fixed-effects-table" class="section level2">
+<h2>Generate and Customize Fixed Effects Table</h2>
+<p>We can now apply the multilevel version of our function, <code>kzmlmtable()</code>, to our model object. Note that this could take an extra minute and will likely generate some messages as part of the confidence interval estimation process.</p>
+<pre class="r"><code>lmertable &lt;- kzmlmtable(fitlmer)</code></pre>
+<pre><code>##       var        term estimate   se     t   df     p  lwr  upr    r
+## 1 fitlmer (Intercept)     4.64 0.10 46.98   99 &lt;.001 4.44 4.83 0.98
+## 2 fitlmer           m     0.16 0.03  5.26  101 &lt;.001 0.10 0.22 0.46
+## 3 fitlmer           x     0.11 0.02  4.98 1997 &lt;.001 0.06 0.15 0.11</code></pre>
+<p><br></p>
+<p>We can use similar steps above the further customize the table.</p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+DV
+</th>
+<th style="text-align:left;">
+Predictor
+</th>
+<th style="text-align:left;">
+Estimate
+</th>
+<th style="text-align:left;">
+SE
+</th>
+<th style="text-align:left;">
+t
+</th>
+<th style="text-align:right;">
+df
+</th>
+<th style="text-align:left;">
+p
+</th>
+<th style="text-align:left;">
+Lower
+</th>
+<th style="text-align:left;">
+Upper
+</th>
+<th style="text-align:left;">
+Effect Size
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Relationship Dissatisfaction
+</td>
+<td style="text-align:left;">
+Intercept
+</td>
+<td style="text-align:left;">
+4.64
+</td>
+<td style="text-align:left;">
+0.10
+</td>
+<td style="text-align:left;">
+46.98
+</td>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:left;">
+&lt;.001
+</td>
+<td style="text-align:left;">
+4.44
+</td>
+<td style="text-align:left;">
+4.83
+</td>
+<td style="text-align:left;">
+0.98
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Relationship Dissatisfaction
+</td>
+<td style="text-align:left;">
+Work Dissatisfaction
+</td>
+<td style="text-align:left;">
+0.16
+</td>
+<td style="text-align:left;">
+0.03
+</td>
+<td style="text-align:left;">
+5.26
+</td>
+<td style="text-align:right;">
+101
+</td>
+<td style="text-align:left;">
+&lt;.001
+</td>
+<td style="text-align:left;">
+0.10
+</td>
+<td style="text-align:left;">
+0.22
+</td>
+<td style="text-align:left;">
+0.46
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Relationship Dissatisfaction
+</td>
+<td style="text-align:left;">
+Work Stressors
+</td>
+<td style="text-align:left;">
+0.11
+</td>
+<td style="text-align:left;">
+0.02
+</td>
+<td style="text-align:left;">
+4.98
+</td>
+<td style="text-align:right;">
+1997
+</td>
+<td style="text-align:left;">
+&lt;.001
+</td>
+<td style="text-align:left;">
+0.06
+</td>
+<td style="text-align:left;">
+0.15
+</td>
+<td style="text-align:left;">
+0.11
+</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</div>
+<div id="random-effects-table-function" class="section level2">
+<h2>Random Effects Table Function</h2>
+<p>As the last step, we will generate a table showing the random effects: the random intercept, the random slope for work dissatisfaction, and the intercept-slope correlation. The <code>lme4</code> packages does not provide <em>p</em>-values for random effects, but confidence intervals can be generated.</p>
+<pre class="r"><code>kzraneftable &lt;- function(x) {
+    require(broom)
+    modtidy &lt;- tidy(summary(x)$varcor)
+    modtidy$term1 &lt;- paste(modtidy$var1, modtidy$var2, sep = &quot;_&quot;, collapse = NULL)
+    modtidy$term &lt;- c(&quot;inter&quot;,&quot;slope&quot;, &quot;intslope&quot;, &quot;resid&quot;) 
+    require(dplyr)
+    modtidy2 &lt;- dplyr::select(modtidy, term, sdcor)
+    citidy &lt;- tidy(confint(x))
+    citidy &lt;- citidy[1:4, ]
+    citidy$term &lt;- c(&quot;inter&quot;, &quot;intslope&quot;, &quot;slope&quot;, &quot;resid&quot;) 
+    tidymerged &lt;- dplyr::full_join(modtidy2, citidy, by = &quot;term&quot;)
+    tidymerged$var &lt;- deparse(substitute(x))
+    tidymerged$sd &lt;- sprintf(&#39;%.2f&#39;, round(tidymerged$sdcor, digits =2))
+    tidymerged$lower &lt;- sprintf(&#39;%.2f&#39;, round(tidymerged$X2.5, digits =2))
+    tidymerged$upper &lt;- sprintf(&#39;%.2f&#39;, round(tidymerged$X97.5, digits = 2))
+    tidymerged &lt;- dplyr::select(tidymerged, var, term, sd, lower, upper)
+    print(tidymerged)
+}</code></pre>
+<p><br></p>
+</div>
+<div id="generate-and-customize-random-effects-table" class="section level2">
+<h2>Generate and Customize Random Effects Table</h2>
+<p>We can feed our <code>lmer()</code> model object into this function to display the random effect estimates (in standard deviation units). You may receive a warning message about “tidying an S3 object…” but this can be ignored.</p>
+<pre class="r"><code>lmerranef &lt;- kzraneftable(fitlmer)</code></pre>
+<pre><code>##       var     term   sd lower upper
+## 1 fitlmer    inter 0.96  0.83  1.12
+## 2 fitlmer    slope 0.23  0.18  0.29
+## 3 fitlmer intslope 0.61  0.39  0.78
+## 4 fitlmer    resid 0.95  0.92  0.98</code></pre>
+<p><br></p>
+<p>Here’s the polished version:</p>
+<pre class="r"><code>colnames(lmerranef) &lt;- c(&quot;DV&quot;, &quot;Term&quot;, &quot;SD&quot;, &quot;Lower&quot;, &quot;Upper&quot;)
+
+lmerranef$DV &lt;- &quot;Relationship Dissatisfaction&quot;
+
+lmerranef$Term &lt;- recode(lmerranef$Term, &quot;inter&quot; = &quot;Intercept&quot;, &quot;slope&quot; = &quot;Work Dissatisfaction Slope&quot;, &quot;intslope&quot; = &quot;Intercept-Slope&quot;, &quot;resid&quot; = &quot;Residual&quot;)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+DV
+</th>
+<th style="text-align:left;">
+Term
+</th>
+<th style="text-align:left;">
+SD
+</th>
+<th style="text-align:left;">
+Lower
+</th>
+<th style="text-align:left;">
+Upper
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Relationship Dissatisfaction
+</td>
+<td style="text-align:left;">
+Intercept
+</td>
+<td style="text-align:left;">
+0.96
+</td>
+<td style="text-align:left;">
+0.83
+</td>
+<td style="text-align:left;">
+1.12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Relationship Dissatisfaction
+</td>
+<td style="text-align:left;">
+Work Dissatisfaction Slope
+</td>
+<td style="text-align:left;">
+0.23
+</td>
+<td style="text-align:left;">
+0.18
+</td>
+<td style="text-align:left;">
+0.29
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Relationship Dissatisfaction
+</td>
+<td style="text-align:left;">
+Intercept-Slope
+</td>
+<td style="text-align:left;">
+0.61
+</td>
+<td style="text-align:left;">
+0.39
+</td>
+<td style="text-align:left;">
+0.78
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Relationship Dissatisfaction
+</td>
+<td style="text-align:left;">
+Residual
+</td>
+<td style="text-align:left;">
+0.95
+</td>
+<td style="text-align:left;">
+0.92
+</td>
+<td style="text-align:left;">
+0.98
+</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p></font></p>
+<p><font size="2"> <em><a href="/Users/zeekatherine/Desktop/WorkSchool/kzee.github.io/ResultsTables_Demo.Rmd" target="_blank">View .Rmd source code</a></em> </font> <font size="2"><br />
+<em>updated March 19, 2019</em> </font></p>
+</div>
+</div>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Katherine S. Zee</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="research.html">Research</a>
+</li>
+<li>
+  <a href="publications.html">Publications</a>
+</li>
+<li>
+  <a href="teaching.html">Teaching</a>
+</li>
+<li>
+  <a href="rcode.html">R Code</a>
+</li>
+<li>
+  <a href="resources.html">Resources</a>
+</li>
+<li>
+  <a href="files/KatherineZeeCV.pdf">CV</a>
+</li>
+<li>
+  <a href="contact.html">Contact</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<p><font size="2"></p>
+ 
+<hr />
+<!--  <p> Copyright &copy; 2019 Katherine S. Zee. All rights reserved. </p>   -->
+<p style="text-align: center;">
+<span style="color: #808080;"><em><a href="mailto:kzee@psych.columbia.edu">kzee@psych.columbia.edu</a></em></span>
+</p>
+<p></font></p>
+<!-- Add icon library -->
+<p><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></p>
+<p><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"></p>
+<p><link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css"></p>
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+<a href="https://twitter.com/KatherineZee?lang=en/" target="_blank" class="fab fa-twitter"></a> <a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a> <a href="https://osf.io/g579q" target="_blank" class="ai ai-osf ai-1x"></a> <a href="https://www.researchgate.net/profile/Katherine_Zee" target="_blank" class="fab fa-researchgate"></a>
+</p>
+<font size="2">
+<p style="text-align: center;">
+<span style="color: #808080;">The material above reflects the best of my knowledge on this topic. Please be sure to check your results and code carefully.</span>
+</p>
+<p></font></p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+name: "Katherine S. Zee"
+google_analytics: "UA-136620538-1"
+navbar: 
+  title: "Katherine S. Zee"
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "Research"
+      href: research.html
+    - text: "Publications"
+      href: publications.html
+    - text: "Teaching"
+      href: teaching.html
+    - text: "R Code"
+      href: rcode.html
+    - text: "Resources"
+      href: resources.html
+    - text: "CV"
+      href: files/KatherineZeeCV.pdf
+      target: _blank
+      # - text: "Links & Resources"
+    #  href: resources.html
+   #  - text: "R Code Menu"
+  #    menu:
+  #    - text: "Script 1"
+  #    - text: "Script 2"
+    - text: "Contact"
+      href: contact.html
+      
+
+output:
+  html_document:
+    theme: paper
+    css: 'styles.css'
+    #toc: true
+    #toc_float: true 
+    featuredImage: images/KatherineZee.jpeg
+
+
+
+
+
+

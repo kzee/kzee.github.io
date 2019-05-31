@@ -1,0 +1,165 @@
+---
+title: 'Within- and Between-Subject Centering'
+output: 
+  html_document:
+    toc: true
+---
+
+
+<font size="3">
+
+```{r echo = F}
+knitr::opts_chunk$set(message = F, cache = T, warning = F)  
+```
+<br>
+
+# Overview
+This guide demonstrates how to perform within- and between-subject centering of variables in R. This is an important step in prepping data for a multilevel analysis, as there are both within- and between-subject differences that need to be separated. 
+
+To complete this demo, we will use the Bolger & Laurenceau Chapter 9 data, which we can access through the `bmlm` package. This dataset already contains within-person centered variables, but we will compute them ourselves anyway. 
+
+<br>
+
+# Load Packages & Data set
+```{r libraries, message = FALSE, warning=FALSE}
+library(bmlm)
+library(dplyr)
+```
+
+```{r}
+d <- BLch9
+```
+
+<br>
+
+# Method 1: Base R
+The first method involves using functions available in base R. With the `within` approach, we will create a new variable that draws on information nested in a particular group, `id` in this case. We then specify the function we want to apply, in this case taking the mean. Note that if our dataset had missing values (`NA`), we might want to define a new function ourselves for taking the mean but excluding the missing values. 
+
+```{r}
+d <- within(d, {fwkstrs_mean1 = ave(fwkstrs, id, FUN = mean)})
+d$fwkstrs_cw1 <- d$fwkstrs - d$fwkstrs_mean1
+d$fwkstrs_cb1 <- scale(d$fwkstrs, center = T, scale = F) - d$fwkstrs_cw1
+
+d <- within(d, {fwkdis_mean1 = ave(fwkdis, id, FUN = mean)})
+d$fwkdis_cw1 <- d$fwkdis - d$fwkdis_mean1
+d$fwkdis_cb1 <- scale(d$fwkdis, center = T, scale = F) - d$fwkdis_cw1
+
+```
+
+<br>
+
+Now, let's check our work (for the sake of space we will just look at the `fwkstrs` variable):
+
+```{r}
+head(dplyr::select(d, id, time, fwkstrs, fwkstrs_cw1, fwkstrs_cb1)) 
+```
+
+<br>
+
+# Method 2: `dplyr`
+A second method involves using the `dplyr` package. With the `group_by` function, we can ask R to take the mean for each "group", which in this case is each person. 
+
+In the first part of the code, we will group our dataframe by `id`. This will effectively treat each "group" (person) as their own dataframe. By taking the mean, we will generate a person-specific mean. This can be accomplished using `mutate()`, which is a function that allows you to create new variables. For details, run `?mutate`. We will obtain person-specific means for two variables: `fwkstrs` and `fwkdis`.
+
+Next, we need to `ungroup()` so that our data manipulation will be on the whole dataframe, and not on the data broken up by `id`. 
+
+We will then use `mutate()` again to create three new sets of variables: (A) Grand-mean centered versions of each of our variables, (B) Within-person centered versions of each of our variables, and (C) Between-person centered versions of each of our varaibles. 
+
+(A) Grand-mean centered: We will use the `scale()` function, which is a base R function for centering and standardizing variables. Because we want to keep our variable in the original units (i.e., we do NOT want standardized versions), we will set `center = T` and `scale = F` within the function. This will simply subtract out the grand mean (mean of all observations) from each individual observation in the dataframe. 
+
+(B) Within-person centered: Next, we will create within-person centered variables, which capture fluctuations relative to each person's own average across the study period. Do to this, we will simply take the "raw" observation for each variable and subtract out the person-specific mean we computed in the first part. 
+
+(C) Between-person centered: Finally, we will create between-person centered variables, which reflect between-person differences in level across the study period (i.e., whether a particular subject reported generally high vs. low levels of each variable across the study period). As noted in Chapter 5 of [Bolger & Laurenceau (2013)](), within-person centered value + between-person centered value = grand mean centered value. Therefore, we can obtain between-person centered values by subtracting within-person centered values from grand mean centered values. 
+
+```{r}
+d <- d %>% group_by(id) %>% 
+  mutate(
+    fwkstrs_mean2 = mean(fwkstrs, na.rm = T),
+    fwkdis_mean2 = mean(fwkdis, na.rm = T)
+  ) %>% ungroup() %>% 
+  mutate(
+    fwkstrs_c2 = scale(fwkstrs, center = T, scale = F),
+    fwkdis_c2 = scale(fwkdis, center = T, scale = F),
+    
+    fwkstrs_cw2 = fwkstrs - fwkstrs_mean2,
+    fwkdis_cw2 = fwkdis - fwkdis_mean2,
+
+    fwkstrs_cb2 = fwkstrs_c2 - fwkstrs_cw2,
+    fwkdis_cb2 = fwkdis_c2 - fwkdis_cw2
+  )
+```
+
+<br>
+
+Now, let's check our work:
+
+```{r}
+head(dplyr::select(d, id, time, fwkstrs, fwkstrs_cw2, fwkstrs_cb2))
+```
+
+<br>
+
+# Method 3: `bmlm` Helper Function
+A third option is to use the `isolate` function from the `bmlm` package. This will accomplish your centering needs in a single step. 
+
+As shown in the code below, we simply need to enter our dataframe (`d`), the name of our grouping variable (`id`), and the variables we want to center (`fwkstrs` and `fwkdis`). The `which` argument refers to whether you want the function to return only within-person centered values, only between-person centered values, or both. Here, we have specified `both`.
+
+```{r}
+d <- isolate(d, by = "id",
+             value = c("fwkstrs", "fwkdis"),
+             which = "both")
+```
+
+<br>
+
+Now, let's check our work (note that `isolate` does not provide the grand mean version):
+
+```{r}
+head(dplyr::select(d, id, time, fwkstrs, fwkstrs_cw, fwkstrs_cb)) 
+```
+
+<br>
+
+# Summary
+As you can see, there are multiple ways of getting us to the same place. I don't think any single method is necessarily "best", although a case could be made for the utility of Method 3, as a prepared function can help eliminate coding errors. However, there may be cases when one needs to center on a value other than the mean (e.g., baseline). In such cases, the other methods may provide the flexibility necessary for doing so. 
+
+</font> 
+
+<br>
+
+<font size="2"> 
+*[View .Rmd source code](/Users/zeekatherine/Desktop/WorkSchool/kzee.github.io/Centering_Demo.Rmd){target="_blank"}*
+</font> 
+<br>
+<font size="2"> 
+*updated April 22, 2019*
+</font> 
+
+<br>
+
+<font size="2"> 
+
+&nbsp;
+<hr />
+<!--  <p> Copyright &copy; 2019 Katherine S. Zee. All rights reserved. </p>   -->
+<p style="text-align: center;"><span style="color: #808080;"><em>kzee@psych.columbia.edu</em></span></p>
+</font> 
+
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
+
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+<a href="https://twitter.com/KatherineZee?lang=en/" target="_blank" class="fab fa-twitter"></a>
+<a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a>
+<a href="https://osf.io/g579q" target="_blank" class="ai ai-osf ai-1x"></a> 
+<a href="https://www.researchgate.net/profile/Katherine_Zee" target="_blank" class="fab fa-researchgate"></a>
+</p>
+
+<font size="2"> 
+<p style="text-align: center;"><span style="color: #808080;">The material above reflects the best of my knowledge on this topic. Please be sure to check your results and code carefully.</span></p>
+</font> 
