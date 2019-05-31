@@ -4,9 +4,6 @@ title: "Katherine S. Zee"
 output: 
   html_document:
     toc: false
-    toc_float: false
-    includes:
-      after_body: footer.html
       
 ---
 
