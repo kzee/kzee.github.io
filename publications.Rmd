@@ -20,7 +20,7 @@ output:
 
 Bolger, N., & **Zee, K. S.** (2019). Heterogeneity in temporal processes: Implications for theories in health psychology. *Applied Psychology: Health & Well-being.* [https://doi.org/10.1111/aphw.12159](https://onlinelibrary.wiley.com/doi/full/10.1111/aphw.12159){target="_blank"}
 
-**Zee, K. S.**, & Bolger, N. (2019). Visible and invisible social support: How, why, and when. *Current Directions in Psychological Science.* [https://doi.org/10.1177/0963721419835214](https://doi.org/10.1177/0963721419835214){target="_blank"}
+**Zee, K. S.**, & Bolger, N. (2019). Visible and invisible social support: How, why, and when. *Current Directions in Psychological Science.* Advance online publication. [https://doi.org/10.1177/0963721419835214](https://doi.org/10.1177/0963721419835214){target="_blank"}
 
 Bolger, N., **Zee, K. S.**, Rossignac-Milon, M., & Hassin, R. R. (2019). Causal processes in psychology are heterogeneous. *Journal of Experimental Psychology: General*, *148*, 601-618. [http://dx.doi.org/10.1037/xge0000558](http://dx.doi.org/10.1037/xge0000558){target="_blank"}. [(Datasets & R Code)](https://github.com/kzee/heterogeneityproject){target="_blank"}
 
