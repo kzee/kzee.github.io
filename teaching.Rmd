@@ -1,12 +1,12 @@
 
 ---
 title: "Teaching"
-output: 
+output:
   html_document:
-    toc: false
-    toc_float: false
     includes:
       after_body: footer.html
+    toc: no
+    toc_float: no
 ---
 
 
@@ -14,12 +14,20 @@ output:
 
 <br>
 
-## Graduate Teaching, Columbia University 
+## Graduate Teaching, Columbia University  
 
-####Social Psychology, Barnard College, 2019 <br>
-- Role: Grader <br>
-- Supervisor: Colin Leach <br>
-- Guest Lecture: "Interpersonal Relationships" 
+
+<br>
+
+
+####Stress in an Interpersonal Context (advanced undergraduate seminar), Spring 2020 <br>
+- Role: Lead Instructor, [Teaching Scholars Program, Columbia University](https://gsas.columbia.edu/student-guide/teaching/gsas-teaching-scholars-program){target="_blank"}  
+<br>
+<br>
+
+####Introduction to Statistical Modeling in Psychology (graduate course), Fall 2019 <br>
+- Role: Teaching Assistant with weekly 2-hr lab <br>
+- Supervisor: Niall Bolger 
 <br>
 <br>
 
@@ -67,6 +75,16 @@ output:
 <br>
 
 ## Other Teaching	
+
+
+<br>
+
+####Social Psychology, Barnard College, 2019 <br>
+- Role: Grader <br>
+- Supervisor: Colin Leach <br>
+- Guest Lecture: "Interpersonal Relationships" 
+<br>
+<br>
 
 ####Leadership in Organizations, London Business School, 2013 <br>
 - Role: Teaching Assistant <br>
