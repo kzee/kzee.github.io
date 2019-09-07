@@ -11,7 +11,7 @@ output:
 <br>
 
 Below are some example R scripts I compiled for analyses and plotting. \
-More R code is available on my [Github page](https://github.com/kzee){target="_blank"}, including the R code used to generate this website!
+More R code is available on my [Github page](https://github.com/kzee){target="_blank"}.
 
 <br>
 

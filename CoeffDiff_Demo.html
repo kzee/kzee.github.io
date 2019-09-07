@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -84,7 +85,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -245,18 +245,6 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
@@ -332,6 +320,7 @@ $(document).ready(function () {
 <li><a href="#model-fit">Model Fit</a></li>
 <li><a href="#testing-differences-in-coefficients">Testing Differences in Coefficients</a></li>
 <li><a href="#going-further-estimate-and-ci-of-the-difference">Going Further: Estimate and CI of the Difference</a></li>
+<li><a href="#bayesian-version">Bayesian Version</a></li>
 <li><a href="#some-notes-and-comments">Some Notes and Comments</a></li>
 </ul>
 </div>
@@ -346,7 +335,7 @@ $(document).ready(function () {
 </div>
 <div id="dataset" class="section level1">
 <h1>Dataset</h1>
-<p>As an example, we will use the <code>affect</code> dataset from the <code>psych</code> package in R. Generally speaking, this dataset contains variables corresponding to 5 scales from the Eysenck Personality Inventory and the Motivational State Questionnaire, which was administered twice. For the purposes of this demo, we will examine only extraversion (<code>ext</code>) and neuroticism (<code>neur</code>) scores as predictors, and tense arousal (<code>TA2</code>) from the second measurement occsion as the outcome.</p>
+<p>As an example, we will use the <code>affect</code> dataset from the <code>psych</code> package in R. Generally speaking, this dataset contains variables corresponding to 5 scales from the Eysenck Personality Inventory and the Motivational State Questionnaire, which was administered twice. For the purposes of this demo, we will examine only extraversion (<code>ext</code>) and neuroticism (<code>neur</code>) scores as predictors, and tense arousal (<code>TA2</code>) from the second measurement occasion as the outcome.</p>
 <pre class="r"><code>library(dplyr)
 library(car)
 library(psych)</code></pre>
@@ -366,7 +355,7 @@ library(psych)</code></pre>
 ## 5  16  13     NA  NA 0.38095238
 ## 6   2   2     NA  NA 0.23809524</code></pre>
 <p><br></p>
-<p>For the purposes of this demo, we will test a relatively hypothesis: Neuroticism (<code>neur</code>) is a significantly stronger predictor of tense arousal (<code>EA2</code>) than extraversion (<code>ext</code>).</p>
+<p>For the purposes of this demo, we will test a relatively straight-forward hypothesis: Neuroticism (<code>neur</code>) is a significantly stronger predictor of tense arousal (<code>EA2</code>) than extraversion (<code>ext</code>).</p>
 <p><br></p>
 </div>
 <div id="data-prep" class="section level1">
@@ -408,7 +397,7 @@ summary(fit)</code></pre>
 <h1>Testing Differences in Coefficients</h1>
 <p>To properly test our hypothesis, we need to test the difference in our coefficients directly.</p>
 <p>We will first do this using the <code>linearHypothesis</code> function from the <code>car</code> package. All we need to do is enter the name of our <code>lm</code> model object and the hypothesis we are interested in testing, as shown below.</p>
-<pre class="r"><code>linearHypothesis(fit, &quot;neur.c = ext.c&quot;)</code></pre>
+<pre class="r"><code>linearHypothesis(fit, &quot;neur.c - ext.c = 0&quot;)</code></pre>
 <pre><code>## Linear hypothesis test
 ## 
 ## Hypothesis:
@@ -470,12 +459,112 @@ summary(fit)</code></pre>
 <p>We see that the p-value matches the p-value we got using the <code>linearHypothesis</code> function. However, we are also now able to see that the estimated difference between extraversion and neuroticism is <em>b</em> = 0.09, and the 95% CI ranges from -0.05 to 0.24.</p>
 <p><br></p>
 </div>
+<div id="bayesian-version" class="section level1">
+<h1>Bayesian Version</h1>
+<p>Thus far, we have focused on testing differences in coefficients using the Frequentist approach. However, a comparable analysis can also be performed using a Bayesian model. In fact, testing for differences in coefficients is arguably more straight-forward with Bayesian estimation. Because Bayesian estimation involves generating a distribution of possible values given the dataset (known as the <em>posterior distribution</em>) for each parameter, to get the difference in two coefficients we only need to take the difference of their posterior distributions.</p>
+<p>First, we will estimate the same model in a Bayesian way using the <code>brms</code> package for R. Note that this package uses similar syntax to the <code>lm()</code> function we used to estimate our model before.</p>
+<pre class="r"><code>library(brms)
+bfit &lt;- brm(TA2 ~ neur.c + ext.c, data = affect, seed = 111) </code></pre>
+<pre class="r"><code>summary(bfit)</code></pre>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: TA2 ~ neur.c + ext.c 
+##    Data: affect (Number of observations: 330) 
+## Samples: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup samples = 4000
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept    15.65      0.27    15.11    16.17 1.00     4258     2707
+## neur.c        0.12      0.05     0.02     0.23 1.00     4192     2912
+## ext.c         0.03      0.06    -0.10     0.16 1.00     4094     3136
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     4.87      0.19     4.52     5.26 1.00     3992     3092
+## 
+## Samples were drawn using sampling(NUTS). For each parameter, Eff.Sample 
+## is a crude measure of effective sample size, and Rhat is the potential 
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<p>We see that, having used default (noninformative) priors in our Bayesian analysis, the estimates for <code>neur.c</code> and <code>ext.c</code> are essentially the same as those obtained in the Frequentist analysis.</p>
+<p>We can now test for the difference in these coefficients. Here are two ways of doing this.</p>
+<p>First, we can use the <code>hypothesis()</code> function from <code>brms</code>. This is a helpful and easy-to-use function, as all we need to do is feed in the name of the model object and specify the hypothesis we want to test.</p>
+<pre class="r"><code>hypothesis(bfit, &quot;neur.c - ext.c = 0&quot;)</code></pre>
+<pre><code>## Hypothesis Tests for class b:
+##           Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio
+## 1 (neur.c-ext.c) = 0     0.09      0.07    -0.05     0.24         NA
+##   Post.Prob Star
+## 1        NA     
+## ---
+## &#39;CI&#39;: 90%-CI for one-sided and 95%-CI for two-sided hypotheses.
+## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 95%;
+## for two-sided hypotheses, the value tested against lies outside the 95%-CI.
+## Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
+<p>Again, we see that the point estimate for the difference and the 95% credibility interval look similar to the results we found before.</p>
+<p>A second approach simply involves going through the steps that <code>hypothesis()</code> uses under the hood: extracting the posterior distributions for both coefficients and then taking their difference.</p>
+<p>To begin, we need to pull out the posterior samples from our model.</p>
+<pre class="r"><code>bfit_post &lt;- posterior_samples(bfit)</code></pre>
+<p>Next, we use simple subtraction to take the difference in the two posterior distributions of interest and compute the mean and 95% credibility interval of this difference. (Note that the variables referring to the posterior draws have the prefix “b_” added to them).</p>
+<pre class="r"><code>bfit_diff &lt;- bfit_post$b_neur.c - bfit_post$b_ext.c
+mean(bfit_diff) %&gt;% round(digits = 2)</code></pre>
+<pre><code>## [1] 0.09</code></pre>
+<pre class="r"><code>quantile(bfit_diff, probs = c(.025, .975)) %&gt;% round(digits = 2)</code></pre>
+<pre><code>##  2.5% 97.5% 
+## -0.05  0.24</code></pre>
+<p>These results are the same as those obtained using the <code>hypothesis()</code> function.</p>
+<p>A nice way to visualize the difference in <code>neur.c</code> and <code>ext.c</code> is to plot the posterior distributions for each coefficient, as well as the posterior distribution of their difference. The plots below show these distributions, along with the predicted mean value (dot) and 95% credibility interval (solid line along the x-axis). The zero line is emphasized with the dashed gray line.</p>
+<p>With this visualization, we can see that there is a positive value for the difference of <code>neur.c</code> and <code>ext.c</code>, but that zero cannot be ruled out as a plausible value.</p>
+<pre class="r"><code>postdensplot &lt;- function(m, var1, var2, name1, name2){
+  require(brms)
+  require(dplyr)
+  var1name &lt;- noquote(paste(&quot;b_&quot;, var1, sep = &quot;&quot;))
+  pvar2name &lt;- noquote(paste(&quot;b_&quot;, var2, sep = &quot;&quot;))
+  mp &lt;- as.data.frame(posterior_samples(m))
+  res_post &lt;- dplyr::select(mp, var1name)
+  ppr_post &lt;- dplyr::select(mp, pvar2name)
+  diff &lt;- as.data.frame(res_post - ppr_post)
+  
+  mpost_ress &lt;- data.frame(post = res_post, Coefficient = name1)
+  colnames(mpost_ress) &lt;- c(&quot;post&quot;, &quot;Coefficient&quot;)
+  mpost_ppr &lt;- data.frame(post = ppr_post, Coefficient = name2)
+  colnames(mpost_ppr) &lt;- c(&quot;post&quot;, &quot;Coefficient&quot;)
+  mpost_diff &lt;- data.frame(post = diff, Coefficient = paste(name1, name2, sep = &quot;-&quot;))
+  colnames(mpost_diff) &lt;- c(&quot;post&quot;, &quot;Coefficient&quot;)
+  mpost_long_df &lt;- rbind(mpost_ress, mpost_ppr, mpost_diff)
+  mpost_long_df &lt;- mpost_long_df %&gt;% group_by(Coefficient) %&gt;% 
+    mutate(post_mean = mean(post), 
+           post_lwr = quantile(post, probs = .025),
+           post_upr = quantile(post, probs = .975),
+           post_lwr90 = quantile(post, probs = .05),
+           post_upr90 = quantile(post, probs = .95)) %&gt;% ungroup()
+  
+  require(ggplot2)
+  myplot &lt;- ggplot(mpost_long_df, aes(x = post, fill = Coefficient)) +
+    geom_density(color = &quot;white&quot;, alpha = .5) +
+    geom_vline(xintercept = 0, color = &quot;gray50&quot;, linetype = &quot;dashed&quot;) +
+    labs(x = &quot;\nCoefficient&quot;, y = &quot;Density\n&quot;) +
+    scale_fill_manual(values = c(&quot;blue&quot;, &quot;red&quot;, &quot;gray30&quot;)) +
+    scale_color_manual(values = c(&quot;blue3&quot;, &quot;red3&quot;, &quot;gray30&quot;)) +
+    geom_segment(aes(x=post_lwr, xend=post_upr, y=.05, yend=.05, color = Coefficient), size = .2, alpha = .7) +
+    geom_point(aes(x = post_mean, y = 0.05, color = Coefficient), size = 1, alpha = .8) +
+    theme_bw() +
+    theme(text=element_text(size=10)) +
+    theme(legend.position=&quot;none&quot;) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    facet_wrap(~Coefficient, ncol = 1, strip.position=&quot;top&quot;)
+  return(myplot)
+  
+}
+postdensplot(bfit, &quot;neur.c&quot;, &quot;ext.c&quot;, &quot;Neuroticism&quot;, &quot;Extraversion&quot;) + theme(text=element_text(size=12))</code></pre>
+<p><img src="CoeffDiff_Demo_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><br></p>
+</div>
 <div id="some-notes-and-comments" class="section level1">
 <h1>Some Notes and Comments</h1>
 <p>As this example shows, even if one effect is significant and the other is not, they may not be significantly different from each other. There are also cases in which two effects are both significantly different from 0 but may (or may not) be significantly different from each other. Our interpretations of the data may change in important ways as a result of testing differences between coefficients.</p>
-<p>Another thing to add is that in the example above, our predictors were measured on the same scale (i.e., they were measured in the same units) and had standard deviations that were of roughly similar size. However, this may not always be in the case. If predictors are measured on different scales, or have very different standard deviations, then one would want to put them on the same scale in order to test differences in their effects. This could involve, for example, standardizing all variables so that they are all in standard deviation units.</p>
+<p>Another thing to add is that in the example above, our predictors were measured on the same scale (i.e., they were measured in the same units) and had standard deviations that were of roughly similar size. However, this may not always be in the case. If predictors are measured on different scales, or have very different standard deviations, then one would want to put them on the same scale in order to test differences in their effects. This could involve, for example, standardizing variables so that they are all in standard deviation units.</p>
 <p></font> <font size="2"> <em><a href="/Users/zeekatherine/Desktop/WorkSchool/kzee.github.io/CoeffDiff_Demo.Rmd" target="_blank">View .Rmd source code</a></em> </font> <font size="2"><br />
-<em>updated April 22, 2019</em> </font></p>
+<em>updated September 7, 2019</em> </font></p>
 <p><br></p>
 <p><font size="2"></p>
  
@@ -517,6 +606,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

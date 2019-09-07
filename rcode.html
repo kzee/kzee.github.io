@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -84,7 +85,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -245,18 +245,6 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
@@ -328,7 +316,7 @@ $(document).ready(function () {
 <p><font size="3"></p>
 <p><br></p>
 <p>Below are some example R scripts I compiled for analyses and plotting.<br />
-More R code is available on my <a href="https://github.com/kzee" target="_blank">Github page</a>, including the R code used to generate this website!</p>
+More R code is available on my <a href="https://github.com/kzee" target="_blank">Github page</a>.</p>
 <p><br></p>
 <div id="interaction-effects-from-regression-models-plotting-simple-slopes" class="section level3">
 <h3><a href="Interactions_Demo.html">Interaction Effects from Regression Models: Plotting &amp; Simple Slopes</a></h3>
@@ -746,6 +734,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

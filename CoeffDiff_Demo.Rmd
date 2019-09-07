@@ -25,7 +25,7 @@ The reason for conducting such an analysis is that in psychology (and other disc
 
 # Dataset
 
-As an example, we will use the `affect` dataset from the `psych` package in R. Generally speaking, this dataset contains variables corresponding to 5 scales from the Eysenck Personality Inventory and the Motivational State Questionnaire, which was administered twice. For the purposes of this demo, we will examine only extraversion (`ext`) and neuroticism (`neur`) scores as predictors, and tense arousal (`TA2`) from the second measurement occsion as the outcome. 
+As an example, we will use the `affect` dataset from the `psych` package in R. Generally speaking, this dataset contains variables corresponding to 5 scales from the Eysenck Personality Inventory and the Motivational State Questionnaire, which was administered twice. For the purposes of this demo, we will examine only extraversion (`ext`) and neuroticism (`neur`) scores as predictors, and tense arousal (`TA2`) from the second measurement occasion as the outcome. 
 
 ```{r library and data, echo = TRUE, results = 'hide', message = FALSE}
 library(dplyr)
@@ -39,7 +39,7 @@ head(affect)
 
 <br>
 
-For the purposes of this demo, we will test a relatively hypothesis: Neuroticism (`neur`) is a significantly stronger predictor of tense arousal (`EA2`) than extraversion (`ext`). 
+For the purposes of this demo, we will test a relatively straight-forward hypothesis: Neuroticism (`neur`) is a significantly stronger predictor of tense arousal (`EA2`) than extraversion (`ext`). 
 
 <br>
 
@@ -75,7 +75,7 @@ To properly test our hypothesis, we need to test the difference in our coefficie
 We will first do this using the `linearHypothesis` function from the `car` package. All we need to do is enter the name of our `lm` model object and the hypothesis we are interested in testing, as shown below.
 
 ```{r}
-linearHypothesis(fit, "neur.c = ext.c")
+linearHypothesis(fit, "neur.c - ext.c = 0")
 ```
 
 Here, we see that although the effect of neuroticsm was significantly different from 0 and the effect of extraversion was not in our original model, we are unable to conclude that they are signficantly different *from each other.*
@@ -125,10 +125,103 @@ We see that the p-value matches the p-value we got using the `linearHypothesis` 
 
 <br>
 
+# Bayesian Version
+
+Thus far, we have focused on testing differences in coefficients using the Frequentist approach. However, a comparable analysis can also be performed using a Bayesian model. In fact, testing for differences in coefficients is arguably more straight-forward with Bayesian estimation. Because Bayesian estimation involves generating a distribution of possible values given the dataset (known as the *posterior distribution*) for each parameter, to get the difference in two coefficients we only need to take the difference of their posterior distributions. 
+
+First, we will estimate the same model in a Bayesian way using the `brms` package for R. Note that this package uses similar syntax to the `lm()` function we used to estimate our model before. 
+```{r, results = "hide"}
+library(brms)
+bfit <- brm(TA2 ~ neur.c + ext.c, data = affect, seed = 111) 
+```
+```{r, cache = F}
+summary(bfit)
+```
+
+We see that, having used default (noninformative) priors in our Bayesian analysis, the estimates for `neur.c` and `ext.c` are essentially the same as those obtained in the Frequentist analysis.
+
+We can now test for the difference in these coefficients. Here are two ways of doing this.
+
+First, we can use the `hypothesis()` function from `brms`. This is a helpful and easy-to-use function, as all we need to do is feed in the name of the model object and specify the hypothesis we want to test.
+```{r}
+hypothesis(bfit, "neur.c - ext.c = 0")
+```
+
+Again, we see that the point estimate for the difference and the 95% credibility interval look similar to the results we found before.
+
+A second approach simply involves going through the steps that `hypothesis()` uses under the hood: extracting the posterior distributions for both coefficients and then taking their difference. 
+
+To begin, we need to pull out the posterior samples from our model.
+```{r}
+bfit_post <- posterior_samples(bfit)
+```
+
+Next, we use simple subtraction to take the difference in the two posterior distributions of interest and compute the mean and 95% credibility interval of this difference. (Note that the variables referring to the posterior draws have the prefix "b_" added to them).
+```{r}
+bfit_diff <- bfit_post$b_neur.c - bfit_post$b_ext.c
+mean(bfit_diff) %>% round(digits = 2)
+quantile(bfit_diff, probs = c(.025, .975)) %>% round(digits = 2)
+```
+
+These results are the same as those obtained using the `hypothesis()` function. 
+
+A nice way to visualize the difference in `neur.c` and `ext.c` is to plot the posterior distributions for each coefficient, as well as the posterior distribution of their difference. The plots below show these distributions, along with the predicted mean value (dot) and 95% credibility interval (solid line along the x-axis). The zero line is emphasized with the dashed gray line.
+
+With this visualization, we can see that there is a positive value for the difference of `neur.c` and `ext.c`, but that zero cannot be ruled out as a plausible value. 
+
+```{r, warning = F, message = F}
+postdensplot <- function(m, var1, var2, name1, name2){
+  require(brms)
+  require(dplyr)
+  var1name <- noquote(paste("b_", var1, sep = ""))
+  pvar2name <- noquote(paste("b_", var2, sep = ""))
+  mp <- as.data.frame(posterior_samples(m))
+  res_post <- dplyr::select(mp, var1name)
+  ppr_post <- dplyr::select(mp, pvar2name)
+  diff <- as.data.frame(res_post - ppr_post)
+  
+  mpost_ress <- data.frame(post = res_post, Coefficient = name1)
+  colnames(mpost_ress) <- c("post", "Coefficient")
+  mpost_ppr <- data.frame(post = ppr_post, Coefficient = name2)
+  colnames(mpost_ppr) <- c("post", "Coefficient")
+  mpost_diff <- data.frame(post = diff, Coefficient = paste(name1, name2, sep = "-"))
+  colnames(mpost_diff) <- c("post", "Coefficient")
+  mpost_long_df <- rbind(mpost_ress, mpost_ppr, mpost_diff)
+  mpost_long_df <- mpost_long_df %>% group_by(Coefficient) %>% 
+    mutate(post_mean = mean(post), 
+           post_lwr = quantile(post, probs = .025),
+           post_upr = quantile(post, probs = .975),
+           post_lwr90 = quantile(post, probs = .05),
+           post_upr90 = quantile(post, probs = .95)) %>% ungroup()
+  
+  require(ggplot2)
+  myplot <- ggplot(mpost_long_df, aes(x = post, fill = Coefficient)) +
+    geom_density(color = "white", alpha = .5) +
+    geom_vline(xintercept = 0, color = "gray50", linetype = "dashed") +
+    labs(x = "\nCoefficient", y = "Density\n") +
+    scale_fill_manual(values = c("blue", "red", "gray30")) +
+    scale_color_manual(values = c("blue3", "red3", "gray30")) +
+    geom_segment(aes(x=post_lwr, xend=post_upr, y=.05, yend=.05, color = Coefficient), size = .2, alpha = .7) +
+    geom_point(aes(x = post_mean, y = 0.05, color = Coefficient), size = 1, alpha = .8) +
+    theme_bw() +
+    theme(text=element_text(size=10)) +
+    theme(legend.position="none") +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    facet_wrap(~Coefficient, ncol = 1, strip.position="top")
+  return(myplot)
+  
+}
+postdensplot(bfit, "neur.c", "ext.c", "Neuroticism", "Extraversion") + theme(text=element_text(size=12))
+
+```
+
+
+<br>
+
 # Some Notes and Comments
 As this example shows, even if one effect is significant and the other is not, they may not be significantly different from each other. There are also cases in which two effects are both significantly different from 0 but may (or may not) be significantly different from each other. Our interpretations of the data may change in important ways as a result of testing differences between coefficients.
 
-Another thing to add is that in the example above, our predictors were measured on the same scale (i.e., they were measured in the same units) and had standard deviations that were of roughly similar size. However, this may not always be in the case. If predictors are measured on different scales, or have very different standard deviations, then one would want to put them on the same scale in order to test differences in their effects. This could involve, for example, standardizing all variables so that they are all in standard deviation units. 
+Another thing to add is that in the example above, our predictors were measured on the same scale (i.e., they were measured in the same units) and had standard deviations that were of roughly similar size. However, this may not always be in the case. If predictors are measured on different scales, or have very different standard deviations, then one would want to put them on the same scale in order to test differences in their effects. This could involve, for example, standardizing variables so that they are all in standard deviation units. 
 
 
 </font> 
@@ -137,7 +230,7 @@ Another thing to add is that in the example above, our predictors were measured 
 </font> 
 <font size="2"> 
 \
-*updated April 22, 2019*
+*updated September 7, 2019*
 </font> 
 
 <br>

@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -84,7 +85,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -244,18 +244,6 @@ $(document).ready(function () {
   display: none;
 }
 </style>
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
 
 <!-- code folding -->
 
@@ -436,7 +424,8 @@ $(document).ready(function () {
 </div>
 <div id="mentoring" class="section level2">
 <h2>Mentoring</h2>
-<p>Supervised over 40 undergraduate and post-bac research assistants and honors students since 2014. <br> <br></p>
+<p>I have supervised and mentored over 40 undergraduate and post-bac research assistants and honors students since 2014. My students have been recognized with awards from Columbia University as well as international societies, such as the Society for Personality and Social Psychology, and many have continued on to doctoral programs in psychology and related fields. <br> For my teaching and mentoring effectiveness, I received Columbia University’s <a href="https://provost.columbia.edu/content/presidential-teaching-awards">Presidential Award for Outstanding Teaching</a> in 2019.</p>
+<p><br> <br></p>
 <p></font></p>
 </div>
 
@@ -830,6 +819,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
