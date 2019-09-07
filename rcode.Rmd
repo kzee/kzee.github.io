@@ -21,7 +21,7 @@ This demo shows how to fit a regression model with interaction effects, plot the
 <br>
 
 ### [Testing for Differences between Two Coefficients](CoeffDiff_Demo.html)
-This demo shows how to test whether two regression coefficients are significantly different from each other using both **Frequentist** and **Bayesian** approaches (with the brms package).
+This demo shows how to test whether two regression coefficients are significantly different from each other using both **Frequentist** and **Bayesian** approaches (with the `brms` package).
 
 <br>
 
