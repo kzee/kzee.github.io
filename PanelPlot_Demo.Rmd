@@ -23,6 +23,7 @@ For this demo, we will use the `brms` package to fit the model and `ggplot2` to 
 ```{r libraries, echo = TRUE, results = 'hide', message = FALSE}
 library(brms) 
 library(tidyverse)
+library(ggplot2)
 library(ggthemes)
 
 ```
@@ -69,7 +70,7 @@ fit_tidy <- tidy(fit, prob = .95)
 <br>
 
 # View the Model Summary
-As the results summary shows, the slope of valenceE is `r round(fixef(fit)["valenceE", "Estimate"], 2)` log ms for the typical person. However, there is also substantial between-subject heterogeneity in this effect, given by the standard deviation of this effect, `r round(subset(fit_tidy, term == "sd_id__valenceE")$estimate, 2)`. 
+As the results summary shows, the slope of valenceE is `r round(brms::fixef(fit)["valenceE", "Estimate"], 2)` log ms for the typical person. However, there is also substantial between-subject heterogeneity in this effect, given by the standard deviation of this effect, `r round(subset(fit_tidy, term == "sd_id__valenceE")$estimate, 2)`. 
 
 ```{r}
 fit
