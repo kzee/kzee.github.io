@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Panel Plots Showing Subject-Specific Effects and Posterior Draws</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Katherine S. Zee</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="research.html">Research</a>
+</li>
+<li>
+  <a href="publications.html">Publications</a>
+</li>
+<li>
+  <a href="teaching.html">Teaching</a>
+</li>
+<li>
+  <a href="rcode.html">R Code</a>
+</li>
+<li>
+  <a href="resources.html">Resources</a>
+</li>
+<li>
+  <a href="files/KatherineZeeCV.pdf">CV</a>
+</li>
+<li>
+  <a href="contact.html">Contact</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Panel Plots Showing Subject-Specific Effects and Posterior Draws</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#load-libraries">Load Libraries</a></li>
+<li><a href="#read-in-data">Read in Data</a></li>
+<li><a href="#fit-bayesian-mixed-effects-model">Fit Bayesian Mixed Effects Model</a></li>
+<li><a href="#view-the-model-summary">View the Model Summary</a></li>
+<li><a href="#set-up-dataframe-to-set-values-of-valencee-to-generate-predictions-from-model">Set up Dataframe to Set Values of <code>valenceE</code> to Generate Predictions from Model</a></li>
+<li><a href="#predict-y-values-using-model">Predict Y Values using model</a></li>
+<li><a href="#extract-the-posterior-draws">Extract the Posterior Draws</a></li>
+<li><a href="#pull-out-subject-specific-posterior-samples-for-intercept-and-slope">Pull Out Subject-Specific Posterior Samples for Intercept and Slope</a></li>
+<li><a href="#merge-datasets-with-posterior-samples-for-person-specific-intercept-and-slope">Merge Datasets with Posterior Samples for Person-Specific Intercept and Slope</a></li>
+<li><a href="#merge-datasets-with-place-holder-dataframe">Merge Datasets with Place-holder Dataframe</a></li>
+<li><a href="#select-5-example-participants">Select 5 Example Participants</a></li>
+<li><a href="#set-up-labels-for-panel-plots">Set up Labels for Panel Plots</a></li>
+<li><a href="#plot-results">Plot Results</a></li>
+<li><a href="#add-remaining-elements-to-plots">Add Remaining Elements to Plots</a></li>
+<li><a href="#why-make-panel-plots-with-posterior-draws">Why Make Panel Plots with Posterior Draws?</a></li>
+</ul>
+</div>
+
+<p><font size="3"></p>
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p>In this demo, we will create subject-specific panel plots. These plots will show the raw observations and model predicted causal effect for each participant. In addition, we will set this up as a Bayesian model and also plot all the draws from the posterior distribution. These plots will allow us to visualize the between-subject heterogeneity in our effects as well as the precision/certainty in the estimation of these effects.</p>
+<p><br></p>
+</div>
+<div id="load-libraries" class="section level1">
+<h1>Load Libraries</h1>
+<p>For this demo, we will use the <code>brms</code> package to fit the model and <code>ggplot2</code> to generate the panel plots. We will also use additional packages to assist with data manipulation (<code>dplyr</code>, <code>tidyr</code>) and plot aesthetics (<code>ggthemes</code>).</p>
+<pre class="r"><code>library(brms) 
+library(tidyverse)
+library(ggthemes)</code></pre>
+<p><br></p>
+</div>
+<div id="read-in-data" class="section level1">
+<h1>Read in Data</h1>
+<p>In this demo, we will draw on Study 1 from <em>Causal Processes in Psychology are Heterogeneous</em> (Bolger, Zee, Rossignac-Milon, &amp; Hassin, 2019, <em>Journal of Experimental Psychology: General</em>). You can find the full paper <a href="https://psycnet.apa.org/record/2019-19962-002">here</a>.</p>
+<p>In this study, my colleagues and I asked participants to indicate whether each of a series of trait adjectives was self-relevant or not, as quickly as possible. Half of the adjectives were positive, and the other half were negative; thus trait valence was the independent variable, and reaction time (in log milliseconds) was the dependent variable. Our goal was to not only estimate the average causal effect of trait valence (i.e., the effect for the typical person) but to also use a mixed effects model (aka a multilevel model) to assess the degree to which participants varied in this effect.</p>
+<p>We will read in the data directly from my Github repository <a href="https://github.com/kzee/heterogeneityproject"><em>heterogeneityproject</em></a>.</p>
+<pre class="r"><code>urlfile &lt;- &#39;https://raw.github.com/kzee/heterogeneityproject/master/heterogeneity_dataset1_traitvalence.csv&#39;
+rndt &lt;- read.csv(urlfile)</code></pre>
+<p>We will then use the same data preparation/cleaning steps as those used for the paper. First, we will subset the dataset so that only trials with traits that were endorsed as self-relevant were selected. We will then filter out any trials falling more than 3 SD from the grand mean and also remove three participants who did not endorse any negative traits as self-relevant. Our final dataframe is <code>d</code>.</p>
+<pre class="r"><code>rndt_sr &lt;- subset(rndt, response.keys == &quot;up&quot;) # subset to only select traits endorsed as self-relevant
+rndt_sr$rt.z &lt;- scale(rndt_sr$rt) #Create z-scores for RT
+
+rndt_srz &lt;- subset(rndt_sr,  rt.z &lt; 3) #within +3 SD of the mean RT
+
+# New dataset without the three participants who did not select any negative words
+rndtz &lt;- rndt_srz[!(rndt_srz$id %in% c(250, 257, 272)), ] 
+d &lt;- rndtz</code></pre>
+<p><br></p>
+</div>
+<div id="fit-bayesian-mixed-effects-model" class="section level1">
+<h1>Fit Bayesian Mixed Effects Model</h1>
+<p>Next, we will fit a Bayesian model in which reaction time (in log milliseconds) is predicted as a function of trait valence (-.5 = Negative, +.5 = Positive). Importantly, we will also allow each subject to have their own intercept and slope, given by <code>(valenceE | id)</code> in the model syntax. We will also set a seed to ensure reproducibility of this analysis.</p>
+<pre class="r"><code>fit &lt;- brm(logrt ~ valenceE + (valenceE | id), data = d, seed = 111)</code></pre>
+<p><br></p>
+</div>
+<div id="view-the-model-summary" class="section level1">
+<h1>View the Model Summary</h1>
+<p>As the results summary shows, the slope of valenceE is -0.16 log ms for the typical person. However, there is also substantial between-subject heterogeneity in this effect, given by the standard deviation of this effect, 0.13.</p>
+<pre class="r"><code>fit</code></pre>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: logrt ~ valenceE + (valenceE | id) 
+##    Data: d (Number of observations: 1317) 
+## Samples: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup samples = 4000
+## 
+## Group-Level Effects: 
+## ~id (Number of levels: 59) 
+##                         Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+## sd(Intercept)               0.17      0.02     0.14     0.21 1.00      810
+## sd(valenceE)                0.13      0.02     0.08     0.18 1.00     1257
+## cor(Intercept,valenceE)    -0.08      0.19    -0.44     0.30 1.00     1802
+##                         Tail_ESS
+## sd(Intercept)               1720
+## sd(valenceE)                1262
+## cor(Intercept,valenceE)     2548
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept     6.87      0.02     6.82     6.91 1.00      601     1209
+## valenceE     -0.16      0.02    -0.21    -0.12 1.00     2420     2885
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     0.24      0.01     0.23     0.25 1.00     4690     3302
+## 
+## Samples were drawn using sampling(NUTS). For each parameter, Eff.Sample 
+## is a crude measure of effective sample size, and Rhat is the potential 
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<p><br></p>
+</div>
+<div id="set-up-dataframe-to-set-values-of-valencee-to-generate-predictions-from-model" class="section level1">
+<h1>Set up Dataframe to Set Values of <code>valenceE</code> to Generate Predictions from Model</h1>
+<p>To help us generate model predicted effects for each participant, we will set up an empty dataframe in which we will “catch” id numbers and the specific levels of each condition. This will result in a dataframe that consists of two rows per participant for valence: one for negative (-.5) and one for positive (.5).</p>
+<pre class="r"><code>out &lt;- NULL
+for (i in unique(d$id)) {
+  cseq &lt;- data.frame(
+   valenceE = c(-.5, .5), 
+    id = i)
+  out &lt;- rbind(out, cseq)
+}
+
+head(out)</code></pre>
+<pre><code>##   valenceE  id
+## 1     -0.5 201
+## 2      0.5 201
+## 3     -0.5 202
+## 4      0.5 202
+## 5     -0.5 204
+## 6      0.5 204</code></pre>
+<p><br></p>
+</div>
+<div id="predict-y-values-using-model" class="section level1">
+<h1>Predict Y Values using model</h1>
+<p>We will then use this new dataframe (<code>out</code>) to generate fitted (model predicted) values for each participant. Note that both <code>predict()</code> and <code>fitted()</code> can be used with <code>brm</code> model objects. <code>fitted()</code> takes into account uncertainty about the fitted regression line, whereas <code>predict()</code> takes into account both uncertainty about the fitted regression line <em>and</em> the data. For the purposes of this demo, we will use <code>fitted()</code>. We will also specify <code>re_formula=NULL</code> so that subject-specific predicted slopes will be generated.</p>
+<pre class="r"><code>outpred &lt;- cbind(out, fitted(fit, out, re_formula=NULL))
+head(outpred)</code></pre>
+<pre><code>##   valenceE  id Estimate  Est.Error     Q2.5    Q97.5
+## 1     -0.5 201 6.824940 0.06934551 6.688466 6.957002
+## 2      0.5 201 6.762387 0.05825105 6.649730 6.877772
+## 3     -0.5 202 6.807296 0.06740596 6.670958 6.939203
+## 4      0.5 202 6.643997 0.05451962 6.537718 6.748403
+## 5     -0.5 204 6.803471 0.09478499 6.622330 6.998008
+## 6      0.5 204 6.645416 0.05409830 6.538424 6.750540</code></pre>
+<p><br></p>
+</div>
+<div id="extract-the-posterior-draws" class="section level1">
+<h1>Extract the Posterior Draws</h1>
+<p>Because we want to plot both the subject-specific model predicted effects and the draws from the posterior distribution, we will extract and save into a new object the posterior returned from the model.</p>
+<pre class="r"><code>p &lt;- posterior_samples(fit)</code></pre>
+<p><br></p>
+</div>
+<div id="pull-out-subject-specific-posterior-samples-for-intercept-and-slope" class="section level1">
+<h1>Pull Out Subject-Specific Posterior Samples for Intercept and Slope</h1>
+<p>Next, we will pull out the posterior samples for the intercept and slope for each participant. We will also put these posterior samples into long format (one row per sample, resulting in many rows per participant). We will also add new columns: one each for the person-specific mean for the slope and intercept, and one indicating which draw (sample) each row corresponds to.</p>
+<p>To do this, we will use the help of the <code>dplyr</code> and <code>tidyr</code> packages, which are both loaded with <code>tidyverse</code>. We will first select out the columns that correspond to the fixed effects (indicated with the prefix <code>b_</code>) as well as the log posterior (<code>lp</code>) or random effects (<code>sd</code> and <code>cor</code>). We will then select in any columns that contain <code>Intercept</code>. By having selected out the columns in the previous step, we are left with person-specific draws for the intercept. The next step from here is to use <code>gather</code> from the <code>tidyr</code> package to put the person-specific posterior draws into long form. We will use <code>mutate</code> to add the new columns described above for the person mean intercept (and slope in the next block of code) and number of draws. Finally, we will use the <code>parse_number</code> function form <code>readr</code> to eliminate any non-numeric characters from our id column, as the id column has been populated with a string corresponding to the column names for the posterior draws in brms (e.g., <code>r_id[201,Intercept]</code> becomes <code>201</code>). We can then repeat the same steps to get the slope of <code>valenceE</code>.</p>
+<pre class="r"><code>pint &lt;- p %&gt;% dplyr::select(-contains(&quot;b_&quot;), -contains(&quot;lp&quot;), 
+                     -contains(&quot;sd&quot;), -contains(&quot;cor&quot;)) %&gt;% 
+  dplyr::select(contains(&quot;Intercept&quot;)) %&gt;% 
+  gather(key = &quot;id&quot;, value = &quot;int&quot;) %&gt;% 
+  group_by(id) %&gt;% 
+  mutate(
+    mint = mean(int),  
+    draw = 1:4000) %&gt;% 
+  ungroup() %&gt;% 
+  mutate(
+    id = readr::parse_number(id)
+  )
+
+
+pslp &lt;- p %&gt;% dplyr::select(-contains(&quot;b_&quot;), -contains(&quot;lp&quot;), 
+                     -contains(&quot;sd&quot;), -contains(&quot;cor&quot;)) %&gt;% 
+  dplyr::select(contains(&quot;valenceE&quot;)) %&gt;% 
+  gather(key = &quot;id&quot;, value = &quot;slp&quot;) %&gt;% 
+  group_by(id) %&gt;% 
+  mutate(
+    mslp = mean(slp),  
+    draw = 1:length(id)) %&gt;% 
+  ungroup() %&gt;% 
+  mutate(
+    id = readr::parse_number(id)
+  )</code></pre>
+<p><br></p>
+</div>
+<div id="merge-datasets-with-posterior-samples-for-person-specific-intercept-and-slope" class="section level1">
+<h1>Merge Datasets with Posterior Samples for Person-Specific Intercept and Slope</h1>
+<p>Next, we will merge the datasets we created that contain the person-specific posterior samples for the intercept and slope. We will do this twice: Once in which we add a column for <code>valenceE</code> and set it to -.5 (negative trait valence), and once in which we add a column for <code>valenceE</code> and set it to +.5 (positive trait valence). Finally, we will stack these two dataframes on top of each other using <code>rbind</code></p>
+<pre class="r"><code>pintslpneg &lt;- full_join(pint, pslp, by = c(&quot;id&quot;, &quot;draw&quot;)) %&gt;% 
+  mutate(valenceE = -.5)
+
+pintslppos &lt;- full_join(pint, pslp, by = c(&quot;id&quot;, &quot;draw&quot;)) %&gt;% 
+  mutate(valenceE = .5)
+
+
+pintslp &lt;- rbind(pintslpneg, pintslppos) </code></pre>
+<p><br></p>
+</div>
+<div id="merge-datasets-with-place-holder-dataframe" class="section level1">
+<h1>Merge Datasets with Place-holder Dataframe</h1>
+<p>Then, we will return to the place-holder dataframe, <code>out</code>, that we created in the loop above. Recall that this dataframe contains two rows per subject, one for negative valence and one for positive valence. We will merge this place-holder dataframe with the dataframe we created above, containing the person-specific posterior draws. This will give us the necessary values for valence to generate predictions for every posterior draw for the intercept and slope for each subject, resulting in 2000 possible effects per subject.</p>
+<p>We will then compute the intercept and slope for each posterior draw by adding in the values for the fixed effects. Finally, we will generate predicted values by adding the intercept to <code>valenceE</code> multiplied by the slope (following the basic regression equation for a specific trial for a specific person). The column <code>pred</code> now contains predicted values for each person for a specific draw from the posterior distribution.</p>
+<pre class="r"><code>postd &lt;- full_join(out, pintslp, by = c(&quot;id&quot;, &quot;valenceE&quot;)) 
+
+postd$newint &lt;- postd$int + fixef(fit)[&quot;Intercept&quot;, &quot;Estimate&quot;]
+postd$newslp &lt;- postd$slp + fixef(fit)[&quot;valenceE&quot;, &quot;Estimate&quot;]
+
+postd$pred &lt;- postd$newint + postd$valenceE*postd$newslp</code></pre>
+<p><br></p>
+</div>
+<div id="select-5-example-participants" class="section level1">
+<h1>Select 5 Example Participants</h1>
+<p>This next step is optional: We will select 5 participants to display in our panel plots. Alternatively, you could choose to generate panel plots for all the participants in your sample. We will plot the effects for 5 participants here for two reasons: (1) These are the same 5 participants featured in Figure 2 of Bolger, Zee, Rossignac-Milon, &amp; Hassin (2019), and they were selected because they correspond to the participants with the two strongest effects, one participant who showed the average effect, and the two participants who showed the weakest effects; and (2) Plotting the posterior draws is computationally intensive, so it would probably take awhile to generate plots for everyone in the sample.</p>
+<p>First, we will define a function for selecting these five participants from a particular dataframe. We can use this function to pull out these five participants from <code>postd</code>, which contains the posterior draws. We can then reorder the dataframe so stronger (more negative) slopes precede weaker (flatter) slopes.</p>
+<pre class="r"><code>sub5 &lt;- function(x){subset(x, id  == 208 | id == 222 | id == 241 | id == 239 | id == 247)}
+sub &lt;- sub5(postd) %&gt;% mutate(id = reorder(id, mslp)) %&gt;% arrange(mslp)</code></pre>
+<p><br></p>
+</div>
+<div id="set-up-labels-for-panel-plots" class="section level1">
+<h1>Set up Labels for Panel Plots</h1>
+<p>This next step is also optional: We will set up labels for the panel plots that show the model predicted slope for each participant, rather than using the default setting in ggplot, which would display the ID number.</p>
+<p>To do this, we first set up a function for rounding subject-specific model predicted slopes to 2 decimal places (and adding in the fixed effect).</p>
+<p>Next, we will effectively attach a slope value to each ID number that we will plot, and save this into an object called <code>to_string</code> to use in a future plotting step.</p>
+<pre class="r"><code>pasteround &lt;- function(x){
+  x2 &lt;- unique(x)
+  paste(round(x2 + fixef(fit)[&quot;valenceE&quot;, &quot;Estimate&quot;], 2))
+  
+}
+
+to_string &lt;- as_labeller(c(`208` = pasteround(subset(sub, id == 208)$mslp), 
+                           `239` = pasteround(subset(sub, id == 239)$mslp),
+                           `222` = pasteround(subset(sub, id == 222)$mslp),
+                           `241` = pasteround(subset(sub, id == 241)$mslp),
+                           `247` = pasteround(subset(sub, id == 247)$mslp))) </code></pre>
+<p><br></p>
+</div>
+<div id="plot-results" class="section level1">
+<h1>Plot Results</h1>
+<p>Finally, we can now plot our results! We will aim to plot three pieces of information for each of the five participants we selected: (1) We will plot every single draw from that participant’s posterior distribution (contained in the dataframe <code>postd</code>, which has already been subsetted to contain our five focal participants in the dataframe <code>sub</code>), (2) we will plot the model predicted effect for that participant (contained in that dataframe <code>outpred</code>), and (3) we will plot that participant’s raw data (contained in the original dataframe, <code>d</code>).</p>
+<p>We will first add empty columns called <code>draw</code> to dataframes <code>outpred</code> and <code>d</code> to override issues with plotting.</p>
+<pre class="r"><code>outpred$draw &lt;- NA
+d$draw &lt;- NA</code></pre>
+<p>Next, we will plot just the first piece of information: posterior draws. We will use ggplot to do this. We begin by filling in our dataframe, <code>sub</code>, and specifying that we want to plot <code>valenceE</code> against <code>pred</code>, the predicted values for each posterior draw. We will also want to set group to <code>draw</code>, which means that each draw from the posterior will be plotted one on top of the other. The next line, <code>geom_line</code>, indicates that we want to have a line connecting values of <code>pred</code>. We set the size to be small and the alpha (transparency) to be low so that we can see all of the individual posterior draws clearly. We can then use <code>facet_wrap</code> as a way to ask ggplot to put each participant (given by <code>id</code>) into their own plot. The remaining lines of code are for aesthetic purposes (e.g., labeling the axes).</p>
+<pre class="r"><code>panelggpost &lt;- ggplot(sub,  aes(x = valenceE, y = pred, group = draw)) +
+  geom_line(size = .1, alpha = .05, color = &quot;dodgerblue2&quot;) +
+  facet_wrap(&quot;id&quot;, nrow = 1, labeller = to_string) +
+  theme_few() + xlab(&quot;\nTrait Valence&quot;) + ylab(&quot;Reaction Time (log ms)&quot;) +
+  scale_x_continuous(breaks=seq(-.5, .5, 1), labels = paste0(c(&quot;Neg&quot;, &quot;Pos&quot;))) +
+  theme(panel.spacing = unit(2, &quot;lines&quot;)) </code></pre>
+<p><br></p>
+<p>Let’s see what we have plotted so far!</p>
+<pre class="r"><code>panelggpost</code></pre>
+<p><img src="PanelPlot_Demo_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><br></p>
+<p>Looks good! We can see the posterior draws for each person, given by each individual line. Even without having plotted the model predicted effect for each person yet, we can already get a sense of which participants show pronounced trait valence effects, and which participants do not.</p>
+<p><br></p>
+</div>
+<div id="add-remaining-elements-to-plots" class="section level1">
+<h1>Add Remaining Elements to Plots</h1>
+<p>Now, we can add in the remaining pieces of information: The model predicted effect for each person and the raw data points.</p>
+<p>We can simply add on to the plot we already created above. We can used the <code>sub5()</code> function that I created above to select only the five participants of interest from the dataframes that contain the additional information we need. The first new line, <code>geom_line</code> is used to plot the model predicted effect for each person. We can make this line larger so that it stands out when plotted on top of the posterior draws. The subsequent line, <code>geom_point</code>, adds in the raw data points for each person. We can use <code>position_jitter</code> to add a little random noise into the plot so that the points aren’t completely overlapping (note that this does not change anything about the data or our model).</p>
+<pre class="r"><code>sub_c &lt;- sub5(outpred)
+sub_d &lt;- sub5(d)</code></pre>
+<pre class="r"><code>panelggpost2 &lt;- panelggpost +
+  ### New elements for plot here:
+  geom_line(data = sub_c, aes(x=valenceE, y=Estimate), color = &quot;dodgerblue4&quot;, size = 2) + 
+  geom_point(data = sub_d, aes(x = valenceE, y=logrt), alpha = .7,
+             position = position_jitter(h = 0, w = 0.03), color = &quot;dodgerblue2&quot;)
+
+panelggpost2</code></pre>
+<p><img src="PanelPlot_Demo_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><br></p>
+<p>And there it is! We have a very nice set of panel plots for five participants.</p>
+<p><br></p>
+</div>
+<div id="why-make-panel-plots-with-posterior-draws" class="section level1">
+<h1>Why Make Panel Plots with Posterior Draws?</h1>
+<p>As seen from the steps above, generating subject-specific panel plots with posterior draws is somewhat labor intensive. However, I believe that the value of these plots make them well worth the effort. First, as implied in our paper, displaying individual-specific effects generally (even without posterior draws) helps illustrate the importance of paying attention to between-subject heterogeneity in effects. From the panel plots, we can easily see that some participants show especially strong effects of the trait valence manipulation, whereas others do not. By adding in the posterior draws, we can also get a sense of the precision/uncertainty of our estimates. Unlike the typical way of depicting a 95% CI, in which there is a uniform swath of color around the fitted line, displaying the posterior draws makes it more apparent that there is often a concentration of possible values from the posterior, indicated by the darker regions in the plots we just generated. Seeing the individual draws also helps to reinforce some of the key ideas in Bayesian statistics compared Frequentists statistics, namely that we end up with a distribution of possible estimates rather than a single estimate. This also allows us to see what is effectively the 100% credibility interval for each person, as every posterior draw is displayed.</p>
+<p></font></p>
+<p><br></p>
+<p><font size="2"> <em><a href="/Users/zeekatherine/Desktop/WorkSchool/kzee.github.io/PlotPanel_Demo.Rmd" target="_blank">View .Rmd source code</a></em> </font> <font size="2"><br />
+<em>updated October 24, 2019</em> </font></p>
+</div>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Katherine S. Zee</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="research.html">Research</a>
+</li>
+<li>
+  <a href="publications.html">Publications</a>
+</li>
+<li>
+  <a href="teaching.html">Teaching</a>
+</li>
+<li>
+  <a href="rcode.html">R Code</a>
+</li>
+<li>
+  <a href="resources.html">Resources</a>
+</li>
+<li>
+  <a href="files/KatherineZeeCV.pdf">CV</a>
+</li>
+<li>
+  <a href="contact.html">Contact</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<p><font size="2"></p>
+ 
+<hr />
+<!--  <p> Copyright &copy; 2019 Katherine S. Zee. All rights reserved. </p>   -->
+<p style="text-align: center;">
+<span style="color: #808080;"><em><a href="mailto:kzee@psych.columbia.edu">kzee@psych.columbia.edu</a></em></span>
+</p>
+<p></font></p>
+<!-- Add icon library -->
+<p><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></p>
+<p><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"></p>
+<p><link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css"></p>
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+<a href="https://twitter.com/KatherineZee?lang=en/" target="_blank" class="fab fa-twitter"></a> <a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a> <a href="https://osf.io/g579q" target="_blank" class="ai ai-osf ai-1x"></a> <a href="https://www.researchgate.net/profile/Katherine_Zee" target="_blank" class="fab fa-researchgate"></a>
+</p>
+<font size="2">
+<p style="text-align: center;">
+<span style="color: #808080;">The material above reflects the best of my knowledge on this topic. Please be sure to check your results and code carefully.</span>
+</p>
+<p></font></p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

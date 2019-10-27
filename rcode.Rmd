@@ -33,6 +33,12 @@ This demo walks through three different approaches to computing within- and betw
 ### [Plotting Fixed Effects from Multilevel Models](PlotFixef_Demo.html)
 This demo shows how to plot fixed (average) effects from a multilevel model, including how to do so while accounting for a covariate. The demo includes how to plot results from both **Frequentist** models (using the `lme4` package) and **Bayesian** models (using the `brms` package). 
 
+
+<br>
+
+### [Visualizing Subject-Specific Effects and Posterior Draws](PanelPlot_Demo.html)
+This demo shows how to generate panel plots to visualize between-subject heterogeneity in psychological effects, including subject-specific model predictions, raw data points, and draws from the posterior distribution using a Bayesian mixed effects (multilevel) model. 
+
 <br>
 
 ### [Spaghetti Plot of Multilevel Logistic Regression](LogisticSpaghetti_Demo.html)
