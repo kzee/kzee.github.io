@@ -174,19 +174,19 @@ postdensplot <- function(m, var1, var2, name1, name2){
   require(brms)
   require(dplyr)
   var1name <- noquote(paste("b_", var1, sep = ""))
-  pvar2name <- noquote(paste("b_", var2, sep = ""))
+  var2name <- noquote(paste("b_", var2, sep = ""))
   mp <- as.data.frame(posterior_samples(m))
-  res_post <- dplyr::select(mp, var1name)
-  ppr_post <- dplyr::select(mp, pvar2name)
-  diff <- as.data.frame(res_post - ppr_post)
+  var1_post <- dplyr::select(mp, var1name)
+  var2_post <- dplyr::select(mp, var2name)
+  diff <- as.data.frame(var1_post - var2_post)
   
-  mpost_ress <- data.frame(post = res_post, Coefficient = name1)
-  colnames(mpost_ress) <- c("post", "Coefficient")
-  mpost_ppr <- data.frame(post = ppr_post, Coefficient = name2)
-  colnames(mpost_ppr) <- c("post", "Coefficient")
+  mpost_var1 <- data.frame(post = var1_post, Coefficient = name1)
+  colnames(mpost_var1) <- c("post", "Coefficient")
+  mpost_var2 <- data.frame(post = var2_post, Coefficient = name2)
+  colnames(mpost_var2) <- c("post", "Coefficient")
   mpost_diff <- data.frame(post = diff, Coefficient = paste(name1, name2, sep = "-"))
   colnames(mpost_diff) <- c("post", "Coefficient")
-  mpost_long_df <- rbind(mpost_ress, mpost_ppr, mpost_diff)
+  mpost_long_df <- rbind(mpost_var1, mpost_var2, mpost_diff)
   mpost_long_df <- mpost_long_df %>% group_by(Coefficient) %>% 
     mutate(post_mean = mean(post), 
            post_lwr = quantile(post, probs = .025),

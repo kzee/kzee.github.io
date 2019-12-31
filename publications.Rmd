@@ -16,30 +16,25 @@ output:
 
 ##Published Papers
 
-**Zee, K. S.**, & Kumashiro, M. (in press). Investigating mechanisms of social support effectiveness: The case of locomotion motivation. *Personal Relationships*. 
+**Zee, K. S.**, Bolger, N., & Higgins, E. T. (in press). [Regulatory effectiveness of social support](https://psyarxiv.com/h2mrv){target="_blank"}. *Journal of Personality and Social Psychology.* 
 
-**Zee, K. S.**, & Weiss, D. (2019). High-quality relationships strengthen the benefits of a younger subjective age across adulthood. *Psychology and Aging.* [http://dx.doi.org/10.1037/pag0000349](http://dx.doi.org/10.1037/pag0000349){target="_blank"}. [(Datasets & R Code)](https://github.com/kzee/zee-weiss-2019){target="_blank"}
+**Zee, K. S.**, & Bolger, N. (in press). [Using coupled oscillators to examine physiological coregulation during social support interactions](https://doi.org/10.1080/00273171.2019.1699392). *Multivariate Behavioral Research.* 
 
-Bolger, N., & **Zee, K. S.** (2019). Heterogeneity in temporal processes: Implications for theories in health psychology. *Applied Psychology: Health & Well-being.* [https://doi.org/10.1111/aphw.12159](https://onlinelibrary.wiley.com/doi/full/10.1111/aphw.12159){target="_blank"}
+**Zee, K. S.**, & Kumashiro, M. (2019). [Investigating mechanisms of social support effectiveness: The case of locomotion motivation](https://onlinelibrary.wiley.com/doi/epdf/10.1111/pere.12298){target="_blank"}. *Personal Relationships, 26,* 654–679.
 
-**Zee, K. S.**, & Bolger, N. (2019). Visible and invisible social support: How, why, and when. *Current Directions in Psychological Science, 28*, 314-320. [https://doi.org/10.1177/0963721419835214](https://doi.org/10.1177/0963721419835214){target="_blank"}
+**Zee, K. S.**, & Weiss, D. (2019). [High-quality relationships strengthen the benefits of a younger subjective age across adulthood](http://dx.doi.org/10.1037/pag0000349){target="_blank"}. *Psychology and Aging, 34,* 374–388. [(Datasets & R Code)](https://github.com/kzee/zee-weiss-2019){target="_blank"}
 
-Bolger, N., **Zee, K. S.**, Rossignac-Milon, M., & Hassin, R. R. (2019). Causal processes in psychology are heterogeneous. *Journal of Experimental Psychology: General*, *148*, 601-618. [http://dx.doi.org/10.1037/xge0000558](http://dx.doi.org/10.1037/xge0000558){target="_blank"}. [(Datasets & R Code)](https://github.com/kzee/heterogeneityproject){target="_blank"}
+Bolger, N., & **Zee, K. S.** (2019). [Heterogeneity in temporal processes: Implications for theories in health psychology](https://onlinelibrary.wiley.com/doi/full/10.1111/aphw.12159){target="_blank"}. *Applied Psychology: Health & Well-being, 11,* 198-201.
 
-**Zee, K. S.**, Cavallo, J. V., Flores, A. J., Bolger, N., & Higgins, E. T. (2018). Motivation moderates the effects of social support visibility. *Journal of Personality and Social Psychology, 114*, 735-765. [http://dx.doi.org/10.1037/pspi0000119](http://dx.doi.org/10.1037/pspi0000119){target="_blank"} \
+**Zee, K. S.**, & Bolger, N. (2019). [Visible and invisible social support: How, why, and when](https://doi.org/10.1177/0963721419835214){target="_blank"}. *Current Directions in Psychological Science, 28*, 314-320. 
+
+Bolger, N., **Zee, K. S.**, Rossignac-Milon, M., & Hassin, R. R. (2019). [Causal processes in psychology are heterogeneous](http://dx.doi.org/10.1037/xge0000558){target="_blank"}. *Journal of Experimental Psychology: General*, *148*, 601-618. [(Datasets & R Code)](https://github.com/kzee/heterogeneityproject){target="_blank"}
+
+**Zee, K. S.**, Cavallo, J. V., Flores, A. J., Bolger, N., & Higgins, E. T. (2018). [Motivation moderates the effects of social support visibility](http://dx.doi.org/10.1037/pspi0000119){target="_blank"}. *Journal of Personality and Social Psychology, 114*, 735-765. \
 *Winner: Graduate Student Paper Award, Relationship Researchers Interest Group, SPSP*
 
-Cavallo, J. V., **Zee, K. S.**, Higgins, E. T. (2016). Giving what is needed: Regulatory mode orientations and social support provision. *Personality and Social Psychology Bulletin, 42*, 1111-1128. [https://doi.org/10.1177%2F0146167216651852](https://doi.org/10.1177%2F0146167216651852){target="_blank"}
+Cavallo, J. V., **Zee, K. S.**, Higgins, E. T. (2016). [Giving what is needed: Regulatory mode orientations and social support provision](https://doi.org/10.1177%2F0146167216651852){target="_blank"}. *Personality and Social Psychology Bulletin, 42*, 1111-1128. 
 
-<br>
-
-
-
-## Papers Under Review
-
-**Zee, K. S.**, Bolger, N., & Higgins, E. T. (under review). Regulatory effectiveness of social support. Preprint: [https://psyarxiv.com/h2mrv](https://psyarxiv.com/h2mrv){target="_blank"}
-
-Uchino, B. N., Landvatter, J., **Zee, K. S.**, & Bolger N. (under review). Social support and antibody responses to vaccination: A meta-analysis. 
 
 
 <br>
@@ -48,7 +43,7 @@ Uchino, B. N., Landvatter, J., **Zee, K. S.**, & Bolger N. (under review). Socia
 
 ^+^*Undergraduate or post-baccalaureate mentee*
 
-**Zee, K. S.**, & Bolger, N. (in preparation). *Physiological self-regulation and co-regulation during social support interactions.* [Poster](files/Zee_SMEP_Poster_191007.pdf){target="_blank"}
+**Zee, K. S.**, & Bolger, N. (in preparation). *Physiological self-regulation and co-regulation during social support interactions.* [Poster.](files/Zee_SMEP_Poster_191007.pdf){target="_blank"}
 
 Cavallo, J. V., **Zee, K. S.**,  & Higgins, E. T. (in preparation). *Tailoring help to fit: Why motivation matters for effective social support.*
 
@@ -56,8 +51,11 @@ Flores, A. F., **Zee, K. S.**, ^+^Routhier, E. K., & Bolger, N. (in preparation)
 
 ^+^Paek, J., **Zee, K. S.**, & Higgins, E. T. (in preparation). *Congratulations, so happy for you! Motivation predicts social support for positive events.*
 
-Rossignac-Milon, M., Bolger, N., **Zee, K. S.**, & Higgins, E. T. (in revision). *Merged minds: Shared reality in close relationships.*
+Rossignac-Milon, M., Bolger, N., **Zee, K. S.**, & Higgins, E. T. (revise & resubmit). Merged minds: Shared reality in close relationships. *Journal of Personality and Social Psychology.*
 
-Turetsky, K. M., & **Zee, K. S.** (in preparation). *Toward a unified perspective on the effect of stress on relationships.*
+Turetsky, K. M., & **Zee, K. S.** (in preparation). *Toward a unified perspective on the effect of stress on relationships.* 
+
+Uchino, B. N., Landvatter, J., **Zee, K. S.**, & Bolger N. (revise & resubmit). Social support and antibody responses to vaccination: A meta-analysis. *Annals of Behavioral Medicine.*
+
 
 </font> 
