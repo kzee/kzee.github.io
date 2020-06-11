@@ -16,18 +16,18 @@ output:
 
 ## Graduate Teaching, Columbia University  
 
-
 <br>
-
 
 ####Stress in an Interpersonal Context (advanced undergraduate seminar), Spring 2020 <br>
 - Role: Lead Instructor, [Teaching Scholars Program, Columbia University](https://gsas.columbia.edu/student-guide/teaching/gsas-teaching-scholars-program){target="_blank"}  
+- *Note: Formal teaching evaluations were not collected due to COVID-19 outbreak*
 <br>
 <br>
 
 ####Introduction to Statistical Modeling in Psychology (graduate course), Fall 2019 <br>
 - Role: Teaching Assistant with weekly 2-hr lab <br>
 - Supervisor: Niall Bolger 
+- Evaluation: Mean = 5.0/5, Median = 5.0/5
 <br>
 <br>
 
@@ -79,6 +79,13 @@ output:
 
 <br>
 
+####[APA Advanced Training Institute](https://www.apa.org/science/resources/ati/){target="_blank"}: [Intensive Longitudinal Data Analysis, 2020](https://longitudinalresearchinstitute.com/){target="_blank"} <br>
+- Role: Instructor
+- Lead Instructors: Nilam Ram, Kevin Grimm, Niall Bolger, & Jean-Philippe Laurenceau
+- Labs: Generalized Multilevel Modeling, Moderated 1-1-1 Within-Person Mediation Analysis
+<br>
+<br>
+
 ####Social Psychology, Barnard College, 2019 <br>
 - Role: Grader <br>
 - Supervisor: Colin Leach <br>
@@ -116,7 +123,7 @@ output:
 
 I have supervised and mentored over 40 undergraduate and post-bac research assistants and honors students since 2014. My students have been recognized with awards from Columbia University as well as international societies, such as the Society for Personality and Social Psychology, and many have continued on to doctoral programs in psychology and related fields. 
 <br>
-For my teaching and mentoring effectiveness, I received Columbia University's [Presidential Award for Outstanding Teaching](https://provost.columbia.edu/content/presidential-teaching-awards) in 2019. 
+For my teaching and mentoring effectiveness, I received Columbia University's [Presidential Award for Outstanding Teaching](https://provost.columbia.edu/content/presidential-teaching-awards){target="_blank"} in 2019. 
 
 
 <br>

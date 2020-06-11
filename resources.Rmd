@@ -18,7 +18,7 @@ output:
 - [Mediation & Moderation, Quantpsy by Kristopher Preacher](http://quantpsy.org/){target="_blank"}
 - [Tutorials by Matti Vuorre](https://vuorre.netlify.com/tags/tutorial/){target="_blank"}
 - [Gallery of Multilevel Papers](http://www.bristol.ac.uk/cmm/gallery){target="_blank"}
-- [R^2 for Multilevel Models Function](https://my.vanderbilt.edu/jasonrights/software/r2mlm/){target="_blank"}
+
 
 <br>
 

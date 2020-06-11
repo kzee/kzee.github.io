@@ -232,6 +232,9 @@ d$draw <- NA
 
 Next, we will plot just the first piece of information: posterior draws. We will use ggplot to do this. We begin by filling in our dataframe, `sub`, and specifying that we want to plot `valenceE` against `pred`, the predicted values for each posterior draw. We will also want to set group to `draw`, which means that each draw from the posterior will be plotted one on top of the other. The next line, `geom_line`, indicates that we want to have a line connecting values of `pred`. We set the size to be small and the alpha (transparency) to be low so that we can see all of the individual posterior draws clearly. We can then use `facet_wrap` as a way to ask ggplot to put each participant (given by `id`) into their own plot. The remaining lines of code are for aesthetic purposes (e.g., labeling the axes). 
 
+```{r, echo = F}
+library(ggplot2)
+```
 
 ```{r, cache = F}
 

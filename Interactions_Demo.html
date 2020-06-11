@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -70,9 +70,7 @@ h6 {
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -86,13 +84,18 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -108,7 +111,6 @@ body {
   padding-top: 69px;
   margin-top: -69px;
 }
-
 .section h2 {
   padding-top: 69px;
   margin-top: -69px;
@@ -128,6 +130,43 @@ body {
 .section h6 {
   padding-top: 69px;
   margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -149,19 +188,74 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -238,13 +332,13 @@ library(ggplot2)</code></pre>
 <p><br></p>
 <div id="load-example-dataset-from-car-package" class="section level3">
 <h3>Load example dataset (from <code>car</code> package)</h3>
-<p>For this demo, we will use the Moore dataset from the car package. For details on this dataset, run <code>?Moore</code>. As the documentation from the package indicates, “the data are for subjects in a social-psychological experiment, who were faced with manipulated disagreement from a partner of either of low or high status. The subjects could either conform to the partner’s judgment or stick with their own judgment.”</p>
+<p>For this demo, we will use the Moore dataset from the car package. For details on this dataset, run <code>?Moore</code>. As the documentation from the package indicates, &quot;the data are for subjects in a social-psychological experiment, who were faced with manipulated disagreement from a partner of either of low or high status. The subjects could either conform to the partner's judgment or stick with their own judgment.&quot;</p>
 <pre class="r"><code>d &lt;- Moore</code></pre>
 <p><br></p>
 </div>
 <div id="variables-and-research-question" class="section level3">
 <h3>Variables and Research Question</h3>
-<p>Here, our <code>y</code> variable is <code>conformity</code>. Our <code>x</code> variable is <code>partner.status</code> (low vs. high), and our <code>z</code> variable (moderator) is authoritarianism (<code>fscore</code>).</p>
+<p>Here, our <code>y</code> variable is <code>conformity</code>. Our <code>x</code> variable is <code>partner.status</code> (low vs. high), and our <code>z</code> variable (moderator) is authoritarianism (<code>fscore</code>).</p>
 <p>Our research question is whether the effect of <code>partner.status</code> on <code>conformity</code> depends on <code>fscore</code> (authoritarianism). We will, for the purposes of this demo, not concern ourselves with issues of power or sample size since our focus is on plotting and extracting simple effects.</p>
 <p><br></p>
 </div>
@@ -277,7 +371,7 @@ summary(fit)</code></pre>
 ## Residual standard error: 4.562 on 41 degrees of freedom
 ## Multiple R-squared:  0.2942, Adjusted R-squared:  0.2426 
 ## F-statistic: 5.698 on 3 and 41 DF,  p-value: 0.002347</code></pre>
-<p>We see that there is no main effect of <code>fscore.c</code>. In other words, averaging across conditions, authoritarianism is unrelated to conformity. We see that there is a main effect of <code>partner.eff</code>, indicating that people show more conformity to high (vs. low) status partners, controlling for authoritarianism. Importantly, however, we see that there is an interaction of these variables. Arguably the best way to interpret this interaction effect is to plot it and to perform simple slope analyses (i.e., compute the slope of <code>fscore.c</code> in each condition).</p>
+<p>We see that there is no main effect of <code>fscore.c</code>. In other words, averaging across conditions, authoritarianism is unrelated to conformity. We see that there is a main effect of <code>partner.eff</code>, indicating that people show more conformity to high (vs. low) status partners, controlling for authoritarianism. Importantly, however, we see that there is an interaction of these variables. Arguably the best way to interpret this interaction effect is to plot it and to perform simple slope analyses (i.e., compute the slope of <code>fscore.c</code> in each condition).</p>
 <p><br></p>
 </div>
 <div id="generate-model-predictions" class="section level3">
@@ -294,7 +388,7 @@ plot(effect(term = &quot;fscore.c:partner.eff&quot;,
 <div id="create-dataframes-for-each-level-of-iv" class="section level4">
 <h4>Create Dataframes for Each Level of IV</h4>
 <p>Next, we will generate dataframes for each level of the IV that we want to plot (two in this case, one of each level of partner status). Here, we will plot a separate line for each level of partner status and show levels of authoritarianism along the x-axis. One could swap the presentation of these variables. However, the present approach seemed like a good place to start because one variable is continuuous and the other is binary. From a plotting and analysis perspective, your X and moderator variables are interchangeable (although they might not be interchangeable theoretically).</p>
-<p>First, let’s create a dataframe that contains authoritarianism scores and fixes partner status to be high (<code>partner.eff == .5</code>). We will use this dataframe to feed values into the <code>predict()</code> function to get the model-predicted values for our y variable, as well as lower and upper bound estimates. If you had covariates, you would have mean centered them in the model and then filled them in here with the mean (0) for all.</p>
+<p>First, let's create a dataframe that contains authoritarianism scores and fixes partner status to be high (<code>partner.eff == .5</code>). We will use this dataframe to feed values into the <code>predict()</code> function to get the model-predicted values for our y variable, as well as lower and upper bound estimates. If you had covariates, you would have mean centered them in the model and then filled them in here with the mean (0) for all.</p>
 <pre class="r"><code>dfhigh &lt;- data.frame(
   fscore.c = seq(min(d$fscore.c), max(d$fscore.c), .1), 
   # populate the column of your X of interest with a sequential order of values; 
@@ -322,7 +416,7 @@ partnerlow &lt;- cbind(dflow, predict(fit, dflow, interval = &quot;confidence&qu
 </div>
 <div id="plotting" class="section level3">
 <h3>Plotting</h3>
-<p>Now, let’s use these predicted values in a graph using the <code>ggplot2()</code> package.</p>
+<p>Now, let's use these predicted values in a graph using the <code>ggplot2()</code> package.</p>
 <pre class="r"><code>intplot &lt;- ggplot(partnerlow, aes(fscore.c, fit)) +
   geom_point(data = d, # use original data to plot datapoints 
              aes(fscore.c, conformity, shape = partner.status, color = partner.status), 
@@ -380,7 +474,7 @@ intplot</code></pre>
               lower95=round(lower95, digits = 2), 
               upper95=round(upper95, digits = 2)))
 }</code></pre>
-<p>First, let’s test the slope of authoritarianism in the high partner status condition.</p>
+<p>First, let's test the slope of authoritarianism in the high partner status condition.</p>
 <pre class="r"><code>condslope(&quot;fscore.c&quot;, &quot;partner.eff&quot;, .5, fit)</code></pre>
 <pre><code>## $w0.intercept
 ## [1] 14.28
@@ -419,20 +513,20 @@ intplot</code></pre>
 ## 
 ## $upper95
 ## [1] 0.24</code></pre>
-<p>Although the slope is positive, <em>b</em> = 0.11, we are unable to conclude that it differs significantly from 0. At most, it is “trending” or “marginal.”</p>
+<p>Although the slope is positive, <em>b</em> = 0.11, we are unable to conclude that it differs significantly from 0. At most, it is &quot;trending&quot; or &quot;marginal.&quot;</p>
 <p></font> <font size="2"> <em><a href="/Users/zeekatherine/Desktop/WorkSchool/kzee.github.io/Interactions_Demo.Rmd" target="_blank">View .Rmd source code</a></em> </font> <font size="2"><br />
 <em>updated March 19, 2019</em> </font></p>
 </div>
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -496,9 +590,7 @@ h6 {
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -512,13 +604,18 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -534,7 +631,6 @@ body {
   padding-top: 69px;
   margin-top: -69px;
 }
-
 .section h2 {
   padding-top: 69px;
   margin-top: -69px;
@@ -554,6 +650,43 @@ body {
 .section h6 {
   padding-top: 69px;
   margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -575,19 +708,74 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -649,7 +837,7 @@ $(document).ready(function () {
 <hr />
 <!--  <p> Copyright &copy; 2019 Katherine S. Zee. All rights reserved. </p>   -->
 <p style="text-align: center;">
-<span style="color: #808080;"><em><a href="mailto:kzee@psych.columbia.edu">kzee@psych.columbia.edu</a></em></span>
+<span style="color: #808080;"><em><a href="mailto:ksz2104@columbia.edu">ksz2104@columbia.edu</a></em></span>
 </p>
 <p></font></p>
 <!-- Add icon library -->
@@ -684,6 +872,23 @@ $(document).ready(function () {
 
 </script>
 
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
   (function () {
@@ -713,6 +918,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

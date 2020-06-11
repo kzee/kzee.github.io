@@ -10,7 +10,7 @@ knitr::opts_chunk$set(message = F, cache = T, warning = F)
 &nbsp;
 <hr />
 <!--  <p> Copyright &copy; 2019 Katherine S. Zee. All rights reserved. </p>   -->
-<p style="text-align: center;"><span style="color: #808080;"><em>kzee@psych.columbia.edu</em></span></p>
+<p style="text-align: center;"><span style="color: #808080;"><em>ksz2104@columbia.edu</em></span></p>
 </font> 
 
 <!-- Add icon library -->

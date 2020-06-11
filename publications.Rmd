@@ -14,11 +14,15 @@ output:
 
 <br>
 
-##Published Papers
+## Published Papers
 
-**Zee, K. S.**, Bolger, N., & Higgins, E. T. (in press). [Regulatory effectiveness of social support](https://psyarxiv.com/h2mrv){target="_blank"}. *Journal of Personality and Social Psychology.* 
+Rossignac-Milon, M., Bolger, N., **Zee, K. S.**, Boothby, E., Higgins, E. T. (in press). Merged minds: Generalized shared reality in dyadic relationships. *Journal of Personality and Social Psychology.*
 
-**Zee, K. S.**, & Bolger, N. (in press). [Using coupled oscillators to examine physiological coregulation during social support interactions](https://doi.org/10.1080/00273171.2019.1699392). *Multivariate Behavioral Research.* 
+Uchino, B. N., Landvatter, J., **Zee, K. S.**, & Bolger N. (2020). [Social support and antibody responses to vaccination: A meta-analysis](https://academic.oup.com/abm/advance-article/doi/10.1093/abm/kaaa029/5838063){target="_blank"}. *Annals of Behavioral Medicine.*
+
+**Zee, K. S.**, Bolger, N., & Higgins, E. T. (2020). [Regulatory effectiveness of social support](http://dx.doi.org/10.1037/pspi0000235). *Journal of Personality and Social Psychology.* [(Datasets & R Code)](https://github.com/kzee/zee-res){target="_blank"}
+
+**Zee, K. S.**, & Bolger, N. (2020). [Using coupled oscillators to examine physiological coregulation during social support interactions](https://doi.org/10.1080/00273171.2019.1699392). *Multivariate Behavioral Research, 55,* 157-158. 
 
 **Zee, K. S.**, & Kumashiro, M. (2019). [Investigating mechanisms of social support effectiveness: The case of locomotion motivation](https://onlinelibrary.wiley.com/doi/epdf/10.1111/pere.12298){target="_blank"}. *Personal Relationships, 26,* 654–679.
 
@@ -43,19 +47,17 @@ Cavallo, J. V., **Zee, K. S.**, Higgins, E. T. (2016). [Giving what is needed: R
 
 ^+^*Undergraduate or post-baccalaureate mentee*
 
-**Zee, K. S.**, & Bolger, N. (in preparation). *Physiological self-regulation and co-regulation during social support interactions.* [Poster.](files/Zee_SMEP_Poster_191007.pdf){target="_blank"}
+**Zee, K. S.**, & Bolger, N. (in preparation). *Increasing precision in meta-analytic estimates by modeling variability due to outcomes.*  
+
+
+**Zee, K. S.**, & Bolger, N. (in preparation). *Physiological self-regulation and co-regulation during social support interactions.*
 
 Cavallo, J. V., **Zee, K. S.**,  & Higgins, E. T. (in preparation). *Tailoring help to fit: Why motivation matters for effective social support.*
 
-Flores, A. F., **Zee, K. S.**, ^+^Routhier, E. K., & Bolger, N. (in preparation). *Social support visibility modulates cardiovascular responses to stress.* 
-
 ^+^Paek, J., **Zee, K. S.**, & Higgins, E. T. (in preparation). *Congratulations, so happy for you! Motivation predicts social support for positive events.*
-
-Rossignac-Milon, M., Bolger, N., **Zee, K. S.**, & Higgins, E. T. (revise & resubmit). Merged minds: Shared reality in close relationships. *Journal of Personality and Social Psychology.*
 
 Turetsky, K. M., & **Zee, K. S.** (in preparation). *Toward a unified perspective on the effect of stress on relationships.* 
 
-Uchino, B. N., Landvatter, J., **Zee, K. S.**, & Bolger N. (revise & resubmit). Social support and antibody responses to vaccination: A meta-analysis. *Annals of Behavioral Medicine.*
 
 
 </font> 

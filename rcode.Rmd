@@ -45,4 +45,11 @@ This demo shows how to generate panel plots to visualize between-subject heterog
 This demo shows how to create a spaghetti plot of predicted values from a Bayesian multilevel logistic model. 
 
 <br>
+
+### [Aggregating Physiological Data from Mindware Files](AggregatePhysio_Demo.html)
+This demo shows how to use R to aggregate data from individual Excel files from Mindware, a popular physio scoring software, into one aggregated file that contains data for all participants in long form. 
+
+<br>
+
+<br>
 </font> 

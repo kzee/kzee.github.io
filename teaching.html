@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -70,9 +70,7 @@ h6 {
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -86,13 +84,18 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -108,7 +111,6 @@ body {
   padding-top: 69px;
   margin-top: -69px;
 }
-
 .section h2 {
   padding-top: 69px;
   margin-top: -69px;
@@ -128,6 +130,43 @@ body {
 .section h6 {
   padding-top: 69px;
   margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -149,19 +188,74 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -228,20 +322,22 @@ $(document).ready(function () {
 <h4>Stress in an Interpersonal Context (advanced undergraduate seminar), Spring 2020 <br></h4>
 <ul>
 <li>Role: Lead Instructor, <a href="https://gsas.columbia.edu/student-guide/teaching/gsas-teaching-scholars-program" target="_blank">Teaching Scholars Program, Columbia University</a><br />
-<br> <br></li>
+</li>
+<li><em>Note: Formal teaching evaluations were not collected due to COVID-19 outbreak</em> <br> <br></li>
 </ul>
 </div>
 <div id="introduction-to-statistical-modeling-in-psychology-graduate-course-fall-2019" class="section level4">
 <h4>Introduction to Statistical Modeling in Psychology (graduate course), Fall 2019 <br></h4>
 <ul>
 <li>Role: Teaching Assistant with weekly 2-hr lab <br></li>
-<li>Supervisor: Niall Bolger <br> <br></li>
+<li>Supervisor: Niall Bolger</li>
+<li>Evaluation: Mean = 5.0/5, Median = 5.0/5 <br> <br></li>
 </ul>
 </div>
 <div id="introduction-to-social-cognition-2019" class="section level4">
 <h4>Introduction to Social Cognition, 2019 <br></h4>
 <ul>
-<li>Role: Guest Lecturer, “Social Support and Emotion” <br> <br></li>
+<li>Role: Guest Lecturer, &quot;Social Support and Emotion&quot; <br> <br></li>
 </ul>
 </div>
 <div id="analysis-of-change-graduate-course-on-multilevel-modeling-2018" class="section level4">
@@ -255,7 +351,7 @@ $(document).ready(function () {
 <div id="psychophysiological-methods-analysis-graduate-course-2018" class="section level4">
 <h4>Psychophysiological Methods &amp; Analysis (graduate course), 2018 <br></h4>
 <ul>
-<li>Role: Guest Lecturer, “Dyadic Psychophysiological Methods &amp; Analysis” <br> <br></li>
+<li>Role: Guest Lecturer, &quot;Dyadic Psychophysiological Methods &amp; Analysis&quot; <br> <br></li>
 </ul>
 </div>
 <div id="psychophysiological-methods-analysis-graduate-course-2016" class="section level4">
@@ -280,7 +376,7 @@ $(document).ready(function () {
 <h4>The Science of Psychology, 2015 <br></h4>
 <ul>
 <li>Role: Teaching Assistant <br></li>
-<li>Guest Lecture: “Attachment Across the Lifespan” <br></li>
+<li>Guest Lecture: &quot;Attachment Across the Lifespan&quot; <br></li>
 <li>Supervisor: Patricia Lindemann <br></li>
 <li>Evaluation: Mean = 4.2/5, Median = 4.0/5 <br> <br></li>
 </ul>
@@ -290,12 +386,20 @@ $(document).ready(function () {
 <div id="other-teaching" class="section level2">
 <h2>Other Teaching</h2>
 <p><br></p>
+<div id="apa-advanced-training-institute-intensive-longitudinal-data-analysis-2020" class="section level4">
+<h4><a href="https://www.apa.org/science/resources/ati/" target="_blank">APA Advanced Training Institute</a>: <a href="https://longitudinalresearchinstitute.com/" target="_blank">Intensive Longitudinal Data Analysis, 2020</a> <br></h4>
+<ul>
+<li>Role: Instructor</li>
+<li>Lead Instructors: Nilam Ram, Kevin Grimm, Niall Bolger, &amp; Jean-Philippe Laurenceau</li>
+<li>Labs: Generalized Multilevel Modeling, Moderated 1-1-1 Within-Person Mediation Analysis <br> <br></li>
+</ul>
+</div>
 <div id="social-psychology-barnard-college-2019" class="section level4">
 <h4>Social Psychology, Barnard College, 2019 <br></h4>
 <ul>
 <li>Role: Grader <br></li>
 <li>Supervisor: Colin Leach <br></li>
-<li>Guest Lecture: “Interpersonal Relationships” <br> <br></li>
+<li>Guest Lecture: &quot;Interpersonal Relationships&quot; <br> <br></li>
 </ul>
 </div>
 <div id="leadership-in-organizations-london-business-school-2013" class="section level4">
@@ -330,20 +434,20 @@ $(document).ready(function () {
 </div>
 <div id="mentoring" class="section level2">
 <h2>Mentoring</h2>
-<p>I have supervised and mentored over 40 undergraduate and post-bac research assistants and honors students since 2014. My students have been recognized with awards from Columbia University as well as international societies, such as the Society for Personality and Social Psychology, and many have continued on to doctoral programs in psychology and related fields. <br> For my teaching and mentoring effectiveness, I received Columbia University’s <a href="https://provost.columbia.edu/content/presidential-teaching-awards">Presidential Award for Outstanding Teaching</a> in 2019.</p>
+<p>I have supervised and mentored over 40 undergraduate and post-bac research assistants and honors students since 2014. My students have been recognized with awards from Columbia University as well as international societies, such as the Society for Personality and Social Psychology, and many have continued on to doctoral programs in psychology and related fields. <br> For my teaching and mentoring effectiveness, I received Columbia University's <a href="https://provost.columbia.edu/content/presidential-teaching-awards" target="_blank">Presidential Award for Outstanding Teaching</a> in 2019.</p>
 <p><br> <br></p>
 <p></font></p>
 </div>
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -407,9 +511,7 @@ h6 {
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -423,13 +525,18 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -445,7 +552,6 @@ body {
   padding-top: 69px;
   margin-top: -69px;
 }
-
 .section h2 {
   padding-top: 69px;
   margin-top: -69px;
@@ -465,6 +571,43 @@ body {
 .section h6 {
   padding-top: 69px;
   margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -486,19 +629,74 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -560,7 +758,7 @@ $(document).ready(function () {
 <hr />
 <!--  <p> Copyright &copy; 2019 Katherine S. Zee. All rights reserved. </p>   -->
 <p style="text-align: center;">
-<span style="color: #808080;"><em><a href="mailto:kzee@psych.columbia.edu">kzee@psych.columbia.edu</a></em></span>
+<span style="color: #808080;"><em><a href="mailto:ksz2104@columbia.edu">ksz2104@columbia.edu</a></em></span>
 </p>
 <p></font></p>
 <!-- Add icon library -->
@@ -589,6 +787,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
@@ -619,6 +834,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

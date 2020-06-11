@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -233,6 +232,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -389,7 +389,7 @@ summary(fit)</code></pre>
 ## Residual standard error: 4.86 on 327 degrees of freedom
 ## Multiple R-squared:  0.01573,    Adjusted R-squared:  0.009714 
 ## F-statistic: 2.614 on 2 and 327 DF,  p-value: 0.0748</code></pre>
-<p><br> The results indicate that neuroticism significantly predicts tense arousal, whereas extraversion does not. We also see that the size of the coefficient for neuroticism is larger than the coefficient for extraversion. Based on this, it would be tempting conclude that neuroticism is a “stronger” or “better” predictor of tense arousal.</p>
+<p><br> The results indicate that neuroticism significantly predicts tense arousal, whereas extraversion does not. We also see that the size of the coefficient for neuroticism is larger than the coefficient for extraversion. Based on this, it would be tempting conclude that neuroticism is a &quot;stronger&quot; or &quot;better&quot; predictor of tense arousal.</p>
 <p>However, we actually cannot draw this conclusion based on this information alone, as discussed by <a href="https://www.tandfonline.com/doi/abs/10.1198/000313006x152649">Gelman and Stern (2006)</a> and <a href="https://psycnet.apa.org/record/2016-59616-001">Shrout and Yip-Bannicq (2017)</a>.</p>
 <p><br></p>
 </div>
@@ -436,7 +436,7 @@ summary(fit)</code></pre>
               df = df))
 }</code></pre>
 <p><br></p>
-<p>Let’s apply the function to our example model:</p>
+<p>Let's apply the function to our example model:</p>
 <pre class="r"><code>difftest_lm(&quot;neur.c&quot;, &quot;ext.c&quot;, fit)</code></pre>
 <pre><code>## $est
 ## [1] 0.09
@@ -504,7 +504,7 @@ bfit &lt;- brm(TA2 ~ neur.c + ext.c, data = affect, seed = 111) </code></pre>
 <p>A second approach simply involves going through the steps that <code>hypothesis()</code> uses under the hood: extracting the posterior distributions for both coefficients and then taking their difference.</p>
 <p>To begin, we need to pull out the posterior samples from our model.</p>
 <pre class="r"><code>bfit_post &lt;- posterior_samples(bfit)</code></pre>
-<p>Next, we use simple subtraction to take the difference in the two posterior distributions of interest and compute the mean and 95% credibility interval of this difference. (Note that the variables referring to the posterior draws have the prefix “b_” added to them).</p>
+<p>Next, we use simple subtraction to take the difference in the two posterior distributions of interest and compute the mean and 95% credibility interval of this difference. (Note that the variables referring to the posterior draws have the prefix &quot;b_&quot; added to them).</p>
 <pre class="r"><code>bfit_diff &lt;- bfit_post$b_neur.c - bfit_post$b_ext.c
 mean(bfit_diff) %&gt;% round(digits = 2)</code></pre>
 <pre><code>## [1] 0.09</code></pre>

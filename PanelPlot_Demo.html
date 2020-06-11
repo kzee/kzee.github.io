@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -70,9 +70,7 @@ h6 {
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -86,13 +84,18 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -108,7 +111,6 @@ body {
   padding-top: 69px;
   margin-top: -69px;
 }
-
 .section h2 {
   padding-top: 69px;
   margin-top: -69px;
@@ -128,6 +130,43 @@ body {
 .section h6 {
   padding-top: 69px;
   margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -149,19 +188,74 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -316,7 +410,7 @@ d &lt;- rndtz</code></pre>
 </div>
 <div id="set-up-dataframe-to-set-values-of-valencee-to-generate-predictions-from-model" class="section level1">
 <h1>Set up Dataframe to Set Values of <code>valenceE</code> to Generate Predictions from Model</h1>
-<p>To help us generate model predicted effects for each participant, we will set up an empty dataframe in which we will “catch” id numbers and the specific levels of each condition. This will result in a dataframe that consists of two rows per participant for valence: one for negative (-.5) and one for positive (.5).</p>
+<p>To help us generate model predicted effects for each participant, we will set up an empty dataframe in which we will &quot;catch&quot; id numbers and the specific levels of each condition. This will result in a dataframe that consists of two rows per participant for valence: one for negative (-.5) and one for positive (.5).</p>
 <pre class="r"><code>out &lt;- NULL
 for (i in unique(d$id)) {
   cseq &lt;- data.frame(
@@ -440,7 +534,7 @@ to_string &lt;- as_labeller(c(`208` = pasteround(subset(sub, id == 208)$mslp),
 </div>
 <div id="plot-results" class="section level1">
 <h1>Plot Results</h1>
-<p>Finally, we can now plot our results! We will aim to plot three pieces of information for each of the five participants we selected: (1) We will plot every single draw from that participant’s posterior distribution (contained in the dataframe <code>postd</code>, which has already been subsetted to contain our five focal participants in the dataframe <code>sub</code>), (2) we will plot the model predicted effect for that participant (contained in that dataframe <code>outpred</code>), and (3) we will plot that participant’s raw data (contained in the original dataframe, <code>d</code>).</p>
+<p>Finally, we can now plot our results! We will aim to plot three pieces of information for each of the five participants we selected: (1) We will plot every single draw from that participant's posterior distribution (contained in the dataframe <code>postd</code>, which has already been subsetted to contain our five focal participants in the dataframe <code>sub</code>), (2) we will plot the model predicted effect for that participant (contained in that dataframe <code>outpred</code>), and (3) we will plot that participant's raw data (contained in the original dataframe, <code>d</code>).</p>
 <p>We will first add empty columns called <code>draw</code> to dataframes <code>outpred</code> and <code>d</code> to override issues with plotting.</p>
 <pre class="r"><code>outpred$draw &lt;- NA
 d$draw &lt;- NA</code></pre>
@@ -452,9 +546,9 @@ d$draw &lt;- NA</code></pre>
   scale_x_continuous(breaks=seq(-.5, .5, 1), labels = paste0(c(&quot;Neg&quot;, &quot;Pos&quot;))) +
   theme(panel.spacing = unit(2, &quot;lines&quot;)) </code></pre>
 <p><br></p>
-<p>Let’s see what we have plotted so far!</p>
+<p>Let's see what we have plotted so far!</p>
 <pre class="r"><code>panelggpost</code></pre>
-<p><img src="PanelPlot_Demo_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="PanelPlot_Demo_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <p><br></p>
 <p>Looks good! We can see the posterior draws for each person, given by each individual line. Even without having plotted the model predicted effect for each person yet, we can already get a sense of which participants show pronounced trait valence effects, and which participants do not.</p>
 <p><br></p>
@@ -462,7 +556,7 @@ d$draw &lt;- NA</code></pre>
 <div id="add-remaining-elements-to-plots" class="section level1">
 <h1>Add Remaining Elements to Plots</h1>
 <p>Now, we can add in the remaining pieces of information: The model predicted effect for each person and the raw data points.</p>
-<p>We can simply add on to the plot we already created above. We can used the <code>sub5()</code> function that I created above to select only the five participants of interest from the dataframes that contain the additional information we need. The first new line, <code>geom_line</code> is used to plot the model predicted effect for each person. We can make this line larger so that it stands out when plotted on top of the posterior draws. The subsequent line, <code>geom_point</code>, adds in the raw data points for each person. We can use <code>position_jitter</code> to add a little random noise into the plot so that the points aren’t completely overlapping (note that this does not change anything about the data or our model).</p>
+<p>We can simply add on to the plot we already created above. We can used the <code>sub5()</code> function that I created above to select only the five participants of interest from the dataframes that contain the additional information we need. The first new line, <code>geom_line</code> is used to plot the model predicted effect for each person. We can make this line larger so that it stands out when plotted on top of the posterior draws. The subsequent line, <code>geom_point</code>, adds in the raw data points for each person. We can use <code>position_jitter</code> to add a little random noise into the plot so that the points aren't completely overlapping (note that this does not change anything about the data or our model).</p>
 <pre class="r"><code>sub_c &lt;- sub5(outpred)
 sub_d &lt;- sub5(d)</code></pre>
 <pre class="r"><code>panelggpost2 &lt;- panelggpost +
@@ -472,7 +566,7 @@ sub_d &lt;- sub5(d)</code></pre>
              position = position_jitter(h = 0, w = 0.03), color = &quot;dodgerblue2&quot;)
 
 panelggpost2</code></pre>
-<p><img src="PanelPlot_Demo_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="PanelPlot_Demo_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <p><br></p>
 <p>And there it is! We have a very nice set of panel plots for five participants.</p>
 <p><br></p>
@@ -488,13 +582,13 @@ panelggpost2</code></pre>
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -558,9 +652,7 @@ h6 {
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -574,13 +666,18 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -596,7 +693,6 @@ body {
   padding-top: 69px;
   margin-top: -69px;
 }
-
 .section h2 {
   padding-top: 69px;
   margin-top: -69px;
@@ -616,6 +712,43 @@ body {
 .section h6 {
   padding-top: 69px;
   margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -637,19 +770,74 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -711,7 +899,7 @@ $(document).ready(function () {
 <hr />
 <!--  <p> Copyright &copy; 2019 Katherine S. Zee. All rights reserved. </p>   -->
 <p style="text-align: center;">
-<span style="color: #808080;"><em><a href="mailto:kzee@psych.columbia.edu">kzee@psych.columbia.edu</a></em></span>
+<span style="color: #808080;"><em><a href="mailto:ksz2104@columbia.edu">ksz2104@columbia.edu</a></em></span>
 </p>
 <p></font></p>
 <!-- Add icon library -->
@@ -746,6 +934,23 @@ $(document).ready(function () {
 
 </script>
 
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
   (function () {
@@ -775,6 +980,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

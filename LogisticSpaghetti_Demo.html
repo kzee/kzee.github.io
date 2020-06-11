@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -70,9 +70,7 @@ h6 {
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -86,13 +84,18 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -108,7 +111,6 @@ body {
   padding-top: 69px;
   margin-top: -69px;
 }
-
 .section h2 {
   padding-top: 69px;
   margin-top: -69px;
@@ -128,6 +130,43 @@ body {
 .section h6 {
   padding-top: 69px;
   margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -149,19 +188,74 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -242,7 +336,7 @@ $(document).ready(function () {
 <div id="overview" class="section level1">
 <h1>Overview</h1>
 <p>This demo shows how to create a spaghetti plot of individual-specific effects from a multilevel logistic model.</p>
-<p>We will use Ch. 6 data from Bolger &amp; Laurenceau’s <em>Intensive Longitudinal Methods</em> book. In this chapter, the authors used the example of the potential effect of a female partner’s morning anger (<code>amangcw</code>) on her male partner’s report of conflict (<code>pconf</code>; yes/no) later that evening. We will fit a similar model to the model presented in the book, except we will use Bayesian estimation. Using a Bayesian model will allow us to model random slopes.</p>
+<p>We will use Ch. 6 data from Bolger &amp; Laurenceau's <em>Intensive Longitudinal Methods</em> book. In this chapter, the authors used the example of the potential effect of a female partner's morning anger (<code>amangcw</code>) on her male partner's report of conflict (<code>pconf</code>; yes/no) later that evening. We will fit a similar model to the model presented in the book, except we will use Bayesian estimation. Using a Bayesian model will allow us to model random slopes.</p>
 <p><br></p>
 </div>
 <div id="read-in-data" class="section level1">
@@ -362,16 +456,16 @@ catspag0</code></pre>
             size = 2)</code></pre>
 <p><img src="LogisticSpaghetti_Demo_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p><br></p>
-<p>So we have our plot. It’s not bad, but it’s not great either. The individual-specific lines look a bit spikey, and one even looks crooked. We are missing that smooth, sigmoidal shape that characterizes logistic regression effects.</p>
+<p>So we have our plot. It's not bad, but it's not great either. The individual-specific lines look a bit spikey, and one even looks crooked. We are missing that smooth, sigmoidal shape that characterizes logistic regression effects.</p>
 <p>The reason for this is that we need to add more values for each person in order to properly display their effect. As of now, ggplot simply connects the points available, resulting in effects that appear too linear or kinked in some way.</p>
 <p><br></p>
 </div>
 </div>
 <div id="interpolate-data" class="section level1">
 <h1>Interpolate Data</h1>
-<p>To remedy the “spikey” way our spaghetti plot looks, we will need to interpolate data. To be clear, we are NOT adding more data to the model; the model only uses our actual observations to generate estimates. Instead, we are just filling in more datapoints for the purposes of plotting, and we will do this only within each subject’s observed range. In other words, we will not add data that is fall outside of each person’s mininum observed value or maximum observed value.</p>
-<p>To accomplish this, we will need to create a new dataframe, called <code>df2</code>. We will begin by setting this dataframe to <code>NULL</code> so that it is just a placeholder waiting to “catch” the data we will populate it with.</p>
-<p>Next, we will set up a for loop in which we will ask R to take each subject’s minimum and maximum observed value, and generate values within that range in small increments, in this case increments of .05 (as shown with the <code>seq()</code> function). This will enable us to have a high degree of granularity so that our curves will be smooth when we plot them. We will also need to set other variables to 0, as they were mean centered in our model.</p>
+<p>To remedy the &quot;spikey&quot; way our spaghetti plot looks, we will need to interpolate data. To be clear, we are NOT adding more data to the model; the model only uses our actual observations to generate estimates. Instead, we are just filling in more datapoints for the purposes of plotting, and we will do this only within each subject's observed range. In other words, we will not add data that is fall outside of each person's mininum observed value or maximum observed value.</p>
+<p>To accomplish this, we will need to create a new dataframe, called <code>df2</code>. We will begin by setting this dataframe to <code>NULL</code> so that it is just a placeholder waiting to &quot;catch&quot; the data we will populate it with.</p>
+<p>Next, we will set up a for loop in which we will ask R to take each subject's minimum and maximum observed value, and generate values within that range in small increments, in this case increments of .05 (as shown with the <code>seq()</code> function). This will enable us to have a high degree of granularity so that our curves will be smooth when we plot them. We will also need to set other variables to 0, as they were mean centered in our model.</p>
 <pre class="r"><code>df2 &lt;- NULL
 for (i in unique(c$id)) {
   cseq &lt;- data.frame(
@@ -435,7 +529,7 @@ catspag</code></pre>
 </div>
 <div id="side-by-side-comparison" class="section level1">
 <h1>Side by Side Comparison</h1>
-<p>As a final step, let’s compare these two plots side by side so we can see how using the interpolated data has improved our plot.</p>
+<p>As a final step, let's compare these two plots side by side so we can see how using the interpolated data has improved our plot.</p>
 <pre class="r"><code>library(gridExtra)
 grid.arrange(catspag0 + geom_line(data = x, aes(amang, predM, group = NULL), 
             color = &quot;blue&quot;,
@@ -450,13 +544,13 @@ grid.arrange(catspag0 + geom_line(data = x, aes(amang, predM, group = NULL),
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -520,9 +614,7 @@ h6 {
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -536,13 +628,18 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -558,7 +655,6 @@ body {
   padding-top: 69px;
   margin-top: -69px;
 }
-
 .section h2 {
   padding-top: 69px;
   margin-top: -69px;
@@ -578,6 +674,43 @@ body {
 .section h6 {
   padding-top: 69px;
   margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -599,19 +732,74 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -673,7 +861,7 @@ $(document).ready(function () {
 <hr />
 <!--  <p> Copyright &copy; 2019 Katherine S. Zee. All rights reserved. </p>   -->
 <p style="text-align: center;">
-<span style="color: #808080;"><em><a href="mailto:kzee@psych.columbia.edu">kzee@psych.columbia.edu</a></em></span>
+<span style="color: #808080;"><em><a href="mailto:ksz2104@columbia.edu">ksz2104@columbia.edu</a></em></span>
 </p>
 <p></font></p>
 <!-- Add icon library -->
@@ -708,6 +896,23 @@ $(document).ready(function () {
 
 </script>
 
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
   (function () {
@@ -737,6 +942,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
