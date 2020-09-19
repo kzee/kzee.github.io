@@ -340,20 +340,20 @@ $(document).ready(function () {
 library(car)
 library(psych)</code></pre>
 <pre class="r"><code>head(affect)</code></pre>
-<pre><code>##   Study Film ext neur imp soc lie traitanx state1 EA1 TA1 PA1 NA1 EA2 TA2
-## 1  maps    3  18    9   7  10   3       24     22  24  14  26   2   6   5
-## 2  maps    3  16   12   5   8   1       41     40   9  13  10   4   4  14
-## 3  maps    3   6    5   3   1   2       37     44   1  14   4   2   2  15
-## 4  maps    3  12   15   4   6   3       54     40   5  15   1   0   4  15
-## 5  maps    3  14    2   5   6   3       39     67  12  20   7  13  14  15
-## 6  maps    1   6   15   2   4   5       51     38   9  14   5   1   7  12
-##   PA2 NA2 state2 MEQ        BDI
-## 1   7   4     NA  NA 0.04761905
-## 2   5   5     NA  NA 0.33333333
-## 3   3   1     NA  NA 0.19047619
-## 4   0   2     NA  NA 0.38461538
-## 5  16  13     NA  NA 0.38095238
-## 6   2   2     NA  NA 0.23809524</code></pre>
+<pre><code>##   Study Film ext neur imp soc lie traitanx state1 EA1 TA1 PA1 NA1 EA2 TA2 PA2
+## 1  maps    3  18    9   7  10   3       24     22  24  14  26   2   6   5   7
+## 2  maps    3  16   12   5   8   1       41     40   9  13  10   4   4  14   5
+## 3  maps    3   6    5   3   1   2       37     44   1  14   4   2   2  15   3
+## 4  maps    3  12   15   4   6   3       54     40   5  15   1   0   4  15   0
+## 5  maps    3  14    2   5   6   3       39     67  12  20   7  13  14  15  16
+## 6  maps    1   6   15   2   4   5       51     38   9  14   5   1   7  12   2
+##   NA2 state2 MEQ        BDI
+## 1   4     NA  NA 0.04761905
+## 2   5     NA  NA 0.33333333
+## 3   1     NA  NA 0.19047619
+## 4   2     NA  NA 0.38461538
+## 5  13     NA  NA 0.38095238
+## 6   2     NA  NA 0.23809524</code></pre>
 <p><br></p>
 <p>For the purposes of this demo, we will test a relatively straight-forward hypothesis: Neuroticism (<code>neur</code>) is a significantly stronger predictor of tense arousal (<code>EA2</code>) than extraversion (<code>ext</code>).</p>
 <p><br></p>
@@ -425,8 +425,8 @@ summary(fit)</code></pre>
   diffse &lt;- sqrt(vardiff)
   tdiff &lt;- (diffest)/(diffse)
   ptdiff &lt;- 2*(1-pt(abs(tdiff), model$df, lower.tail=T))
-  upr &lt;- diffest + 1.96*diffse
-  lwr &lt;- diffest - 1.96*diffse 
+  upr &lt;- diffest + qt(.975, df = model$df)*diffse # will usually be very close to 1.96
+  lwr &lt;- diffest + qt(.025, df = model$df)*diffse
   df &lt;- model$df
   return(list(est=round(diffest, digits =2), 
               t=round(tdiff, digits = 2), 
@@ -448,7 +448,7 @@ summary(fit)</code></pre>
 ## [1] 0.2216
 ## 
 ## $lwr
-## [1] -0.05
+## [1] -0.06
 ## 
 ## $upr
 ## [1] 0.24
@@ -456,7 +456,7 @@ summary(fit)</code></pre>
 ## $df
 ## [1] 327</code></pre>
 <p><br></p>
-<p>We see that the p-value matches the p-value we got using the <code>linearHypothesis</code> function. However, we are also now able to see that the estimated difference between extraversion and neuroticism is <em>b</em> = 0.09, and the 95% CI ranges from -0.05 to 0.24.</p>
+<p>We see that the p-value matches the p-value we got using the <code>linearHypothesis</code> function. However, we are also now able to see that the estimated difference between extraversion and neuroticism is <em>b</em> = 0.09, and the 95% CI ranges from -0.06 to 0.24.</p>
 <p><br></p>
 </div>
 <div id="bayesian-version" class="section level1">
@@ -491,10 +491,10 @@ bfit &lt;- brm(TA2 ~ neur.c + ext.c, data = affect, seed = 111) </code></pre>
 <p>First, we can use the <code>hypothesis()</code> function from <code>brms</code>. This is a helpful and easy-to-use function, as all we need to do is feed in the name of the model object and specify the hypothesis we want to test.</p>
 <pre class="r"><code>hypothesis(bfit, &quot;neur.c - ext.c = 0&quot;)</code></pre>
 <pre><code>## Hypothesis Tests for class b:
-##           Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio
-## 1 (neur.c-ext.c) = 0     0.09      0.07    -0.05     0.24         NA
-##   Post.Prob Star
-## 1        NA     
+##           Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio Post.Prob
+## 1 (neur.c-ext.c) = 0     0.09      0.07    -0.05     0.24         NA        NA
+##   Star
+## 1     
 ## ---
 ## &#39;CI&#39;: 90%-CI for one-sided and 95%-CI for two-sided hypotheses.
 ## &#39;*&#39;: For one-sided hypotheses, the posterior probability exceeds 95%;

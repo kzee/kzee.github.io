@@ -51,5 +51,15 @@ This demo shows how to use R to aggregate data from individual Excel files from 
 
 <br>
 
+
+### [Bayesian Dyadic Multilevel Modeling](DyadicMLM_Demo.html)
+This demo walks through setting up a dyadic multilevel model with Bayesian estimation using the *brms* package for R. Here, I highlight the advantages of *brms* for this kind of model and provide code for formatting the data, fitting the model, and comparing the results to those returned by the *nlme* package. 
+
+
+<br>
+
+<br>
 <br>
 </font> 
+
+<a href="#top">Back to top</a>

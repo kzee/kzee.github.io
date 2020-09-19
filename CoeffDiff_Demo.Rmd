@@ -99,8 +99,8 @@ difftest_lm <- function(x1, x2, model){
   diffse <- sqrt(vardiff)
   tdiff <- (diffest)/(diffse)
   ptdiff <- 2*(1-pt(abs(tdiff), model$df, lower.tail=T))
-  upr <- diffest + 1.96*diffse
-  lwr <- diffest - 1.96*diffse 
+  upr <- diffest + qt(.975, df = model$df)*diffse # will usually be very close to 1.96
+  lwr <- diffest + qt(.025, df = model$df)*diffse
   df <- model$df
   return(list(est=round(diffest, digits =2), 
               t=round(tdiff, digits = 2), 

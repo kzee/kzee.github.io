@@ -539,7 +539,9 @@ to_string &lt;- as_labeller(c(`208` = pasteround(subset(sub, id == 208)$mslp),
 <pre class="r"><code>outpred$draw &lt;- NA
 d$draw &lt;- NA</code></pre>
 <p>Next, we will plot just the first piece of information: posterior draws. We will use ggplot to do this. We begin by filling in our dataframe, <code>sub</code>, and specifying that we want to plot <code>valenceE</code> against <code>pred</code>, the predicted values for each posterior draw. We will also want to set group to <code>draw</code>, which means that each draw from the posterior will be plotted one on top of the other. The next line, <code>geom_line</code>, indicates that we want to have a line connecting values of <code>pred</code>. We set the size to be small and the alpha (transparency) to be low so that we can see all of the individual posterior draws clearly. We can then use <code>facet_wrap</code> as a way to ask ggplot to put each participant (given by <code>id</code>) into their own plot. The remaining lines of code are for aesthetic purposes (e.g., labeling the axes).</p>
-<pre class="r"><code>panelggpost &lt;- ggplot(sub,  aes(x = valenceE, y = pred, group = draw)) +
+<pre class="r"><code>library(ggplot2)
+library(ggthemes)
+panelggpost &lt;- ggplot(sub,  aes(x = valenceE, y = pred, group = draw)) +
   geom_line(size = .1, alpha = .05, color = &quot;dodgerblue2&quot;) +
   facet_wrap(&quot;id&quot;, nrow = 1, labeller = to_string) +
   theme_few() + xlab(&quot;\nTrait Valence&quot;) + ylab(&quot;Reaction Time (log ms)&quot;) +

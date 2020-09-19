@@ -1,0 +1,212 @@
+---
+title: "Bayesian Dyadic Multilevel Modeling"
+output: 
+  html_document:
+    toc: true
+    toc_float: false
+    includes:
+      after_body: footer2.html
+---
+
+<font size="3">
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = T)
+```
+
+#Overview
+In this demo, I will show how to model intensive longitudinal data of distinguishable dyads using a Bayesian approach. 
+
+For those less familiar with dyadic analysis, it is an extremely interesting and important type of analysis that is useful for cases where we are interested in examining multiple outcomes with meaningful grouping. A classic example of this is the case of married couples, where X and Y variables are measured repeatedly for each partner in a couple. As may seem obvious, when working with individuals who are grouped in dyads, we cannot treat the individuals in the dyad as being separate individuals. They are *nonindependent* and by virtue of their relationship, they are going to show associations in their data that would not be expected for two randomly paired individuals. 
+
+The "distinguishable" part of distinguishable dyads indicates that the individuals within a dyad have some differentiating feature that they carry with them for the duration of the study. Returning to the earlier example, heterosexual married couples are an example of a distinguishable dyad: There is a wife and a husband, and these roles are fixed throughout the study. Parent and child would be another example, or supervisor and employee. 
+
+The analysis of dyadic intensive longitudinal data, such as those collected from daily diary studies or laboratory studies with intensively sampled measurements, is discussed in the book [*Intensive Longitudinal Methods: An Introduction to Diary and Experience Sampling Research* by Niall Bolger and J-P Laurenceau (2013)](http://intensivelongitudinal.com/){target="_blank"}. The purpose of this demo is to show how their example analysis from Chapter 8 can be implemented in a Bayesian framework using the *brms* package in R. 
+
+*brms* offers some key advantages to this kind of analysis. First, as discussed in Chapter 8, most multilevel software programs can only handle a single outcome. But, dyadic data are multivariate: There is an outcome measure for each partner. Typically, this issue can be circumvented by stacking one's dataset and using dummy coded variables to estimate effects separately for each dyad member within one model. *brms* can handle true multivariate models, however, which bypasses the need for stacking the data, thereby saving some time at the data processing stage. Second, currently available R packages for multilevel modeling using maximum likelihood estimation do not presently allow one to estimate all features of a dyadic multilevel model. This comes in in the error structures. As discussed in Chapter 8, it is advisable to use what is known as an UN\@AR(1) error structure, which combines both an autocorrelation part and a cross-partner correlation part on the residuals. The `nlme` package can estimate an AR(1) error structure OR correlated residuals between dyad members, but not both. The `lme4` package does not allow not allow the user to specify error structures. `brms`, however, can do both. And as we will see in a moment, it is also advantageous because it can generate separate AR(1) estimates for each partner; to my knowledge, this is not currently supported in `nlme`. 
+
+Now that we have some background, on to the analysis!
+
+<br>
+
+# Dyads Chapter (Ch. 8) Example from Bolger & Laurenceau (2013)
+We will draw on the example from Chapter 8 of Bolger & Laurenceau's wonderful book. 
+
+<br>
+
+#Load Packages
+
+```{r}
+library(dplyr)
+library(data.table)
+library(brms)
+```
+
+
+<br>
+
+# Read in Data
+We can pull in the data directly from the [book's website](http://www.intensivelongitudinal.com){target="_blank"}. 
+```{r}
+
+c <- as.data.frame(
+  fread("curl http://www.intensivelongitudinal.com/ch8/ch8R.zip | tar -xf- --to-stdout *dyads.csv")
+)
+
+head(c)
+
+
+```
+
+<br>
+
+# Reformat Data
+As discussed above, `brms` can estimate "true" multivariate models, so there is no need to stack the dataset and use dummies for female and male, as with `nlme` and `lme4`. But, we still need to do some pre-processing of the data for use with *brms*: The data needs to be arranged such that there is one row per timepoint per dyad, with separate columns for male and female variables
+
+<br>
+
+##A. Subset out female partner observations and rename columns with prefix "f_"
+First, we will subset out the data for the female partner. We will then relabel the columns, adding the prefix "f_" to most variable names to indicate that they refer to the female partner. 
+```{r}
+ch8_f <- subset(c, female == 1)
+colnames(ch8_f) <- c("coupleid", "f_personid", "time", 
+                     "time7c", "gender", "female", "male", "f_reldis",
+                     "f_wrkstrs", "f_wrkstrsc", "f_wrkstrscb", "f_wrkstrscw")
+head(ch8_f)
+```
+
+
+<br>
+
+##B. subset out male partner observations and rename columns with prefix "m_", also remove duplicated columns that we don't need
+We will do something similar for the male partner's data. Note that we have also used the pipe (`%>%`) from the `dplyr` package to also indicate that we want to drop the variables `time7c`, `gender`, `male`, and `female` from our dataset. The reason for dropping these variables is that we are going to bind the columns from the female partners' data and the columns from the male partners' data together in a next step. This would lead to duplicated columns that we don't actually need for our analysis. 
+```{r}
+ch8_m <- subset(c, male == 1) %>% dplyr::select(-time7c, -gender, -male, -female)
+colnames(ch8_m) <- c("coupleid", "m_personid", "time", 
+                     "m_reldis", "m_wrkstrs", "m_wrkstrsc", "m_wrkstrscb", "m_wrkstrscw")
+head(ch8_m)
+```
+
+<br>
+
+##C. Merge dataframes with female data and male data. 
+Next, we will merge the two partial datasets together--the data for female partners and for the male partners. We will merge the data by `coupleid`, which is shared by couple members, and by `time`, to preserve information about the time dependency. 
+```{r}
+ch8 <- merge(ch8_f, ch8_m, by = c("coupleid", "time"))
+head(ch8)
+```
+
+<br>
+
+# Fit Model
+Now that are our data are prepped and formatted correctly, we are now ready for the analysis. 
+
+<br>
+
+##D. Set up brms formulas
+The first step is to set up the brms formulas, with the `bf()` function. This will specify the models that we want to fit. As you can see below, we will set up two brms formulas: one for female partner and one for male partner.
+
+For each partner, we are modeling relationship dissatisfaction as a function of an intercept term, time (centered), within-person centered work stressors, and between-person centered work stressors as fixed effects. We also model random intercepts and random slopes of time and work stressors for each subject. Note that the latter variables were already centered accordingly when we got the data from the book's websites. 
+
+A difference in syntax compared to most *brms* models (and other multilevel packages) is the `|p|` term. `|p|` indicates that we want to model correlations of random effects (the choice of the letter p is arbitrary). To get cross-partner correlations, the letter inside || should be the same in both formulas. For our purposes, those cross-partner correlations are potentially very interesting and important (e.g., do female partners who show stronger effects of work stressors on relationship dissatisfaction have male partners who also show stronger effects of work stressors on relationship dissatisfaction?). 
+
+As a finale note, I have modeled the (fixed) intercept with the code `O + intercept` rather than writing in `1` or nothing at all (the default). This won't make a difference for our purposes, but this method of modeling the intercept can be useful in cases where we want to set common priors for intercepts and slopes. We are not setting priors here (we use the default priors, which range from -$\infty$ to +$\infty$), so it won't make a difference in terms of the estimates. But just mentioning it here to clarify.
+
+```{r}
+f_model <- bf(f_reldis ~ 0 + intercept + time7c + f_wrkstrscw + f_wrkstrscb + (time7c + f_wrkstrscw |p| coupleid))
+
+m_model <- bf(m_reldis ~ 0 + intercept + time7c + m_wrkstrscw + + m_wrkstrscb + (time7c + m_wrkstrscw |p| coupleid))
+
+```
+
+<br>
+
+##E. Plug in the two bfs into a brm model. 
+Now that we have specified our brms formulas, we can put them into a model usign the `brm()` function. 
+
+By default, multivariate models in *brms* model correlated residuals, which is useful since this is a dyadic analysis and it is entirely plausible that there will be other variables that explain the relationship between dyad members' outcomes that we didn't not explicitly model. 
+
+We can also specify an AR(1) error structure, given by the `autocor = cor_ar(~ time7c | coupleid, p = 1)`. The `p = 1` part indicates the lag. For our purposes, this part is unnecessary to specify, as `cor_ar` defaults to AR(1) already. 
+
+As a note, the model sometimes produces warnings about adding more iterations. For a paper, I would probably rerun the analysis and increase the number of iterations. But, this is a demo and the results are extremely similar to those reported in the Bolger & Laurenceau book, so it is not essential for our purposes. 
+
+
+```{r, echo = F}
+fit <- readRDS("/Users/zeekatherine/Desktop/R Files/Intensive_Longitudinal/Ch8R/B&Lch8_dyads_brms.rds")
+
+```
+
+```{r, eval = F}
+fit <- brm(f_model + m_model, data = ch8, 
+           seed = 111, # set a seed to ensure reproducibility
+           iter = 8000, # number of iterations
+           autocor = cor_ar(~ time7c | coupleid, p = 1))
+
+```
+
+<br>
+
+Be advised that this model might take awhile (several hours) to run! You can save your model object so you don't have to run the model from scratch each time you start a new R session. It will automatically save the model object .rds file to your working directory unless you set another location as part of the filename. 
+```{r, eval = F}
+saveRDS(fit, "my_brms_model.rds")
+
+# To load the model object in a fresh R session:
+fit <- readRDS("my_brms_model.rds")
+```
+
+<br>
+
+Onto the results!
+```{r}
+fit
+```
+
+<br>
+
+As seen from the model output, coefficients with the prefix `freldis_` correspond to effects on the female partner's outcome, and those with the prefix `mreldis_` correspond to effects on the male partner's outcomes. Normally, effects for female and male partners would be indicated through the use of dummy variables, but because of *brms* can estimate multivariate models, with two (or more), outcomes, we can get these separate effects automatically from our model set-up. 
+
+We also see that we have estimates of model parameters that are noteworthy for dyadic intensive longitudinal models, such as AR(1) errors, separate residual standard deviations, and a residual correlation between dyad members' outcomes. Of note, other programs, such as SAS, that also allow one to model these parameters typically generate one estimate of autocorrelation that is pooled across partners. So an advantage of *brms* is that we can get separate AR(1) estimates for each partner. 
+
+We also see that, thanks to the `|p|` part of our code in the `bf()` objects, we also get correlations among random effects across partners. For instance, `cor(freldis_f_wrkstrscw,mreldis_m_wrkstrscw)` gives us the correlation between the female partner's effect of work stressors on her relationship dissatisfaction and the male partner's effect of work stressors on his relationship dissatisfaction.
+
+<br>
+
+#Fit Model with Maximum Likelihood (`nlme`) to compare
+How do our results compare to what we get using traditional maximum likelihood estimation? 
+
+Here is the model using the stacked data approach, with dummy variables, in the `nlme` package (code drawn from this [excellent tutorial](https://quantdev.ssri.psu.edu/tutorials/apa-ati-intensive-longitudinal-data-session-m-dyadic-multilevel-model){target="_blank"} from the QuantDev group at Penn State). We can get separate error terms for each partner and a residual correlation, but not an AR(1) error structure. 
+
+Another difference is that the model did not converge with random slopes for time included, so they have been omitted here. 
+```{r} 
+library(nlme)
+fit_nlme <- lme(fixed=reldis ~ male + female + male:time7c + female:time7c +
+               male:wrkstrscw + female:wrkstrscw +
+               male:wrkstrscb + female:wrkstrscb + -1, 
+             control=list(maxIter=1000), data=c,
+             random=~male + female + male:wrkstrscw + female:wrkstrscw + -1| coupleid, 
+             weights=varIdent(form = ~1 | gender), 
+             corr=corCompSymm(form = ~1 | coupleid/time))
+summary(fit_nlme)
+
+```
+
+<br>
+
+How do our results using `nlme` compare to those we got using `brms`? We generally see that the fixed effects are largely the same across the two analyses. The residual standard deviations and residual correlation are also very similar. As noted above, random effects for time could not be included in the `nlme` version due to convergence issues, and we don't have the AR(1) error structure. We could have specified the AR(1) error structure but would have had to sacrifice the residual correlation component in order to do so. 
+
+A trade-off is that Bayesian models can take a very long time to run (i.e., several hours, or for very complex models, even a whole day). But in my opinion, the added benefits of the Bayesian analysis make it worth the extra time and effort, and this is the route I would most likely go myself for analyzing dyadic intensive longitudindal data. 
+
+
+</font> 
+
+<br>
+
+<font size="2"> 
+*[View .Rmd source code](/Users/zeekatherine/Desktop/WorkSchool/kzee.github.io/DyadicMLM_Demo.Rmd){target="_blank"}*
+</font> 
+<font size="2"> 
+\
+*updated June 14, 2020*
+</font> 
+
+ <a href="#top">Back to top</a>

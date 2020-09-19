@@ -1,0 +1,38 @@
+---
+title: "Generalized Multilevel Modeling"
+output: 
+  html_document:
+    toc: true
+    toc_float: false
+    includes:
+      after_body: footer2.html
+---
+
+<font size="3">
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = T)
+```
+
+#Overview
+In this demo, I will discuss some issues relating to generalized multilevel modeling. This demo builds on R code and materials I presented as part of the [APA Advanced Training Institute](https://www.apa.org/science/resources/ati/){target="_blank"} workshop on [Intensive Longitudinal Data Analysis in June 2020](https://longitudinalresearchinstitute.com/){target="_blank"}.
+
+You can see a [great tutorial on generalized multilevel modeling by Xiao Yang](https://quantdev.ssri.psu.edu/tutorials/apa-ati-intensive-longitudinal-data-session-j-generalized-multilevel-model-poisson){target="_blank"}, who covered this topic for the 2019 Intensive Longitudinal Data Analysis version of the workshop. 
+
+Here, I will cover similar concepts using a different example and also discuss how to interpret the model output. 
+
+
+
+</font> 
+
+<br>
+
+<font size="2"> 
+*[View .Rmd source code](/Users/zeekatherine/Desktop/WorkSchool/kzee.github.io/GLMM_Demo.Rmd){target="_blank"}*
+</font> 
+<font size="2"> 
+\
+*updated June 14, 2020*
+</font> 
+
+ <a href="#top">Back to top</a>

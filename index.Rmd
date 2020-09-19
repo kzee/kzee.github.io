@@ -34,7 +34,7 @@ knitr::include_graphics("images/KatherineZee.jpeg")
 \
 I am a PhD Candidate in Psychology at [Columbia University](https://psychology.columbia.edu/){target="_blank"}. 
 
-My research focuses on the intersection of social support (practical and emotional help from close others) and self-regulation.
+My research focuses on the intersection of interpersonal relationships and self-regulation.
 
 
 My CV is available [here](files/KatherineZeeCV.pdf){target="_blank"}.

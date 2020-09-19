@@ -14,108 +14,116 @@ output:
 
 <br>
 
-## Graduate Teaching, Columbia University  
+
+
+## Management Teaching
+<br>
+
+####Leadership in Organizations, London Business School, 2013 <br>
+- Role: Teaching Assistant 
+- Level: Graduate (Masters in Management students)
+- Supervisor: Dr. Xi Zou
+
+<br>
+<br>
+
+## Psychology Teaching  
 
 <br>
 
-####Stress in an Interpersonal Context (advanced undergraduate seminar), Spring 2020 <br>
-- Role: Lead Instructor, [Teaching Scholars Program, Columbia University](https://gsas.columbia.edu/student-guide/teaching/gsas-teaching-scholars-program){target="_blank"}  
+####Stress in an Interpersonal Context (advanced undergraduate seminar), Columbia University, 2020 <br>
+- Role: Instructor of Record. Developed course and designed syllabus. <br>
+- Level: Undergraduate (advanced seminar) <br>
 - *Note: Formal teaching evaluations were not collected due to COVID-19 outbreak*
 <br>
 <br>
 
-####Introduction to Statistical Modeling in Psychology (graduate course), Fall 2019 <br>
-- Role: Teaching Assistant with weekly 2-hr lab <br>
-- Supervisor: Niall Bolger 
-- Evaluation: Mean = 5.0/5, Median = 5.0/5
+
+####Social Psychology, Barnard College, 2019 <br>
+- Role: Grader <br>
+- Level: Undergraduate <br>
+- Supervisor: Dr. Colin Leach <br>
+- Guest Lecture: "Interpersonal Relationships" 
 <br>
 <br>
 
-####Introduction to Social Cognition, 2019 <br>
+####Introduction to Social Cognition, Columbia University, 2019 <br>
 - Role: Guest Lecturer, "Social Support and Emotion" 
 <br>
 <br>
 
-####Analysis of Change (graduate course on multilevel modeling), 2018 <br>
-- Role: Teaching Assistant with weekly 2-hr lab <br>
-- Supervisor: Niall Bolger <br>
-- Evaluation: Mean = 4.6/5, Median = 5.0/5 
-<br>
-<br>
-
-####Psychophysiological Methods & Analysis (graduate course), 2018 <br>
-- Role: Guest Lecturer, "Dyadic Psychophysiological Methods & Analysis" 
-<br>
-<br>
-
-####Psychophysiological Methods & Analysis (graduate course), 2016 <br>
-- Role: Teaching Assistant with weekly 2-hr lab <br>
-- Supervisor: Niall Bolger <br>
-- Evaluation: Mean = 5.0/5, Median = 5.0/5 
-<br>
-<br>
-
-####Research Methods: Social Cognition and Emotion, 2015 – 2017 <br>
+####Research Methods: Social Cognition and Emotion, Columbia University, 2015 – 2017 <br>
 - Role: Teaching Assistant with weekly 2-hr lab (5 sections over 3 semesters) <br>
-- Supervisor: Kevin Ochsner <br>
+- Level: Undergraduate <br>
+- Supervisor: Dr. Kevin Ochsner <br>
 - 2015 Evaluation: Mean = 4.7/5, Median = 5.0/5 <br>
 - 2016 Evaluation: Mean = 4.2/5, Median = 5.0/5 <br> 
 - 2017 Evaluation: Mean = 4.8/5, Median = 5.0/5 
 <br>
 <br>
 
-####The Science of Psychology, 2015 <br>
+####The Science of Psychology, Columbia University, 2015 <br>
 - Role: Teaching Assistant <br>
+- Level: Undergraduate <br>
 - Guest Lecture: "Attachment Across the Lifespan" <br>
 - Supervisor: Patricia Lindemann <br>
 - Evaluation: Mean = 4.2/5, Median = 4.0/5 
 <br>
 <br>
 
+
+####General Foundations of Psychology, Birkbeck, University of London, 2012 – 2013 <br>
+- Role: Seminar Leader (led weekly 2-hr seminar, 2 sections over 2 terms) <br>
+- Level: Undergraduate <br>
+- Supervisor: Simon Green
+<br>
 <br>
 
-## Other Teaching	
+<br>
+
+## Statistics Teaching
 
 
 <br>
 
 ####[APA Advanced Training Institute](https://www.apa.org/science/resources/ati/){target="_blank"}: [Intensive Longitudinal Data Analysis, 2020](https://longitudinalresearchinstitute.com/){target="_blank"} <br>
-- Role: Instructor
-- Lead Instructors: Nilam Ram, Kevin Grimm, Niall Bolger, & Jean-Philippe Laurenceau
-- Labs: Generalized Multilevel Modeling, Moderated 1-1-1 Within-Person Mediation Analysis
+- Role: Lab Instructor <br>
+- Level: Graduate/Professional (PhD students and faculty in social science disciplines) <br>
+- Lead Instructors: Drs. Nilam Ram, Kevin Grimm, Niall Bolger, & Jean-Philippe Laurenceau
+- Labs Taught: Generalized Multilevel Modeling, Moderated 1-1-1 Within-Person Mediation Analysis <br>
 <br>
 <br>
 
-####Social Psychology, Barnard College, 2019 <br>
-- Role: Grader <br>
-- Supervisor: Colin Leach <br>
-- Guest Lecture: "Interpersonal Relationships" 
+
+####Introduction to Statistical Modeling in Psychology (graduate course), Columbia University, 2019 <br>
+- Role: Teaching Assistant with weekly 2-hr lab taught in R <br>
+- Level: Graduate (PhD students in Psychology) <br>
+- Supervisor: Niall Bolger <br>
+- Evaluation: Mean = 5.0/5, Median = 5.0/5
 <br>
 <br>
 
-####Leadership in Organizations, London Business School, 2013 <br>
-- Role: Teaching Assistant <br>
-- Supervisor: Xi Zou
+####Analysis of Change (graduate course on multilevel modeling), Columbia University, 2018 <br>
+- Role: Teaching Assistant with weekly 2-hr lab taught in R <br>
+- Level: Graduate (PhD students in Psychology and Management) <br>
+- Supervisor: Niall Bolger <br>
+- Evaluation: Mean = 4.6/5, Median = 5.0/5 
 <br>
 <br>
 
-####General Foundations of Psychology, Birkbeck, University of London, 2012 – 2013 <br>
-- Role: Seminar Leader (led weekly 2-hr seminar, 2 sections over 2 terms) <br>
-- Supervisor: Simon Green
+####Psychophysiological Methods & Analysis (graduate course), Columbia University, 2018 <br>
+- Role: Guest Lecturer, "Dyadic Psychophysiological Methods & Analysis" 
 <br>
 <br>
 
-####Introduction to Developmental Psychology, Columbia University, 2012 <br>
-- Role: Undergraduate Teaching Assistant <br>
-- Supervisor: Lois Putnam
+####Psychophysiological Methods & Analysis (graduate course), Columbia University, 2016 <br>
+- Role: Teaching Assistant with weekly 2-hr lab <br>
+- Level: Graduate (PhD students in Psychology and Management) <br>
+- Supervisor: Niall Bolger <br>
+- Evaluation: Mean = 5.0/5, Median = 5.0/5 
 <br>
 <br>
 
-####The Science of Psychology, Columbia University, 2011 <br>
-- Role: Undergraduate Teaching Assistant <br>
-- Supervisor: Patricia Lindemann
-<br>
-<br>
 
 <br>
 
@@ -132,3 +140,5 @@ For my teaching and mentoring effectiveness, I received Columbia University's [P
 
 
 </font> 
+
+ <a href="#top">Back to top</a>

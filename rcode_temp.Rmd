@@ -1,0 +1,69 @@
+---
+title: "R Code"
+output: 
+  html_document:
+    includes:
+      after_body: footer.html
+---
+
+<font size="3">
+
+<br>
+
+Below are some example R scripts I compiled for analyses and plotting. \
+More R code is available on my [Github page](https://github.com/kzee){target="_blank"}.
+
+<br>
+
+### [Interaction Effects from Regression Models: Plotting & Simple Slopes](Interactions_Demo.html)
+This demo shows how to fit a regression model with interaction effects, plot the results, and run tests on the simple slopes. 
+
+<br>
+
+### [Testing for Differences between Two Coefficients](CoeffDiff_Demo.html)
+This demo shows how to test whether two regression coefficients are significantly different from each other using both **Frequentist** and **Bayesian** approaches (with the `brms` package).
+
+<br>
+
+### [Within- and Between-Subject Centering](Centering_Demo.html)
+This demo walks through three different approaches to computing within- and between-subject centered variables in R in preparation for a multilevel analysis. 
+
+<br>
+
+### [Plotting Fixed Effects from Multilevel Models](PlotFixef_Demo.html)
+This demo shows how to plot fixed (average) effects from a multilevel model, including how to do so while accounting for a covariate. The demo includes how to plot results from both **Frequentist** models (using the `lme4` package) and **Bayesian** models (using the `brms` package). 
+
+
+<br>
+
+### [Visualizing Subject-Specific Effects and Posterior Draws](PanelPlot_Demo.html)
+This demo shows how to generate panel plots to visualize between-subject heterogeneity in psychological effects, including subject-specific model predictions, raw data points, and draws from the posterior distribution using a Bayesian mixed effects (multilevel) model. 
+
+<br>
+
+### [Spaghetti Plot of Multilevel Logistic Regression](LogisticSpaghetti_Demo.html)
+This demo shows how to create a spaghetti plot of predicted values from a Bayesian multilevel logistic model. 
+
+<br>
+
+### [Aggregating Physiological Data from Mindware Files](AggregatePhysio_Demo.html)
+This demo shows how to use R to aggregate data from individual Excel files from Mindware, a popular physio scoring software, into one aggregated file that contains data for all participants in long form. 
+
+<br>
+
+
+### [Bayesian Dyadic Multilevel Modeling](DyadicMLM_Demo.html)
+This demo walks through setting up a dyadic multilevel model with Bayesian estimation using the *brms* package for R. Here, I highlight the advantages of *brms* for this kind of model and provide code for formatting the data, fitting the model, and comparing the results to those returned by the *nlme* package. 
+
+
+<br>
+
+### [Paper Writing Helper Functions](PaperFunctions_Demo.html)
+
+<br>
+
+<br>
+<br>
+</font> 
+
+<a href="#top">Back to top</a>

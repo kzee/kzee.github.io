@@ -237,7 +237,8 @@ library(ggplot2)
 ```
 
 ```{r, cache = F}
-
+library(ggplot2)
+library(ggthemes)
 panelggpost <- ggplot(sub,  aes(x = valenceE, y = pred, group = draw)) +
   geom_line(size = .1, alpha = .05, color = "dodgerblue2") +
   facet_wrap("id", nrow = 1, labeller = to_string) +
