@@ -16,7 +16,8 @@ output:
 
 ## Published Papers
 
-**Zee, K. S.**, Bolger, N., & Higgins, E. T. (2020). [Regulatory effectiveness of social support](http://dx.doi.org/10.1037/pspi0000235){target="_blank"}. *Journal of Personality and Social Psychology.* [(Datasets & R Code)](https://github.com/kzee/zee-res){target="_blank"}
+**Zee, K. S.**, Bolger, N., & Higgins, E. T. (2020). [Regulatory effectiveness of social support](http://dx.doi.org/10.1037/pspi0000235){target="_blank"}. *Journal of Personality and Social Psychology.* [(Datasets & R Code)](https://github.com/kzee/zee-res){target="_blank"} \
+*Winner: Graduate Student Paper Award, Relationship Researchers Interest Group, SPSP*
 
 Rossignac-Milon, M., Bolger, N., **Zee, K. S.**, Boothby, E., Higgins, E. T. (2020). [Merged minds: Generalized shared reality in dyadic relationships](https://psycnet.apa.org/record/2020-51514-001){target="_blank"}. *Journal of Personality and Social Psychology.*
 
@@ -42,9 +43,9 @@ Cavallo, J. V., **Zee, K. S.**, Higgins, E. T. (2016). [Giving what is needed: R
 
 <br>
 
-## Papers Under Review
+## Papers In Revision
 
-**Zee, K. S.**, & Bolger, N. (under review). Physiological coregulation during social support interactions. Under review. [Preprint](https://psyarxiv.com/83hpa){target="_blank"}.
+**Zee, K. S.**, & Bolger, N. (revise & resubmit). Physiological coregulation during social support interactions. [Preprint](https://psyarxiv.com/83hpa){target="_blank"}.
 
 <br>
 
