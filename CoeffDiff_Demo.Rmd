@@ -240,7 +240,7 @@ Another thing to add is that in the example above, our predictors were measured 
 &nbsp;
 <hr />
 <!--  <p> Copyright &copy; 2019 Katherine S. Zee. All rights reserved. </p>   -->
-<p style="text-align: center;"><span style="color: #808080;"><em>kzee@psych.columbia.edu</em></span></p>
+<p style="text-align: center;"><span style="color: #808080;"><em>katherinezeephd@gmail.com</em></span></p>
 </font> 
 
 <!-- Add icon library -->

@@ -141,8 +141,8 @@ As you can see, there are multiple ways of getting us to the same place. I don't
 
 &nbsp;
 <hr />
-<!--  <p> Copyright &copy; 2019 Katherine S. Zee. All rights reserved. </p>   -->
-<p style="text-align: center;"><span style="color: #808080;"><em>kzee@psych.columbia.edu</em></span></p>
+<!--  <p> Copyright &copy; 2021 Katherine S. Zee. All rights reserved. </p>   -->
+<p style="text-align: center;"><span style="color: #808080;"><em>katherinezeephd@gmail.com</em></span></p>
 </font> 
 
 <!-- Add icon library -->
