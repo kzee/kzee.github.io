@@ -37,8 +37,7 @@ output:
 <br>
 <br>
 
-####Analysis of Change (graduate course on multilevel modeling), Columbia University
-<br>
+####Analysis of Change (graduate course on multilevel modeling), Columbia University <br>
 - Role: Teaching Assistant with weekly 2-hr lab taught in R <br>
 - Level: Graduate (PhD students in Psychology and Management) <br>
 - Supervisor: Niall Bolger <br>
@@ -46,14 +45,12 @@ output:
 <br>
 <br>
 
-####Psychophysiological Methods & Analysis (graduate course), Columbia University
-<br>
+####Psychophysiological Methods & Analysis (graduate course), Columbia University <br>
 - Role: Guest Lecturer, "Dyadic Psychophysiological Methods & Analysis" 
 <br>
 <br>
 
-####Psychophysiological Methods & Analysis (graduate course), Columbia University
-<br>
+####Psychophysiological Methods & Analysis (graduate course), Columbia University <br>
 - Role: Teaching Assistant with weekly 2-hr lab <br>
 - Level: Graduate (PhD students in Psychology and Management) <br>
 - Supervisor: Niall Bolger <br>
