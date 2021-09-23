@@ -32,7 +32,7 @@ knitr::include_graphics("images/KatherineZee.jpeg")
 
 <font size="4"> 
 \
-I am quantitative behavioral scientist with over 11 years of experience leading collaborative and independent projects in both academic and corporate settings. I received my PhD in Psychology from Columbia University. 
+I am social psychologist with expertise in statistical methods, interpersonal relationships, and self-regulation and motivation. I received my PhD in Psychology from Columbia University. 
 
 
 My academic CV is available [here](files/KatherineZeeCV.pdf){target="_blank"}.
