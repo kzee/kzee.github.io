@@ -22,7 +22,8 @@ In this demo, we will create subject-specific panel plots. These plots will show
 For this demo, we will use the `brms` package to fit the model and `ggplot2` to generate the panel plots. We will also use additional packages to assist with data manipulation (`dplyr`, `tidyr`) and plot aesthetics (`ggthemes`). 
 ```{r libraries, echo = TRUE, results = 'hide', message = FALSE}
 library(brms) 
-library(tidyverse)
+library(dplyr)
+library(tidyr)
 library(ggplot2)
 library(ggthemes)
 
@@ -64,16 +65,16 @@ fit <- brm(logrt ~ valenceE + (valenceE | id), data = d, seed = 111)
 ```
 ```{r, echo = F}
 library(broom)
-fit_tidy <- tidy(fit, prob = .95)
+fit_tidy <- as.data.frame(fit)
 ```
 
 <br>
 
 # View the Model Summary
-As the results summary shows, the slope of valenceE is `r round(brms::fixef(fit)["valenceE", "Estimate"], 2)` log ms for the typical person. However, there is also substantial between-subject heterogeneity in this effect, given by the standard deviation of this effect, `r round(subset(fit_tidy, term == "sd_id__valenceE")$estimate, 2)`. 
+As the results summary shows, the slope of valenceE is `r round(brms::fixef(fit)["valenceE", "Estimate"], 2)` log ms for the typical person. However, there is also substantial between-subject heterogeneity in this effect, given by the standard deviation of this effect, `r round(summary(fit)$random$id["sd(Intercept)", "Estimate"], 2)`. 
 
 ```{r}
-fit
+summary(fit)
 ```
 
 <br>
@@ -116,7 +117,7 @@ p <- posterior_samples(fit)
 # Pull Out Subject-Specific Posterior Samples for Intercept and Slope
 Next, we will pull out the posterior samples for the intercept and slope for each participant. We will also put these posterior samples into long format (one row per sample, resulting in many rows per participant). We will also add new columns: one each for the person-specific mean for the slope and intercept, and one indicating which draw (sample) each row corresponds to.
 
-To do this, we will use the help of the `dplyr` and `tidyr` packages, which are both loaded with `tidyverse`. We will first select out the columns that correspond to the fixed effects (indicated with the prefix `b_`) as well as the log posterior (`lp`) or random effects (`sd` and `cor`). We will then select in any columns that contain `Intercept`. By having selected out the columns in the previous step, we are left with person-specific draws for the intercept. The next step from here is to use `gather` from the `tidyr` package to put the person-specific posterior draws into long form. We will use `mutate` to add the new columns described above for the person mean intercept (and slope in the next block of code) and number of draws. Finally, we will use the `parse_number` function form `readr` to eliminate any non-numeric characters from our id column, as the id column has been populated with a string corresponding to the column names for the posterior draws in brms (e.g., `r_id[201,Intercept]` becomes `201`). We can then repeat the same steps to get the slope of `valenceE`. 
+To do this, we will use the help of the `dplyr` and `tidyr` packages. We will first select out the columns that correspond to the fixed effects (indicated with the prefix `b_`) as well as the log posterior (`lp`) or random effects (`sd` and `cor`). We will then select in any columns that contain `Intercept`. By having selected out the columns in the previous step, we are left with person-specific draws for the intercept. The next step from here is to use `gather` from the `tidyr` package to put the person-specific posterior draws into long form. We will use `mutate` to add the new columns described above for the person mean intercept (and slope in the next block of code) and number of draws. Finally, we will use the `parse_number` function form `readr` to eliminate any non-numeric characters from our id column, as the id column has been populated with a string corresponding to the column names for the posterior draws in brms (e.g., `r_id[201,Intercept]` becomes `201`). We can then repeat the same steps to get the slope of `valenceE`. 
 ```{r}
 pint <- p %>% dplyr::select(-contains("b_"), -contains("lp"), 
                      -contains("sd"), -contains("cor")) %>% 
@@ -298,7 +299,7 @@ And there it is! We have a very nice set of panel plots for five participants.
 <br>
 
 # Why Make Panel Plots with Posterior Draws?
-As seen from the steps above, generating subject-specific panel plots with posterior draws is somewhat labor intensive. However, I believe that the value of these plots make them well worth the effort. First, as implied in our paper, displaying individual-specific effects generally (even without posterior draws) helps illustrate the importance of paying attention to between-subject heterogeneity in effects. From the panel plots, we can easily see that some participants show especially strong effects of the trait valence manipulation, whereas others do not. By adding in the posterior draws, we can also get a sense of the precision/uncertainty of our estimates. Unlike the typical way of depicting a 95% CI, in which there is a uniform swath of color around the fitted line, displaying the posterior draws makes it more apparent that there is often a concentration of possible values from the posterior, indicated by the darker regions in the plots we just generated. Seeing the individual draws also helps to reinforce some of the key ideas in Bayesian statistics compared Frequentists statistics, namely that we end up with a distribution of possible estimates rather than a single estimate. This also allows us to see what is effectively the 100% credibility interval for each person, as every posterior draw is displayed. 
+As seen from the steps above, generating subject-specific panel plots with posterior draws is somewhat labor intensive. However, I believe that the value of these plots make them well worth the effort. First, as implied in our paper, displaying individual-specific effects generally (even without posterior draws) helps illustrate the importance of paying attention to between-subject heterogeneity in effects. From the panel plots, we can easily see that some participants show especially strong effects of the trait valence manipulation, whereas others do not. By adding in the posterior draws, we can also get a sense of the precision/uncertainty of our estimates. Unlike the typical way of depicting a 95% CI, in which there is a uniform swath of color around the fitted line, displaying the posterior draws makes it more apparent that there is often a concentration of possible values from the posterior, indicated by the darker regions in the plots we just generated. Seeing the individual draws also helps to reinforce some of the key ideas in Bayesian statistics compared to Frequentist statistics, namely that we end up with a distribution of possible estimates rather than a single estimate. This also allows us to see what is effectively the 100% credibility interval for each person, as every posterior draw is displayed. 
 
 
 

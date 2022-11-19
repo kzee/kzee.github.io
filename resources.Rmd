@@ -22,14 +22,6 @@ output:
 
 <br>
 
-## Professional Development Resources
-
-- [A Student's Guide to Undergrad Research](https://www.nature.com/articles/d41586-019-00871-x){target="_blank"}
-- [Rmarkdown Websites](https://www.emilyzabor.com/tutorials/rmarkdown_websites_tutorial.html){target="_blank"}
-- [Rock the Postdoc](https://osf.io/tm4pb/){target="_blank"}
-- [The key to a happy lab life is in the manual](https://www.nature.com/articles/d41586-018-06167-w){target="_blank"}
-- [Authorship Guidelines](https://www.apa.org/research/responsible/reflections-authorship.pdf){target="_blank"}
-
 </font> 
 
 

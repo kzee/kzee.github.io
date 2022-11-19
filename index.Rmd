@@ -24,16 +24,11 @@ output:
 # <img src="images/KatherineZee.jpeg" style="border:5px solid black; margin-right: 20px" align="right" width = "500">
 ```
 
-<link rel="stylesheet" href="styles.css" type="text/css">
-<br>
-```{r pressure, echo=FALSE, out.width = '450px', out.extra='style="float:right; padding:40px"'}
-knitr::include_graphics("images/KatherineZee.jpeg")
-```
 
 <font size="4"> 
 \
-I am social psychologist with expertise in statistical methods, interpersonal relationships, and self-regulation and motivation. I received my PhD in Psychology from Columbia University. 
 
+I am Senior Quantitative Researcher with expertise in statistical analysis, research design, and data interpretation. I have over 12 years of experience leading collaborative and independent projects in both corporate and academic settings through all stages of the research process, from hypothesis generation, to data analysis and visualization, to presentation and recommendation. I specialize in designing and executing rigorous research and translating complex data into actionable insights, for which I have garnered international recognition. I hold a PhD, MPhil, MA, and BA with honors from Columbia University. 
 
 My academic CV is available [here](files/KatherineZeeCV.pdf){target="_blank"}.
 

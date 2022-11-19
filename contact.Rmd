@@ -17,8 +17,6 @@ output:
 
 <!-- Add font awesome icons -->
 
-<a href="mailto:katherinezeephd@gmail.com" target="_blank" class="fa fa-envelope"></a>   [katherinezeephd@gmail.com](mailto:katherinezeephd@gmail.com){target="_blank"} 
-
 <a href="https://twitter.com/KatherineZee?lang=en/" target="_blank" class="fab fa-twitter"></a>   [Twitter](https://twitter.com/KatherineZee?lang=en/){target="_blank"} 
 
 <a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a>   [Github](https://github.com/kzee/){target="_blank"} 

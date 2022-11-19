@@ -13,22 +13,36 @@
 
 <title>Teaching</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.12/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -41,32 +55,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -77,10 +67,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -97,40 +83,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 64px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h2 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h3 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h4 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h5 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h6 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -158,7 +120,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -170,7 +132,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -181,10 +143,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -196,7 +171,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -263,7 +237,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -304,7 +278,7 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -318,123 +292,84 @@ $(document).ready(function () {
 <div id="statistics-teaching" class="section level2">
 <h2>Statistics Teaching</h2>
 <p><br></p>
-<div id="apa-advanced-training-institute-intensive-longitudinal-data-analysis" class="section level4">
-<h4><a href="https://www.apa.org/science/resources/ati/" target="_blank">APA Advanced Training Institute</a>: <a href="https://longitudinalresearchinstitute.com/" target="_blank">Intensive Longitudinal Data Analysis</a> <br></h4>
-<ul>
-<li>Role: Lab Instructor <br></li>
-<li>Level: Graduate/Professional (PhD students and faculty in social science disciplines) <br></li>
-<li>Lead Instructors: Drs. Nilam Ram, Kevin Grimm, Niall Bolger, &amp; Jean-Philippe Laurenceau</li>
-<li>Labs Taught: Generalized Multilevel Modeling, Moderated 1-1-1 Within-Person Mediation Analysis <br> <br> <br></li>
-</ul>
-</div>
-<div id="introduction-to-statistical-modeling-in-psychology-graduate-course-columbia-university-2019" class="section level4">
-<h4>Introduction to Statistical Modeling in Psychology (graduate course), Columbia University, 2019 <br></h4>
-<ul>
-<li>Role: Teaching Assistant with weekly 2-hr lab taught in R <br></li>
-<li>Level: Graduate (PhD students in Psychology) <br></li>
-<li>Supervisor: Niall Bolger <br></li>
-<li>Evaluation: Mean = 5.0/5, Median = 5.0/5 <br> <br></li>
-</ul>
-</div>
-<div id="analysis-of-change-graduate-course-on-multilevel-modeling-columbia-university" class="section level4">
-<h4>Analysis of Change (graduate course on multilevel modeling), Columbia University <br></h4>
-<ul>
-<li>Role: Teaching Assistant with weekly 2-hr lab taught in R <br></li>
-<li>Level: Graduate (PhD students in Psychology and Management) <br></li>
-<li>Supervisor: Niall Bolger <br></li>
-<li>Evaluation: Mean = 4.6/5, Median = 5.0/5 <br> <br></li>
-</ul>
-</div>
-<div id="psychophysiological-methods-analysis-graduate-course-columbia-university" class="section level4">
-<h4>Psychophysiological Methods &amp; Analysis (graduate course), Columbia University <br></h4>
-<ul>
-<li>Role: Guest Lecturer, &quot;Dyadic Psychophysiological Methods &amp; Analysis&quot; <br> <br></li>
-</ul>
-</div>
-<div id="psychophysiological-methods-analysis-graduate-course-columbia-university-1" class="section level4">
-<h4>Psychophysiological Methods &amp; Analysis (graduate course), Columbia University <br></h4>
-<ul>
-<li>Role: Teaching Assistant with weekly 2-hr lab <br></li>
-<li>Level: Graduate (PhD students in Psychology and Management) <br></li>
-<li>Supervisor: Niall Bolger <br></li>
-<li>Evaluation: Mean = 5.0/5, Median = 5.0/5 <br> <br></li>
-</ul>
+<p>####<a href="https://www.apa.org/science/resources/ati/"
+target="_blank">APA Advanced Training Institute</a>: <a
+href="https://longitudinalresearchinstitute.com/"
+target="_blank">Intensive Longitudinal Data Analysis</a> <br> - Role:
+Lab Instructor <br> - Level: Graduate/Professional (PhD students and
+faculty in social science disciplines) <br> - Lead Instructors: Drs.
+Nilam Ram, Kevin Grimm, Niall Bolger, &amp; Jean-Philippe Laurenceau -
+Labs Taught: Generalized Multilevel Modeling, Moderated 1-1-1
+Within-Person Mediation Analysis <br> <br> <br></p>
+<p>####Introduction to Statistical Modeling in Psychology (graduate
+course), Columbia University, 2019 <br> - Role: Teaching Assistant with
+weekly 2-hr lab taught in R <br> - Level: Graduate (PhD students in
+Psychology) <br> - Supervisor: Niall Bolger <br> - Evaluation: Mean =
+5.0/5, Median = 5.0/5 <br> <br></p>
+<p>####Analysis of Change (graduate course on multilevel modeling),
+Columbia University <br> - Role: Teaching Assistant with weekly 2-hr lab
+taught in R <br> - Level: Graduate (PhD students in Psychology and
+Management) <br> - Supervisor: Niall Bolger <br> - Evaluation: Mean =
+4.6/5, Median = 5.0/5 <br> <br></p>
+<p>####Psychophysiological Methods &amp; Analysis (graduate course),
+Columbia University <br> - Role: Guest Lecturer, “Dyadic
+Psychophysiological Methods &amp; Analysis” <br> <br></p>
+<p>####Psychophysiological Methods &amp; Analysis (graduate course),
+Columbia University <br> - Role: Teaching Assistant with weekly 2-hr lab
+<br> - Level: Graduate (PhD students in Psychology and Management) <br>
+- Supervisor: Niall Bolger <br> - Evaluation: Mean = 5.0/5, Median =
+5.0/5 <br> <br></p>
 <p><br></p>
-</div>
 </div>
 <div id="management-teaching" class="section level2">
 <h2>Management Teaching</h2>
 <p><br></p>
-<div id="leadership-in-organizations-london-business-school" class="section level4">
-<h4>Leadership in Organizations, London Business School <br></h4>
-<ul>
-<li>Role: Teaching Assistant</li>
-<li>Level: Graduate (Masters in Management students)</li>
-<li>Supervisor: Dr. Xi Zou</li>
-</ul>
+<p>####Leadership in Organizations, London Business School <br> - Role:
+Teaching Assistant - Level: Graduate (Masters in Management students) -
+Supervisor: Dr. Xi Zou</p>
 <p><br> <br></p>
-</div>
 </div>
 <div id="psychology-teaching" class="section level2">
 <h2>Psychology Teaching</h2>
 <p><br></p>
-<div id="stress-in-an-interpersonal-context-advanced-undergraduate-seminar-columbia-university" class="section level4">
-<h4>Stress in an Interpersonal Context (advanced undergraduate seminar), Columbia University <br></h4>
-<ul>
-<li>Role: Instructor of Record. Developed course and designed syllabus. <br></li>
-<li>Level: Undergraduate (advanced seminar) <br></li>
-<li><em>Note: Formal teaching evaluations were not collected due to COVID-19 outbreak</em> <br> <br></li>
-</ul>
-</div>
-<div id="social-psychology-barnard-college" class="section level4">
-<h4>Social Psychology, Barnard College <br></h4>
-<ul>
-<li>Role: Grader <br></li>
-<li>Level: Undergraduate <br></li>
-<li>Supervisor: Dr. Colin Leach <br></li>
-<li>Guest Lecture: &quot;Interpersonal Relationships&quot; <br> <br></li>
-</ul>
-</div>
-<div id="introduction-to-social-cognition-columbia-university" class="section level4">
-<h4>Introduction to Social Cognition, Columbia University <br></h4>
-<ul>
-<li>Role: Guest Lecturer, &quot;Social Support and Emotion&quot; <br> <br></li>
-</ul>
-</div>
-<div id="research-methods-social-cognition-and-emotion-columbia-university" class="section level4">
-<h4>Research Methods: Social Cognition and Emotion, Columbia University <br></h4>
-<ul>
-<li>Role: Teaching Assistant with weekly 2-hr lab (5 sections over 3 semesters) <br></li>
-<li>Level: Undergraduate <br></li>
-<li>Supervisor: Dr. Kevin Ochsner <br></li>
-<li>2015 Evaluation: Mean = 4.7/5, Median = 5.0/5 <br></li>
-<li>2016 Evaluation: Mean = 4.2/5, Median = 5.0/5 <br></li>
-<li>2017 Evaluation: Mean = 4.8/5, Median = 5.0/5 <br> <br></li>
-</ul>
-</div>
-<div id="the-science-of-psychology-columbia-university" class="section level4">
-<h4>The Science of Psychology, Columbia University <br></h4>
-<ul>
-<li>Role: Teaching Assistant <br></li>
-<li>Level: Undergraduate <br></li>
-<li>Guest Lecture: &quot;Attachment Across the Lifespan&quot; <br></li>
-<li>Supervisor: Patricia Lindemann <br></li>
-<li>Evaluation: Mean = 4.2/5, Median = 4.0/5 <br> <br></li>
-</ul>
-</div>
-<div id="general-foundations-of-psychology-birkbeck-university-of-london" class="section level4">
-<h4>General Foundations of Psychology, Birkbeck, University of London <br></h4>
-<ul>
-<li>Role: Seminar Leader (led weekly 2-hr seminar, 2 sections over 2 terms) <br></li>
-<li>Level: Undergraduate <br></li>
-<li>Supervisor: Simon Green <br> <br></li>
-</ul>
+<p>####Stress in an Interpersonal Context (advanced undergraduate
+seminar), Columbia University <br> - Role: Instructor of Record.
+Developed course and designed syllabus. <br> - Level: Undergraduate
+(advanced seminar) <br> - <em>Note: Teaching evaluations were not
+collected due to COVID-19 outbreak</em> <br> <br></p>
+<p>####Social Psychology, Barnard College <br> - Role: Grader <br> -
+Level: Undergraduate <br> - Supervisor: Dr. Colin Leach <br> - Guest
+Lecture: “Interpersonal Relationships” <br> <br></p>
+<p>####Introduction to Social Cognition, Columbia University <br> -
+Role: Guest Lecturer, “Social Support and Emotion” <br> <br></p>
+<p>####Research Methods: Social Cognition and Emotion, Columbia
+University <br> - Role: Teaching Assistant with weekly 2-hr lab (5
+sections over 3 semesters) <br> - Level: Undergraduate <br> -
+Supervisor: Dr. Kevin Ochsner <br> - 2015 Evaluation: Mean = 4.7/5,
+Median = 5.0/5 <br> - 2016 Evaluation: Mean = 4.2/5, Median = 5.0/5 <br>
+- 2017 Evaluation: Mean = 4.8/5, Median = 5.0/5 <br> <br></p>
+<p>####The Science of Psychology, Columbia University <br> - Role:
+Teaching Assistant <br> - Level: Undergraduate <br> - Guest Lecture:
+“Attachment Across the Lifespan” <br> - Supervisor: Patricia Lindemann
+<br> - Evaluation: Mean = 4.2/5, Median = 4.0/5 <br> <br></p>
+<p>####General Foundations of Psychology, Birkbeck, University of London
+<br> - Role: Seminar Leader (led weekly 2-hr seminar, 2 sections over 2
+terms) <br> - Level: Undergraduate <br> - Supervisor: Simon Green <br>
+<br></p>
 <p><br></p>
-</div>
 </div>
 <div id="mentoring" class="section level2">
 <h2>Mentoring</h2>
-<p>I have supervised and mentored over 40 undergraduate and post-bac research assistants and honors students since 2014. My students have been recognized with awards from Columbia University as well as international societies, such as the Society for Personality and Social Psychology, and many have continued on to doctoral programs in psychology and related fields. <br> For my teaching and mentoring effectiveness, I received Columbia University's <a href="https://provost.columbia.edu/content/presidential-teaching-awards" target="_blank">Presidential Award for Outstanding Teaching</a> in 2019.</p>
+<p>I have supervised and mentored over 40 undergraduate and post-bac
+research assistants and honors students since 2014. My students have
+been recognized with awards from Columbia University as well as
+international societies, such as the Society for Personality and Social
+Psychology, and many have continued on to doctoral programs in
+psychology and related fields. <br> For my teaching and mentoring
+effectiveness, I received Columbia University’s <a
+href="https://provost.columbia.edu/content/presidential-teaching-awards"
+target="_blank">Presidential Award for Outstanding Teaching</a> in
+2019.</p>
 <p><br> <br></p>
 <p></font></p>
 <p><a href="#top">Back to top</a></p>
@@ -453,24 +388,38 @@ $(document).ready(function () {
 
 
 
-<title></title>
+<title>footer.knit</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.12/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -483,32 +432,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -519,10 +444,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -539,40 +460,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 64px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h2 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h3 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h4 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h5 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h6 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -600,7 +497,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -612,7 +509,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -623,10 +520,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -638,7 +548,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -705,7 +614,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -746,7 +655,7 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -758,17 +667,16 @@ $(document).ready(function () {
  
 <hr />
 <!--  <p> Copyright &copy; 2021 Katherine S. Zee. All rights reserved. </p>   -->
-<p style="text-align: center;">
-<span style="color: #808080;"><em><a href="mailto:katherinezeephd@gmail.com">katherinezeephd@gmail.com</a></em></span>
-</p>
-<p></font></p>
 <!-- Add icon library -->
 <p><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></p>
 <p><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"></p>
 <p><link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css"></p>
 <!-- Add font awesome icons -->
 <p style="text-align: center;">
-<a href="https://twitter.com/KatherineZee?lang=en/" target="_blank" class="fab fa-twitter"></a> <a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a> <a href="https://osf.io/g579q" target="_blank" class="ai ai-osf ai-1x"></a> <a href="https://www.researchgate.net/profile/Katherine_Zee" target="_blank" class="fab fa-researchgate"></a>
+<a href="https://twitter.com/KatherineZee?lang=en/" target="_blank" class="fab fa-twitter"></a>
+<a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a>
+<a href="https://osf.io/g579q" target="_blank" class="ai ai-osf ai-1x"></a>
+<a href="https://www.researchgate.net/profile/Katherine_Zee" target="_blank" class="fab fa-researchgate"></a>
 </p>
 
 
@@ -780,7 +688,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -798,7 +706,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -827,7 +735,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -845,7 +753,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>

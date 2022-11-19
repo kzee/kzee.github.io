@@ -13,22 +13,36 @@
 
 <title>Aggregating Mindware Physiological Data Files</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.12/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -41,32 +55,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -77,10 +67,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -97,40 +83,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 64px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h2 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h3 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h4 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h5 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h6 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -158,7 +120,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -170,7 +132,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -181,10 +143,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -196,7 +171,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -263,7 +237,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -304,60 +278,79 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
-<h1 class="title toc-ignore">Aggregating Mindware Physiological Data Files</h1>
+<h1 class="title toc-ignore">Aggregating Mindware Physiological Data
+Files</h1>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#example-mindware-output-file">Example Mindware Output File</a></li>
-<li><a href="#folder-set-up">Folder Set-up</a></li>
-<li><a href="#r-script">R Script</a><ul>
-<li><a href="#part-1-file-reading-function">Part 1: File Reading Function</a></li>
-<li><a href="#part-2-looping-function-to-aggregate-data">Part 2: Looping Function to Aggregate Data</a></li>
-</ul></li>
-<li><a href="#some-caveats">Some Caveats</a></li>
-<li><a href="#wrapping-up">Wrapping up</a></li>
+<li><a href="#part-1-file-reading-function"
+id="toc-part-1-file-reading-function">Part 1: File Reading
+Function</a></li>
+<li><a href="#part-2-looping-function-to-aggregate-data"
+id="toc-part-2-looping-function-to-aggregate-data">Part 2: Looping
+Function to Aggregate Data</a></li>
 </ul>
 </div>
 
 <p><font size="3"></p>
 <p><br></p>
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>This demo walks through how to aggregate physiological data files generated by the software package Mindware. Mindware is a popular software that is used to clean and score cardiovascular physiological data.</p>
-<p>In Mindware, each participant's physio file is scored manually, and the resulting values can be output to an Excel file. A time-consuming and potentially error-prone task involves copying the values from each participant's file and pasting them into a master file that aggregates data from all participants. Rather than using this by hand or using Excel macros, we can use R code to accomplish this task.</p>
-<p>This code can be used for aggregating data from Mindware's HRV module, which produces values for measures like heart rate, respiratory sinus arrhythmia, and respiration.</p>
+<p>#Introduction This demo walks through how to aggregate physiological
+data files generated by the software package Mindware. Mindware is a
+popular software that is used to clean and score cardiovascular
+physiological data.</p>
+<p>In Mindware, each participant’s physio file is scored manually, and
+the resulting values can be output to an Excel file. A time-consuming
+and potentially error-prone task involves copying the values from each
+participant’s file and pasting them into a master file that aggregates
+data from all participants. Rather than using this by hand or using
+Excel macros, we can use R code to accomplish this task.</p>
+<p>This code can be used for aggregating data from Mindware’s HRV
+module, which produces values for measures like heart rate, respiratory
+sinus arrhythmia, and respiration.</p>
 <p><br></p>
-</div>
-<div id="example-mindware-output-file" class="section level1">
-<h1>Example Mindware Output File</h1>
-<p>First, let's take a look at a Mindware Excel output file. Mindware files generally all have a simlar format, which includes the file name. The time points are along the rows, and the specific measures are along the columns.</p>
+<p>#Example Mindware Output File</p>
+<p>First, let’s take a look at a Mindware Excel output file. Mindware
+files generally all have a simlar format, which includes the file name.
+The time points are along the rows, and the specific measures are along
+the columns.</p>
 <p><img src="images/Example_Mindware_Filevalues.png" width="70%" style="display: block; margin: auto;" /></p>
 <p><br></p>
-</div>
-<div id="folder-set-up" class="section level1">
-<h1>Folder Set-up</h1>
-<p>For this code to work, the first step is to create a separate folder that contains only the Mindware Excel files we want to aggregate.</p>
-<p>For our purposes, it is also important that the file name contains the participant ID number, and ideally no other numbers (the inclusion of other numbers may cause issues with pulling out the participant ID number correctly). This is necessary for helping us keep track of which data belong to which person.</p>
+<p>#Folder Set-up</p>
+<p>For this code to work, the first step is to create a separate folder
+that contains only the Mindware Excel files we want to aggregate.</p>
+<p>For our purposes, it is also important that the file name contains
+the participant ID number, and ideally no other numbers (the inclusion
+of other numbers may cause issues with pulling out the participant ID
+number correctly). This is necessary for helping us keep track of which
+data belong to which person.</p>
 <p>Your resulting folder might look something like this:</p>
 <p><img src="images/Example_Mindware_Files_photo.png" width="70%" style="display: block; margin: auto;" /></p>
 <p><br></p>
-</div>
-<div id="r-script" class="section level1">
-<h1>R Script</h1>
-<p>First, open up an R script. Set your working directory to the folder you created that contains only the Mindware files. My folder is called <code>Example_Mindware_Files</code>.</p>
+<p>#R Script</p>
+<p>First, open up an R script. Set your working directory to the folder
+you created that contains only the Mindware files. My folder is called
+<code>Example_Mindware_Files</code>.</p>
 <pre class="r"><code>setwd() # add your path to the folder with your data files. </code></pre>
 <p><br></p>
 <div id="part-1-file-reading-function" class="section level2">
 <h2>Part 1: File Reading Function</h2>
-<p>We can now set up a function (that I wrote!) called <code>mw</code> for Mindware that will pull in the relevant information that we want from each Mindware file. Specifically, this function will copy in each person's ID number, which gets pulled out from the file name, the time point, and the various physiological measures.</p>
-<p>Importantly, this script is configured to put the aggregated data into <em>long</em> format. Long format data has each observation on a separate row, as opposed to in separate columns. Long form data is often the data form we need when working with repeated-measures data, like much physiological data. You could reshape our data into wide format if that was your preferred format.</p>
+<p>We can now set up a function (that I wrote!) called <code>mw</code>
+for Mindware that will pull in the relevant information that we want
+from each Mindware file. Specifically, this function will copy in each
+person’s ID number, which gets pulled out from the file name, the time
+point, and the various physiological measures.</p>
+<p>Importantly, this script is configured to put the aggregated data
+into <em>long</em> format. Long format data has each observation on a
+separate row, as opposed to in separate columns. Long form data is often
+the data form we need when working with repeated-measures data, like
+much physiological data. You could reshape our data into wide format if
+that was your preferred format.</p>
 <pre class="r"><code>library(dplyr)
 library(stringr)
 numextract &lt;- function(string){ 
@@ -380,8 +373,10 @@ mw &lt;- function (filename) {
       id = numextract(filename) %&gt;% as.numeric())
     newd &lt;- subset(newd, is.na(time) == F)
   }</code></pre>
-<p>At this stage, I would recommend testing out the function for a few individual files to make sure it is working properly.</p>
-<p>We could do this for one example file in my folder, <code>Example_Mindware_Files</code>.</p>
+<p>At this stage, I would recommend testing out the function for a few
+individual files to make sure it is working properly.</p>
+<p>We could do this for one example file in my folder,
+<code>Example_Mindware_Files</code>.</p>
 <pre class="r"><code>test_mwfile &lt;- mw(&quot;PhysioStudy_1.xlsx&quot;)</code></pre>
 <pre class="r"><code>head(test_mwfile)</code></pre>
 <pre><code>##   time       hr      rsa      ibi    rmssd    rrate    ramp id
@@ -393,50 +388,91 @@ mw &lt;- function (filename) {
 ## 6    6 64.87889 4.837958 924.8000 27.08628 14.32873 4.0e-06  1</code></pre>
 <p><br></p>
 </div>
-<div id="part-2-looping-function-to-aggregate-data" class="section level2">
+<div id="part-2-looping-function-to-aggregate-data"
+class="section level2">
 <h2>Part 2: Looping Function to Aggregate Data</h2>
-<p>Once the function is working, we can then set up a second chunk of code that will automatically run the function on every file in the folder we created and put the resulting data into one dataframe.</p>
+<p>Once the function is working, we can then set up a second chunk of
+code that will automatically run the function on every file in the
+folder we created and put the resulting data into one dataframe.</p>
 <pre class="r"><code>library(plyr)
+library(foreach)
 my_physio_data &lt;- ldply(.data = list.files(pattern=&quot;*.xlsx&quot;),
               .fun = mw,
               .parallel = TRUE) </code></pre>
-<p>You may get some warning messages (e.g., <code>... and XX more problems</code>). As far as I can tell, these are not real problems and should not be an issue.</p>
+<p>You may get some warning messages (e.g.,
+<code>... and XX more problems</code>). As far as I can tell, these are
+not real problems and should not be an issue.</p>
 <p><br></p>
-<p>After running the above, I recommending detaching the <code>plyr</code> package, as there can sometimes be an inteference issue when both <code>dplyr</code> and <code>plyr</code> are loaded at the same time.</p>
+<p>After running the above, I recommending detaching the
+<code>plyr</code> package, as there can sometimes be an inteference
+issue when both <code>dplyr</code> and <code>plyr</code> are loaded at
+the same time.</p>
 <pre class="r"><code>detach(&quot;package:plyr&quot;)</code></pre>
 <p><br></p>
-<p>We can then save this data frame to a .csv file (or another file type). And voila! We can share this file with collaborators, use it for analysis, etc.</p>
+<p>We can then save this data frame to a .csv file (or another file
+type). And voila! We can share this file with collaborators, use it for
+analysis, etc.</p>
 <pre class="r"><code>write.csv(my_physio_data, &quot;my_physio_data.csv&quot;, row.names = F)</code></pre>
 <p><br></p>
-</div>
-</div>
-<div id="some-caveats" class="section level1">
-<h1>Some Caveats</h1>
-<p>I have used this code to aggregate physio data for several studies, and it has generally worked very well. It is way faster and less error-prone compared to aggregating data by hand. But, there are a few issues I want to draw your attention to...</p>
+<p>#Some Caveats</p>
+<p>I have used this code to aggregate physio data for several studies,
+and it has generally worked very well. It is way faster and less
+error-prone compared to aggregating data by hand. But, there are a few
+issues I want to draw your attention to…</p>
 <ul>
-<li>I highly recommend checking the resulting dataframe carefully after the aggregation to make sure all of the data have been read in and are showing up properly. In one instance, I found that for some reason there was an issue with one of my files, and this issue somehow stopped the looping process, so only some of my data files ended up in the final dataset. A way that I like to check this is to run something like <code>table(my_physio_data$id)</code>. This will allow me to see how many observations per participant ID have been added to the aggregated dataset.</li>
+<li>I highly recommend checking the resulting dataframe carefully after
+the aggregation to make sure all of the data have been read in and are
+showing up properly. In one instance, I found that for some reason there
+was an issue with one of my files, and this issue somehow stopped the
+looping process, so only some of my data files ended up in the final
+dataset. A way that I like to check this is to run something like
+<code>table(my_physio_data$id)</code>. This will allow me to see how
+many observations per participant ID have been added to the aggregated
+dataset.</li>
 </ul>
 <pre class="r"><code>table(my_physio_data$id)</code></pre>
 <pre><code>## 
 ##   1   2   3   4   5   6 
 ## 174 174 114 114 114 162</code></pre>
-<p>I will also typically run something like <code>length(unique(my_physio_data$id))</code> to see how many individual participant IDs made it into the dataframe.</p>
+<p>I will also typically run something like
+<code>length(unique(my_physio_data$id))</code> to see how many
+individual participant IDs made it into the dataframe.</p>
 <pre class="r"><code>length(unique(my_physio_data$id))</code></pre>
 <pre><code>## [1] 6</code></pre>
-<p>Hopefully this number matches the number of participants I am expecting and the number of physio folders in my file.</p>
+<p>Hopefully this number matches the number of participants I am
+expecting and the number of physio folders in my file.</p>
 <ul>
-<li><p>Also keep an eye out for duplicated time points for participants. This can sometimes be an issue if for some reason a participant's physio data had to be collected in separate files. If that is the case, Mindware will label the first time period for each phase as 1, 2, and so on. You may need to manually change the time labels in the second physio file for the person in question.</p></li>
-<li><p>This script is designed to work with Mindware's HRV module, version HRV 3.0.25. It's possible the script will need tweaking for later versions if the format of the Excel output file changes. On a related note, this script could easily be adapted for use with other Mindware scoring packages, such as IMP and BP.</p></li>
-<li><p>You may encounter issues if there are hidden files in your folder, like. If you find there are issues getting the above code to work, try <a href="https://www.macworld.co.uk/how-to/mac-software/show-hidden-files-mac-3520878/" target="_blank">revealing hidden files</a> to see if that might be causing the issue.</p></li>
+<li><p>Also keep an eye out for duplicated time points for participants.
+This can sometimes be an issue if for some reason a participant’s physio
+data had to be collected in separate files. If that is the case,
+Mindware will label the first time period for each phase as 1, 2, and so
+on. You may need to manually change the time labels in the second physio
+file for the person in question.</p></li>
+<li><p>This script is designed to work with Mindware’s HRV module,
+version HRV 3.0.25. It’s possible the script will need tweaking for
+later versions if the format of the Excel output file changes. On a
+related note, this script could easily be adapted for use with other
+Mindware scoring packages, such as IMP and BP.</p></li>
+<li><p>You may encounter issues if there are hidden files in your
+folder, like. If you find there are issues getting the above code to
+work, try <a
+href="https://www.macworld.co.uk/how-to/mac-software/show-hidden-files-mac-3520878/"
+target="_blank">revealing hidden files</a> to see if that might be
+causing the issue.</p></li>
 </ul>
-<p>Here's an example of a hidden file that sometimes shows up for me when a particular excel file is open. Quitting out of Excel usually solves the problem!</p>
+<p>Here’s an example of a hidden file that sometimes shows up for me
+when a particular excel file is open. Quitting out of Excel usually
+solves the problem!</p>
 <p><img src="images/Example_Mindware_Files_photo_Hidden.png" width="70%" style="display: block; margin: auto;" /></p>
 <p><br></p>
-</div>
-<div id="wrapping-up" class="section level1">
-<h1>Wrapping up</h1>
-<p>There you have it! Hopefully the days of laboriously copying and pasting values from Mindware are over. This will mean more time for the fun part--analyzing your physio data!</p>
-<p></font> <font size="2"> <em><a href="/Users/zeekatherine/Desktop/WorkSchool/kzee.github.io/AggregatePhysio_Demo.Rmd" target="_blank">View .Rmd source code</a></em> </font> <font size="2"><br />
+<p>#Wrapping up</p>
+<p>There you have it! Hopefully the days of laboriously copying and
+pasting values from Mindware are over. This will mean more time for the
+fun part–analyzing your physio data!</p>
+<p></font> <font size="2"> <em><a
+href="/Users/zeekatherine/Desktop/WorkSchool/kzee.github.io/AggregatePhysio_Demo.Rmd"
+target="_blank">View .Rmd source code</a></em> </font>
+<font size="2"><br />
 <em>updated June 10, 2020</em> </font></p>
 </div>
 
@@ -453,24 +489,38 @@ my_physio_data &lt;- ldply(.data = list.files(pattern=&quot;*.xlsx&quot;),
 
 
 
-<title></title>
+<title>footer2.knit</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.12/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -483,32 +533,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -519,10 +545,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -539,40 +561,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 64px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h2 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h3 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h4 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h5 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h6 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -600,7 +598,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -612,7 +610,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -623,10 +621,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -638,7 +649,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -705,7 +715,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -746,7 +756,7 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -757,22 +767,22 @@ $(document).ready(function () {
 <p><font size="2"></p>
  
 <hr />
-<!--  <p> Copyright &copy; 2021 Katherine S. Zee. All rights reserved. </p>   -->
-<p style="text-align: center;">
-<span style="color: #808080;"><em><a href="mailto:katherinezeephd@gmail.com">katherinezeephd@gmail.com</a></em></span>
-</p>
-<p></font></p>
 <!-- Add icon library -->
 <p><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></p>
 <p><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"></p>
 <p><link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css"></p>
 <!-- Add font awesome icons -->
 <p style="text-align: center;">
-<a href="https://twitter.com/KatherineZee?lang=en/" target="_blank" class="fab fa-twitter"></a> <a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a> <a href="https://osf.io/g579q" target="_blank" class="ai ai-osf ai-1x"></a> <a href="https://www.researchgate.net/profile/Katherine_Zee" target="_blank" class="fab fa-researchgate"></a>
+<a href="https://twitter.com/KatherineZee?lang=en/" target="_blank" class="fab fa-twitter"></a>
+<a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a>
+<a href="https://osf.io/g579q" target="_blank" class="ai ai-osf ai-1x"></a>
+<a href="https://www.researchgate.net/profile/Katherine_Zee" target="_blank" class="fab fa-researchgate"></a>
 </p>
 <font size="2">
 <p style="text-align: center;">
-<span style="color: #808080;">The material above reflects the best of my knowledge on this topic. Please be sure to check your results and code carefully.</span>
+<span style="color: #808080;">The material above reflects the best of my
+knowledge on this topic. Please be sure to check your results and code
+carefully.</span>
 </p>
 <p></font></p>
 
@@ -785,7 +795,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -803,7 +813,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -832,7 +842,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -850,7 +860,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>

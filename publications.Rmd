@@ -16,6 +16,11 @@ output:
 
 ## Published Papers
 
+**Zee, K. S.**, & Bolger, N. (2022). Physiological coregulation during social support interactions. *Emotion*. [Preprint](https://psyarxiv.com/83hpa){target="_blank"}. [(Datasets & R Code)](https://github.com/kzee/zee-bolger-coreg){target="_blank"}
+
+^+^Paek, J., **Zee, K. S.**, & Higgins, E. T. (in preparation). *Congratulations, so happy for you! Motivation predicts social support for positive events.* \
+^+^*Undergraduate mentee*
+
 **Zee, K. S.**, Bolger, N., & Higgins, E. T. (2020). [Regulatory effectiveness of social support](http://dx.doi.org/10.1037/pspi0000235){target="_blank"}. *Journal of Personality and Social Psychology.* [(Datasets & R Code)](https://github.com/kzee/zee-res){target="_blank"} \
 *Winner: Graduate Student Paper Award, Relationship Researchers Interest Group, SPSP*
 
@@ -43,29 +48,13 @@ Cavallo, J. V., **Zee, K. S.**, Higgins, E. T. (2016). [Giving what is needed: R
 
 <br>
 
-## Papers In Revision
-
-**Zee, K. S.**, & Bolger, N. (revise & resubmit). Physiological coregulation during social support interactions. [Preprint](https://psyarxiv.com/83hpa){target="_blank"}.
-
-<br>
 
 
-
-## Papers in Preparation
-
-^+^*Undergraduate or post-baccalaureate mentee*
+## Papers in Preparation (Selected)
 
 **Zee, K. S.**, & Bolger, N. (in preparation). *Heterogeneity in dyadic interaction and implications for self-regulation.*
 
 **Zee, K. S.**, & Bolger, N. (in preparation). *Increasing precision in meta-analytic estimates by modeling variability due to outcomes.*  
-
-Cavallo, J. V., **Zee, K. S.**,  & Higgins, E. T. (in preparation). *Tailoring help to fit: Why motivation matters for effective social support.*
-
-Leach, C. W., **Zee, K. S.**, Kenny, D. A., & Cidam, A. (in preparation). Difficulties in distinguishing correlated constructs: The example of guilt and shame.
-
-^+^Paek, J., **Zee, K. S.**, & Higgins, E. T. (in preparation). *Congratulations, so happy for you! Motivation predicts social support for positive events.*
-
-Turetsky, K. M., & **Zee, K. S.** (in preparation). *Toward a unified perspective on the effect of stress on relationships.* 
 
 
 

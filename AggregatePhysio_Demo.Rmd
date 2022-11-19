@@ -118,6 +118,7 @@ Once the function is working, we can then set up a second chunk of code that wil
 
 ```{r, eval = F}
 library(plyr)
+library(foreach)
 my_physio_data <- ldply(.data = list.files(pattern="*.xlsx"),
               .fun = mw,
               .parallel = TRUE) 

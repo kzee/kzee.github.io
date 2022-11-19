@@ -13,22 +13,36 @@
 
 <title>Plotting Fixed Effect from Multilevel Models</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.12/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -41,32 +55,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -77,10 +67,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -97,40 +83,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 64px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h2 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h3 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h4 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h5 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h6 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -158,7 +120,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -170,7 +132,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -181,10 +143,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -196,7 +171,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -263,7 +237,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -304,34 +278,57 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
-<h1 class="title toc-ignore">Plotting Fixed Effect from Multilevel Models</h1>
+<h1 class="title toc-ignore">Plotting Fixed Effect from Multilevel
+Models</h1>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#load-example-dataset-from-bmlm-package">Load example dataset (from bmlm package)</a></li>
-<li><a href="#frequentist-approach-using-lme4">Frequentist Approach using <code>lme4</code></a><ul>
-<li><a href="#fit-example-model">Fit example model</a></li>
-<li><a href="#create-new-dataframe">Create New Dataframe</a></li>
-<li><a href="#specify-design-matrix-with-fixed-effects">Specify Design Matrix with Fixed Effects</a></li>
-<li><a href="#plot-fixed-effect">Plot Fixed Effect</a></li>
+<li><a href="#load-example-dataset-from-bmlm-package"
+id="toc-load-example-dataset-from-bmlm-package">Load example dataset
+(from bmlm package)</a></li>
+<li><a href="#frequentist-approach-using-lme4"
+id="toc-frequentist-approach-using-lme4">Frequentist Approach using
+<code>lme4</code></a>
+<ul>
+<li><a href="#fit-example-model" id="toc-fit-example-model">Fit example
+model</a></li>
+<li><a href="#create-new-dataframe" id="toc-create-new-dataframe">Create
+New Dataframe</a></li>
+<li><a href="#specify-design-matrix-with-fixed-effects"
+id="toc-specify-design-matrix-with-fixed-effects">Specify Design Matrix
+with Fixed Effects</a></li>
+<li><a href="#plot-fixed-effect" id="toc-plot-fixed-effect">Plot Fixed
+Effect</a></li>
 </ul></li>
-<li><a href="#bayesian-approach-using-brms">Bayesian Approach using <code>brms</code></a><ul>
-<li><a href="#fit-example-model-1">Fit example model</a></li>
-<li><a href="#create-new-dataframe-1">Create New Dataframe</a></li>
+<li><a href="#bayesian-approach-using-brms"
+id="toc-bayesian-approach-using-brms">Bayesian Approach using
+<code>brms</code></a>
+<ul>
+<li><a href="#fit-example-model-1" id="toc-fit-example-model-1">Fit
+example model</a></li>
+<li><a href="#create-new-dataframe-1"
+id="toc-create-new-dataframe-1">Create New Dataframe</a></li>
 </ul></li>
-<li><a href="#how-do-the-plots-using-lme4-and-brms-compare">How do the plots using <code>lme4</code> and <code>brms</code> compare?</a></li>
-<li><a href="#wait-cant-i-just-use-the-built-in-functions-available-through-ggplot2">Wait, can't I just use the built-in functions available through <code>ggplot2()</code>?</a></li>
+<li><a href="#how-do-the-plots-using-lme4-and-brms-compare"
+id="toc-how-do-the-plots-using-lme4-and-brms-compare">How do the plots
+using <code>lme4</code> and <code>brms</code> compare?</a></li>
+<li><a
+href="#wait-cant-i-just-use-the-built-in-functions-available-through-ggplot2"
+id="toc-wait-cant-i-just-use-the-built-in-functions-available-through-ggplot2">Wait,
+can’t I just use the built-in functions available through
+<code>ggplot2()</code>?</a></li>
 </ul>
 </div>
 
 <p><font size="3"></p>
-<p>This guide demonstrates how to plot a fixed (average) effect from a multilevel model in R.</p>
+<p>This guide demonstrates how to plot a fixed (average) effect from a
+multilevel model in R.</p>
 <pre class="r"><code>library(lme4)
 library(lmerTest)
 library(ggplot2)
@@ -341,7 +338,12 @@ library(gridExtra)</code></pre>
 <p><br></p>
 <div id="load-example-dataset-from-bmlm-package" class="section level3">
 <h3>Load example dataset (from bmlm package)</h3>
-<p>For this demo, we will use the <code>BLch9</code> dataset available through the <code>bmlm</code> package for R. The <code>BLch9</code> dataset comes from the example used in Chapter 9 of <em><a href="http://www.intensivelongitudinal.com/" target="_blank">Intensive Longitudinal Methods</a></em> by Niall Bolger &amp; J-P Laurenceau. (The book is great, by the way, and I highly recommend it.)</p>
+<p>For this demo, we will use the <code>BLch9</code> dataset available
+through the <code>bmlm</code> package for R. The <code>BLch9</code>
+dataset comes from the example used in Chapter 9 of <em><a
+href="http://www.intensivelongitudinal.com/" target="_blank">Intensive
+Longitudinal Methods</a></em> by Niall Bolger &amp; J-P Laurenceau. (The
+book is great, by the way, and I highly recommend it.)</p>
 <p>For details on this dataset, run <code>?BLch9</code>.</p>
 <pre class="r"><code>d &lt;- BLch9</code></pre>
 <p><br></p>
@@ -350,8 +352,13 @@ library(gridExtra)</code></pre>
 <h2>Frequentist Approach using <code>lme4</code></h2>
 <div id="fit-example-model" class="section level3">
 <h3>Fit example model</h3>
-<p>First, we will fit a multilevel model in which <code>x</code> and <code>m</code> predict our outcome variable, <code>freldis</code>. We will include <code>x</code> and <code>m</code> as fixed effects and allow for each of these effects to vary between persons through the inclusion of random effect terms.</p>
-<p>Note that <code>x</code> and <code>m</code> have already been person-centered.</p>
+<p>First, we will fit a multilevel model in which <code>x</code> and
+<code>m</code> predict our outcome variable, <code>freldis</code>. We
+will include <code>x</code> and <code>m</code> as fixed effects and
+allow for each of these effects to vary between persons through the
+inclusion of random effect terms.</p>
+<p>Note that <code>x</code> and <code>m</code> have already been
+person-centered.</p>
 <pre class="r"><code>fit &lt;- lmer(freldis ~ x + m + (x + m | id), data = d)</code></pre>
 <pre class="r"><code>summary(fit)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
@@ -363,21 +370,21 @@ library(gridExtra)</code></pre>
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -3.3808 -0.6184 -0.0114  0.6423  3.3384 
+## -3.3809 -0.6185 -0.0114  0.6423  3.3383 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev. Corr     
-##  id       (Intercept) 0.930623 0.96469           
-##           x           0.008267 0.09093  0.28     
-##           m           0.047250 0.21737  0.63 0.92
-##  Residual             0.900115 0.94874           
+##  id       (Intercept) 0.930772 0.96477           
+##           x           0.008266 0.09092  0.28     
+##           m           0.047247 0.21736  0.63 0.92
+##  Residual             0.900109 0.94874           
 ## Number of obs: 2100, groups:  id, 100
 ## 
 ## Fixed effects:
 ##              Estimate Std. Error        df t value Pr(&gt;|t|)    
-## (Intercept)   4.63538    0.09867  99.02302  46.981  &lt; 2e-16 ***
-## x             0.11202    0.02319 201.77869   4.831 2.68e-06 ***
-## m             0.15359    0.02889 102.79964   5.317 6.19e-07 ***
+## (Intercept)   4.63538    0.09867  99.00091  46.977  &lt; 2e-16 ***
+## x             0.11202    0.02319 201.80312   4.831 2.68e-06 ***
+## m             0.15359    0.02889 102.80526   5.317 6.19e-07 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -385,26 +392,41 @@ library(gridExtra)</code></pre>
 ##   (Intr) x    
 ## x 0.109       
 ## m 0.466  0.186
-## convergence code: 0
-## singular fit</code></pre>
-<p>We can see from the model output that there is a significant effect of <code>x</code> on <code>freldis</code> for the typical person, adjusting for <code>m</code>. Now, we will plot this effect.</p>
+## optimizer (nloptwrap) convergence code: 0 (OK)
+## boundary (singular) fit: see help(&#39;isSingular&#39;)</code></pre>
+<p>We can see from the model output that there is a significant effect
+of <code>x</code> on <code>freldis</code> for the typical person,
+adjusting for <code>m</code>. Now, we will plot this effect.</p>
 <p><br></p>
 </div>
 <div id="create-new-dataframe" class="section level3">
 <h3>Create New Dataframe</h3>
-<p>To generate a plot of this effect, we want to use the model predicted values. To do this, we will first create new df with all observed values of <code>x</code>, with <code>m</code> held constant at 0 (indicating the mean value of <code>m</code> for each subject). We will have our new <code>x</code> consist of values falling in the observed range of values (i.e., from the minimum observed <code>x</code> in the dataset to the maximum observed <code>x</code> in the dataset). We will generate values in .01 unit increments. This will help ensure that the CIs will be smooth for plotting.</p>
+<p>To generate a plot of this effect, we want to use the model predicted
+values. To do this, we will first create new df with all observed values
+of <code>x</code>, with <code>m</code> held constant at 0 (indicating
+the mean value of <code>m</code> for each subject). We will have our new
+<code>x</code> consist of values falling in the observed range of values
+(i.e., from the minimum observed <code>x</code> in the dataset to the
+maximum observed <code>x</code> in the dataset). We will generate values
+in .01 unit increments. This will help ensure that the CIs will be
+smooth for plotting.</p>
 <pre class="r"><code>mydata &lt;- data.frame(
                      x = seq(min(d$x), max(d$x), .01),
                        m = 0
                        )</code></pre>
 <p><br></p>
 </div>
-<div id="specify-design-matrix-with-fixed-effects" class="section level3">
+<div id="specify-design-matrix-with-fixed-effects"
+class="section level3">
 <h3>Specify Design Matrix with Fixed Effects</h3>
-<p>Next, we will create a design matrix to obtain the fixed effect of <code>x</code>.</p>
+<p>Next, we will create a design matrix to obtain the fixed effect of
+<code>x</code>.</p>
 <pre class="r"><code>fit.mat &lt;- model.matrix(~ x + m, mydata) 
 cis &lt;- diag(fit.mat %*% tcrossprod(vcov(fit), fit.mat))</code></pre>
-<p>We will then use the new dataframe we created to predict values of our outcomes, <code>freldis</code>, from the model. Note that predictions for the lower and upper bounds of the 95% CI are generated in separate steps.</p>
+<p>We will then use the new dataframe we created to predict values of
+our outcomes, <code>freldis</code>, from the model. Note that
+predictions for the lower and upper bounds of the 95% CI are generated
+in separate steps.</p>
 <pre class="r"><code># predict y values and lwr/upr bounds using model object and new data
 mydata$freldis &lt;- predict(fit, mydata, re.form = NA)
 mydata$lwr &lt;- mydata$freldis-1.96*sqrt(cis)
@@ -413,7 +435,13 @@ mydata$upr &lt;- mydata$freldis+1.96*sqrt(cis)</code></pre>
 </div>
 <div id="plot-fixed-effect" class="section level3">
 <h3>Plot Fixed Effect</h3>
-<p>Now, we will use the <code>ggplot2()</code> package to plot our results. We will plot the raw data points (jittered, whereby we introduce a small amount of random noise to prevent individual points from stacking on top of each other) in the first part of the code. In the second part of the code, we will then plot the model-predicted line and 95% CI showing the fixed effect of <code>x</code> on <code>freldis</code> controlling for <code>m</code>.</p>
+<p>Now, we will use the <code>ggplot2()</code> package to plot our
+results. We will plot the raw data points (jittered, whereby we
+introduce a small amount of random noise to prevent individual points
+from stacking on top of each other) in the first part of the code. In
+the second part of the code, we will then plot the model-predicted line
+and 95% CI showing the fixed effect of <code>x</code> on
+<code>freldis</code> controlling for <code>m</code>.</p>
 <p><br></p>
 <pre class="r"><code>mlmplot &lt;- ggplot(mydata, aes(x, freldis)) +
   geom_point(
@@ -434,49 +462,58 @@ mydata$upr &lt;- mydata$freldis+1.96*sqrt(cis)</code></pre>
   theme_bw() 
 mlmplot</code></pre>
 <p><img src="PlotFixef_Demo_files/figure-html/lmerplot-1.png" width="672" /></p>
-<p>We have now plotted the fixed effect of <code>x</code> from our <code>lmer()</code> model, taking covariate <code>m</code> into account.</p>
+<p>We have now plotted the fixed effect of <code>x</code> from our
+<code>lmer()</code> model, taking covariate <code>m</code> into
+account.</p>
 <p><br></p>
 </div>
 </div>
 <div id="bayesian-approach-using-brms" class="section level2">
 <h2>Bayesian Approach using <code>brms</code></h2>
-<p>In this next part of the demo, we will fit the same model using Bayesian estimation with the <code>brms</code> package, and use the results of this model to plot the same fixed effect of <code>x</code> on <code>freldis</code> controlling for <code>m</code>.</p>
+<p>In this next part of the demo, we will fit the same model using
+Bayesian estimation with the <code>brms</code> package, and use the
+results of this model to plot the same fixed effect of <code>x</code> on
+<code>freldis</code> controlling for <code>m</code>.</p>
 <p><br></p>
 <div id="fit-example-model-1" class="section level3">
 <h3>Fit example model</h3>
-<p>First, let's fit the model. We will fit the same model as above. The code is extremely similar to the code used to run our <code>lmer()</code> model. We will use the default (noninformative) priors from the package.</p>
-<p>Note that <code>brm()</code> models often take a few minutes to run.</p>
+<p>First, let’s fit the model. We will fit the same model as above. The
+code is extremely similar to the code used to run our
+<code>lmer()</code> model. We will use the default (noninformative)
+priors from the package.</p>
+<p>Note that <code>brm()</code> models often take a few minutes to
+run.</p>
 <pre class="r"><code>fitb &lt;- brms::brm(freldis ~ x + m + (x + m | id), data = d)</code></pre>
 <pre class="r"><code>print(summary(fitb), digits = 3)</code></pre>
-<pre><code>##  Family: gaussian(identity) 
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
 ## Formula: freldis ~ x + m + (x + m | id) 
 ##    Data: d (Number of observations: 2100) 
-## Samples: 4 chains, each with iter = 2000; warmup = 1000; thin = 1; 
-##          total post-warmup samples = 4000
-##     ICs: LOO = Not computed; WAIC = Not computed
-##  
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
 ## Group-Level Effects: 
 ## ~id (Number of levels: 100) 
-##                  Estimate Est.Error l-95% CI u-95% CI Eff.Sample  Rhat
-## sd(Intercept)       0.978     0.073    0.846    1.128        683 1.006
-## sd(x)               0.082     0.033    0.010    0.145        586 1.007
-## sd(m)               0.223     0.027    0.172    0.279       1556 1.000
-## cor(Intercept,x)    0.237     0.277   -0.357    0.752       3282 1.000
-## cor(Intercept,m)    0.595     0.100    0.384    0.771       2761 1.001
-## cor(x,m)            0.688     0.263   -0.024    0.971        248 1.010
+##                  Estimate Est.Error l-95% CI u-95% CI  Rhat Bulk_ESS Tail_ESS
+## sd(Intercept)       0.974     0.074    0.843    1.132 1.002      824     1673
+## sd(x)               0.084     0.032    0.017    0.146 1.004      557      270
+## sd(m)               0.222     0.027    0.172    0.278 1.001     2478     3078
+## cor(Intercept,x)    0.249     0.266   -0.301    0.745 1.001     4736     1962
+## cor(Intercept,m)    0.594     0.103    0.377    0.777 1.001     2629     3193
+## cor(x,m)            0.697     0.237    0.112    0.971 1.007      457      328
 ## 
 ## Population-Level Effects: 
-##           Estimate Est.Error l-95% CI u-95% CI Eff.Sample  Rhat
-## Intercept    4.642     0.103    4.437    4.847        315 1.013
-## x            0.111     0.023    0.065    0.156       4712 0.999
-## m            0.156     0.029    0.099    0.213       1103 1.002
+##           Estimate Est.Error l-95% CI u-95% CI  Rhat Bulk_ESS Tail_ESS
+## Intercept    4.636     0.102    4.437    4.839 1.003      340      966
+## x            0.111     0.023    0.065    0.156 1.002     6618     2538
+## m            0.155     0.029    0.098    0.211 1.000     1486     2899
 ## 
 ## Family Specific Parameters: 
-##       Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
-## sigma     0.95     0.016    0.921    0.981       5263    1
+##       Estimate Est.Error l-95% CI u-95% CI  Rhat Bulk_ESS Tail_ESS
+## sigma    0.950     0.016    0.921    0.981 1.002     7035     3269
 ## 
-## Samples were drawn using sampling(NUTS). For each parameter, Eff.Sample 
-## is a crude measure of effective sample size, and Rhat is the potential 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
 ## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <p><br></p>
 </div>
@@ -488,8 +525,20 @@ mlmplot</code></pre>
   x = d$x,
   m = 0
 )</code></pre>
-<p>Next, we will use the <code>fitted()</code> function in <code>brms</code> to generate predictions and the 95% credibility interval. We will append these predicted values to our <code>mydatab</code> dataframe.</p>
-<p>Note that <code>brms</code> features both a <code>fitted()</code> function and a <code>predict()</code> function, but they will return different information. The fitted line should be the same for both, but the credibility intervals differ. <code>fitted()</code> takes uncertainty of the estimation of the fitted line into account, whereas <code>predict()</code> takes into account both uncertainty about the estimation of the fitted line and uncertainty about the data. Thus, <code>predict()</code> in <code>brms</code> will yield a wider interval. <code>fitted()</code> closely matches the predicted interval we get from the <code>lmer()</code> model.</p>
+<p>Next, we will use the <code>fitted()</code> function in
+<code>brms</code> to generate predictions and the 95% credibility
+interval. We will append these predicted values to our
+<code>mydatab</code> dataframe.</p>
+<p>Note that <code>brms</code> features both a <code>fitted()</code>
+function and a <code>predict()</code> function, but they will return
+different information. The fitted line should be the same for both, but
+the credibility intervals differ. <code>fitted()</code> takes
+uncertainty of the estimation of the fitted line into account, whereas
+<code>predict()</code> takes into account both uncertainty about the
+estimation of the fitted line and uncertainty about the data. Thus,
+<code>predict()</code> in <code>brms</code> will yield a wider interval.
+<code>fitted()</code> closely matches the predicted interval we get from
+the <code>lmer()</code> model.</p>
 <pre class="r"><code>mydatab &lt;- cbind(mydatab, fitted(fitb, mydatab, re_formula=NA))
 colnames(mydatab) &lt;- c(&quot;id&quot;, &quot;x&quot;, &quot;m&quot;, &quot;estimate&quot;, &quot;error&quot;, &quot;lwr&quot;, &quot;upr&quot;)</code></pre>
 <p>Now, we can use <code>ggplot2()</code> to plot the results.</p>
@@ -516,19 +565,37 @@ mlmplotb</code></pre>
 <p><br></p>
 </div>
 </div>
-<div id="how-do-the-plots-using-lme4-and-brms-compare" class="section level2">
-<h2>How do the plots using <code>lme4</code> and <code>brms</code> compare?</h2>
-<p>Now, let's compare the two plots side by side.</p>
+<div id="how-do-the-plots-using-lme4-and-brms-compare"
+class="section level2">
+<h2>How do the plots using <code>lme4</code> and <code>brms</code>
+compare?</h2>
+<p>Now, let’s compare the two plots side by side.</p>
 <pre class="r"><code>grid.arrange(mlmplot, mlmplotb, ncol = 2)</code></pre>
 <p><img src="PlotFixef_Demo_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>We find that in this case the fixed effect of <code>x</code> on <code>freldis</code> is essentially the same across the two types of models.</p>
+<p>We find that in this case the fixed effect of <code>x</code> on
+<code>freldis</code> is essentially the same across the two types of
+models.</p>
 <p><br></p>
 </div>
-<div id="wait-cant-i-just-use-the-built-in-functions-available-through-ggplot2" class="section level2">
-<h2>Wait, can't I just use the built-in functions available through <code>ggplot2()</code>?</h2>
-<p>At this point you may be asking yourself why we have to go to the bother of creating a new dataframe and using it to generate predictions from the model when <code>ggplot2()</code> offers features that allow us to to draw a regression line and add a confidence band.</p>
-<p>The answer is that ggplot does not &quot;know&quot; what is in our model. The exception is when you have a very simple model, such as x predicting y in a (non-multilevel) regression with no other variables. In this case, ggplot does not know that we used a multilevel model (observations nested within individuals), nor does it know that the effect of <code>x</code> is adjusting for a covariate, <code>m</code> in this case.</p>
-<p>Here's what we get when we simply use ggplot to generate our figure, without using the model to predict our fitted line and confidence band.</p>
+<div
+id="wait-cant-i-just-use-the-built-in-functions-available-through-ggplot2"
+class="section level2">
+<h2>Wait, can’t I just use the built-in functions available through
+<code>ggplot2()</code>?</h2>
+<p>At this point you may be asking yourself why we have to go to the
+bother of creating a new dataframe and using it to generate predictions
+from the model when <code>ggplot2()</code> offers features that allow us
+to to draw a regression line and add a confidence band.</p>
+<p>The answer is that ggplot does not “know” what is in our model. The
+exception is when you have a very simple model, such as x predicting y
+in a (non-multilevel) regression with no other variables. In this case,
+ggplot does not know that we used a multilevel model (observations
+nested within individuals), nor does it know that the effect of
+<code>x</code> is adjusting for a covariate, <code>m</code> in this
+case.</p>
+<p>Here’s what we get when we simply use ggplot to generate our figure,
+without using the model to predict our fitted line and confidence
+band.</p>
 <pre class="r"><code>plot_gg &lt;- ggplot(d, aes(x, freldis)) +
   geom_point(position = position_jitter(h=0.1, w=0.2), 
              alpha=.2, color = &quot;black&quot;, size = .5) +  
@@ -542,12 +609,18 @@ mlmplotb</code></pre>
 plot_gg</code></pre>
 <p><img src="PlotFixef_Demo_files/figure-html/plot_gg-1.png" width="672" /></p>
 <p><br></p>
-<p>When we view this plot next to the ones we generated previously, in which we used the model to generate the fitted line and confidence bands, we can see right away that the confidence band is too narrow and the slope of the fitted line is a little too steep.</p>
+<p>When we view this plot next to the ones we generated previously, in
+which we used the model to generate the fitted line and confidence
+bands, we can see right away that the confidence band is too narrow and
+the slope of the fitted line is a little too steep.</p>
 <pre class="r"><code>grid.arrange(plot_gg, mlmplot, mlmplotb, ncol = 3)</code></pre>
 <p><img src="PlotFixef_Demo_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p></font></p>
 <p><br></p>
-<p><font size="2"> <em><a href="/Users/zeekatherine/Desktop/WorkSchool/kzee.github.io/PlotFixef_Demo.Rmd" target="_blank">View .Rmd source code</a></em> </font> <font size="2"><br />
+<p><font size="2"> <em><a
+href="/Users/zeekatherine/Desktop/WorkSchool/kzee.github.io/PlotFixef_Demo.Rmd"
+target="_blank">View .Rmd source code</a></em> </font>
+<font size="2"><br />
 <em>updated March 19, 2019</em> </font></p>
 </div>
 
@@ -564,24 +637,38 @@ plot_gg</code></pre>
 
 
 
-<title></title>
+<title>footer2.knit</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.12/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -594,32 +681,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -630,10 +693,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -650,40 +709,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 64px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h2 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h3 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h4 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h5 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h6 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -711,7 +746,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -723,7 +758,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -734,10 +769,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -749,7 +797,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -816,7 +863,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -857,7 +904,7 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -868,22 +915,22 @@ $(document).ready(function () {
 <p><font size="2"></p>
  
 <hr />
-<!--  <p> Copyright &copy; 2021 Katherine S. Zee. All rights reserved. </p>   -->
-<p style="text-align: center;">
-<span style="color: #808080;"><em><a href="mailto:katherinezeephd@gmail.com">katherinezeephd@gmail.com</a></em></span>
-</p>
-<p></font></p>
 <!-- Add icon library -->
 <p><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></p>
 <p><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"></p>
 <p><link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css"></p>
 <!-- Add font awesome icons -->
 <p style="text-align: center;">
-<a href="https://twitter.com/KatherineZee?lang=en/" target="_blank" class="fab fa-twitter"></a> <a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a> <a href="https://osf.io/g579q" target="_blank" class="ai ai-osf ai-1x"></a> <a href="https://www.researchgate.net/profile/Katherine_Zee" target="_blank" class="fab fa-researchgate"></a>
+<a href="https://twitter.com/KatherineZee?lang=en/" target="_blank" class="fab fa-twitter"></a>
+<a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a>
+<a href="https://osf.io/g579q" target="_blank" class="ai ai-osf ai-1x"></a>
+<a href="https://www.researchgate.net/profile/Katherine_Zee" target="_blank" class="fab fa-researchgate"></a>
 </p>
 <font size="2">
 <p style="text-align: center;">
-<span style="color: #808080;">The material above reflects the best of my knowledge on this topic. Please be sure to check your results and code carefully.</span>
+<span style="color: #808080;">The material above reflects the best of my
+knowledge on this topic. Please be sure to check your results and code
+carefully.</span>
 </p>
 <p></font></p>
 
@@ -896,7 +943,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -914,7 +961,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -943,7 +990,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -961,7 +1008,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>

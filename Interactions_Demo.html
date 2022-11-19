@@ -13,22 +13,36 @@
 
 <title>Interaction Effects from Regression Models: Plotting &amp; Simple Slopes</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.12/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -41,32 +55,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -77,10 +67,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -97,40 +83,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 64px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h2 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h3 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h4 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h5 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h6 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -158,7 +120,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -170,7 +132,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -181,10 +143,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -196,7 +171,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -263,7 +237,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -304,51 +278,82 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
-<h1 class="title toc-ignore">Interaction Effects from Regression Models: Plotting &amp; Simple Slopes</h1>
+<h1 class="title toc-ignore">Interaction Effects from Regression Models:
+Plotting &amp; Simple Slopes</h1>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#load-example-dataset-from-car-package">Load example dataset (from <code>car</code> package)</a></li>
-<li><a href="#variables-and-research-question">Variables and Research Question</a></li>
-<li><a href="#fit-regression-model">Fit Regression Model</a></li>
-<li><a href="#generate-model-predictions">Generate Model Predictions</a></li>
-<li><a href="#plotting">Plotting</a></li>
-<li><a href="#simple-slope-analysis">Simple Slope Analysis</a></li>
+<li><a href="#load-example-dataset-from-car-package"
+id="toc-load-example-dataset-from-car-package">Load example dataset
+(from <code>car</code> package)</a></li>
+<li><a href="#variables-and-research-question"
+id="toc-variables-and-research-question">Variables and Research
+Question</a></li>
+<li><a href="#fit-regression-model" id="toc-fit-regression-model">Fit
+Regression Model</a></li>
+<li><a href="#generate-model-predictions"
+id="toc-generate-model-predictions">Generate Model Predictions</a></li>
+<li><a href="#plotting" id="toc-plotting">Plotting</a></li>
+<li><a href="#simple-slope-analysis"
+id="toc-simple-slope-analysis">Simple Slope Analysis</a></li>
 </ul>
 </div>
 
 <p><font size="3"></p>
 <p><br></p>
-<p>This demo walks through how to plot interaction effects from regression models in R, complete with raw data points and 95% CI, and how to perform tests of simple slopes.</p>
+<p>This demo walks through how to plot interaction effects from
+regression models in R, complete with raw data points and 95% CI, and
+how to perform tests of simple slopes.</p>
 <p><br></p>
 <pre class="r"><code>library(car)
 library(ggplot2)</code></pre>
 <p><br></p>
 <div id="load-example-dataset-from-car-package" class="section level3">
 <h3>Load example dataset (from <code>car</code> package)</h3>
-<p>For this demo, we will use the Moore dataset from the car package. For details on this dataset, run <code>?Moore</code>. As the documentation from the package indicates, &quot;the data are for subjects in a social-psychological experiment, who were faced with manipulated disagreement from a partner of either of low or high status. The subjects could either conform to the partner's judgment or stick with their own judgment.&quot;</p>
+<p>For this demo, we will use the Moore dataset from the car package.
+For details on this dataset, run <code>?Moore</code>. As the
+documentation from the package indicates, “the data are for subjects in
+a social-psychological experiment, who were faced with manipulated
+disagreement from a partner of either of low or high status. The
+subjects could either conform to the partner’s judgment or stick with
+their own judgment.”</p>
 <pre class="r"><code>d &lt;- Moore</code></pre>
 <p><br></p>
 </div>
 <div id="variables-and-research-question" class="section level3">
 <h3>Variables and Research Question</h3>
-<p>Here, our <code>y</code> variable is <code>conformity</code>. Our <code>x</code> variable is <code>partner.status</code> (low vs. high), and our <code>z</code> variable (moderator) is authoritarianism (<code>fscore</code>).</p>
-<p>Our research question is whether the effect of <code>partner.status</code> on <code>conformity</code> depends on <code>fscore</code> (authoritarianism). We will, for the purposes of this demo, not concern ourselves with issues of power or sample size since our focus is on plotting and extracting simple effects.</p>
+<p>Here, our <code>y</code> variable is <code>conformity</code>. Our
+<code>x</code> variable is <code>partner.status</code> (low vs. high),
+and our <code>z</code> variable (moderator) is authoritarianism
+(<code>fscore</code>).</p>
+<p>Our research question is whether the effect of
+<code>partner.status</code> on <code>conformity</code> depends on
+<code>fscore</code> (authoritarianism). We will, for the purposes of
+this demo, not concern ourselves with issues of power or sample size
+since our focus is on plotting and extracting simple effects.</p>
 <p><br></p>
 </div>
 <div id="fit-regression-model" class="section level3">
 <h3>Fit Regression Model</h3>
-<p>Before fitting the model, we will effect code the <code>partner.status</code> variable. It is not entirely necessary to do this, but it will simplify our interpretation of the results and facilitate plotting and analysis of the simple slopes in future steps.</p>
+<p>Before fitting the model, we will effect code the
+<code>partner.status</code> variable. It is not entirely necessary to do
+this, but it will simplify our interpretation of the results and
+facilitate plotting and analysis of the simple slopes in future
+steps.</p>
 <pre class="r"><code>d$partner.eff &lt;- ifelse(d$partner.status == &quot;low&quot;, -.5, .5)</code></pre>
-<p>We will also mean center <code>fscore</code>. We will keep <code>fscore</code> in its raw units (i.e., we will not standardize this variable).</p>
+<p>We will also mean center <code>fscore</code>. We will keep
+<code>fscore</code> in its raw units (i.e., we will not standardize this
+variable).</p>
 <pre class="r"><code>d$fscore.c &lt;- as.vector(scale(d$fscore, center = T, scale = F))</code></pre>
-<p>Now, we will fit a regression model in which we will include main effect terms for <code>fscore.c</code> and <code>partner.eff</code>, as well an interaction term.</p>
+<p>Now, we will fit a regression model in which we will include main
+effect terms for <code>fscore.c</code> and <code>partner.eff</code>, as
+well an interaction term.</p>
 <pre class="r"><code>fit &lt;- lm(conformity ~ fscore.c * partner.eff, data = d)
 summary(fit)</code></pre>
 <pre><code>## 
@@ -371,13 +376,26 @@ summary(fit)</code></pre>
 ## Residual standard error: 4.562 on 41 degrees of freedom
 ## Multiple R-squared:  0.2942, Adjusted R-squared:  0.2426 
 ## F-statistic: 5.698 on 3 and 41 DF,  p-value: 0.002347</code></pre>
-<p>We see that there is no main effect of <code>fscore.c</code>. In other words, averaging across conditions, authoritarianism is unrelated to conformity. We see that there is a main effect of <code>partner.eff</code>, indicating that people show more conformity to high (vs. low) status partners, controlling for authoritarianism. Importantly, however, we see that there is an interaction of these variables. Arguably the best way to interpret this interaction effect is to plot it and to perform simple slope analyses (i.e., compute the slope of <code>fscore.c</code> in each condition).</p>
+<p>We see that there is no main effect of <code>fscore.c</code>. In
+other words, averaging across conditions, authoritarianism is unrelated
+to conformity. We see that there is a main effect of
+<code>partner.eff</code>, indicating that people show more conformity to
+high (vs. low) status partners, controlling for authoritarianism.
+Importantly, however, we see that there is an interaction of these
+variables. Arguably the best way to interpret this interaction effect is
+to plot it and to perform simple slope analyses (i.e., compute the slope
+of <code>fscore.c</code> in each condition).</p>
 <p><br></p>
 </div>
 <div id="generate-model-predictions" class="section level3">
 <h3>Generate Model Predictions</h3>
-<p>We will now create a publication-quality visualization of our interaction effect.</p>
-<p>Note that there are several helper functions available in R that can help you visualize interaction effects faster. For example, the <code>effects</code> package can accomplish this in one line of code, as shown below. However, we are still missing elements we might want to include, such as the raw data points and confidence bands.</p>
+<p>We will now create a publication-quality visualization of our
+interaction effect.</p>
+<p>Note that there are several helper functions available in R that can
+help you visualize interaction effects faster. For example, the
+<code>effects</code> package can accomplish this in one line of code, as
+shown below. However, we are still missing elements we might want to
+include, such as the raw data points and confidence bands.</p>
 <pre class="r"><code>library(effects)
 plot(effect(term = &quot;fscore.c:partner.eff&quot;,
             mod = fit,
@@ -387,8 +405,22 @@ plot(effect(term = &quot;fscore.c:partner.eff&quot;,
 <p><br></p>
 <div id="create-dataframes-for-each-level-of-iv" class="section level4">
 <h4>Create Dataframes for Each Level of IV</h4>
-<p>Next, we will generate dataframes for each level of the IV that we want to plot (two in this case, one of each level of partner status). Here, we will plot a separate line for each level of partner status and show levels of authoritarianism along the x-axis. One could swap the presentation of these variables. However, the present approach seemed like a good place to start because one variable is continuuous and the other is binary. From a plotting and analysis perspective, your X and moderator variables are interchangeable (although they might not be interchangeable theoretically).</p>
-<p>First, let's create a dataframe that contains authoritarianism scores and fixes partner status to be high (<code>partner.eff == .5</code>). We will use this dataframe to feed values into the <code>predict()</code> function to get the model-predicted values for our y variable, as well as lower and upper bound estimates. If you had covariates, you would have mean centered them in the model and then filled them in here with the mean (0) for all.</p>
+<p>Next, we will generate dataframes for each level of the IV that we
+want to plot (two in this case, one of each level of partner status).
+Here, we will plot a separate line for each level of partner status and
+show levels of authoritarianism along the x-axis. One could swap the
+presentation of these variables. However, the present approach seemed
+like a good place to start because one variable is continuuous and the
+other is binary. From a plotting and analysis perspective, your X and
+moderator variables are interchangeable (although they might not be
+interchangeable theoretically).</p>
+<p>First, let’s create a dataframe that contains authoritarianism scores
+and fixes partner status to be high (<code>partner.eff == .5</code>). We
+will use this dataframe to feed values into the <code>predict()</code>
+function to get the model-predicted values for our y variable, as well
+as lower and upper bound estimates. If you had covariates, you would
+have mean centered them in the model and then filled them in here with
+the mean (0) for all.</p>
 <pre class="r"><code>dfhigh &lt;- data.frame(
   fscore.c = seq(min(d$fscore.c), max(d$fscore.c), .1), 
   # populate the column of your X of interest with a sequential order of values; 
@@ -398,7 +430,8 @@ plot(effect(term = &quot;fscore.c:partner.eff&quot;,
   
   partner.eff = .5  # let&#39;s set &quot;high&quot; value of moderator +.5
   )  </code></pre>
-<p>We repeat the same procedure, but fix the value of partner status to be low (<code>partner.eff == -.5</code>).</p>
+<p>We repeat the same procedure, but fix the value of partner status to
+be low (<code>partner.eff == -.5</code>).</p>
 <pre class="r"><code>dflow &lt;- data.frame(
   fscore.c = seq(min(d$fscore.c), max(d$fscore.c), .1), 
   partner.eff = -.5  
@@ -407,7 +440,9 @@ plot(effect(term = &quot;fscore.c:partner.eff&quot;,
 </div>
 <div id="model-predictions" class="section level4">
 <h4>Model Predictions</h4>
-<p>We will now use the <code>predict()</code> function to generate fitted values. We will append these values to the dataframes we created in the step above.</p>
+<p>We will now use the <code>predict()</code> function to generate
+fitted values. We will append these values to the dataframes we created
+in the step above.</p>
 <pre class="r"><code>partnerhigh &lt;- cbind(dfhigh, predict(fit, dfhigh, interval = &quot;confidence&quot;, type =c(&quot;response&quot;, &quot;terms&quot;)))
 
 partnerlow &lt;- cbind(dflow, predict(fit, dflow, interval = &quot;confidence&quot;, type =c(&quot;response&quot;, &quot;terms&quot;)))</code></pre>
@@ -416,7 +451,8 @@ partnerlow &lt;- cbind(dflow, predict(fit, dflow, interval = &quot;confidence&qu
 </div>
 <div id="plotting" class="section level3">
 <h3>Plotting</h3>
-<p>Now, let's use these predicted values in a graph using the <code>ggplot2()</code> package.</p>
+<p>Now, let’s use these predicted values in a graph using the
+<code>ggplot2()</code> package.</p>
 <pre class="r"><code>intplot &lt;- ggplot(partnerlow, aes(fscore.c, fit)) +
   geom_point(data = d, # use original data to plot datapoints 
              aes(fscore.c, conformity, shape = partner.status, color = partner.status), 
@@ -439,12 +475,17 @@ partnerlow &lt;- cbind(dflow, predict(fit, dflow, interval = &quot;confidence&qu
   theme_bw() 
 intplot</code></pre>
 <p><img src="Interactions_Demo_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>This plot suggests that there is a positive effect of authoritarianism for participants in the low partner status condition, and a negative effect for those in the high status condition. Our next step is to determine whether these simple slopes differ significantly from 0.</p>
+<p>This plot suggests that there is a positive effect of
+authoritarianism for participants in the low partner status condition,
+and a negative effect for those in the high status condition. Our next
+step is to determine whether these simple slopes differ significantly
+from 0.</p>
 <p><br></p>
 </div>
 <div id="simple-slope-analysis" class="section level3">
 <h3>Simple Slope Analysis</h3>
-<p>To perform tests on the simple slopes (the slopes of authoritarianism in each condition), we will use a function that I wrote.</p>
+<p>To perform tests on the simple slopes (the slopes of authoritarianism
+in each condition), we will use a function that I wrote.</p>
 <pre class="r"><code>condslope &lt;- function(x, z, c, y){
   # x = name of x variable
   # z = name of z variable (moderator)
@@ -474,7 +515,8 @@ intplot</code></pre>
               lower95=round(lower95, digits = 2), 
               upper95=round(upper95, digits = 2)))
 }</code></pre>
-<p>First, let's test the slope of authoritarianism in the high partner status condition.</p>
+<p>First, let’s test the slope of authoritarianism in the high partner
+status condition.</p>
 <pre class="r"><code>condslope(&quot;fscore.c&quot;, &quot;partner.eff&quot;, .5, fit)</code></pre>
 <pre><code>## $w0.intercept
 ## [1] 14.28
@@ -493,8 +535,11 @@ intplot</code></pre>
 ## 
 ## $upper95
 ## [1] -0.01</code></pre>
-<p>We see that the slope of authoritarianism in this condition is <em>b</em> = -0.15. Given the <em>t</em>, <em>p</em>, and 95% CI, we can conclude that this slope is significantly different from 0.</p>
-<p>Now, we will run the equivalent test for the lower partner status condition.</p>
+<p>We see that the slope of authoritarianism in this condition is
+<em>b</em> = -0.15. Given the <em>t</em>, <em>p</em>, and 95% CI, we can
+conclude that this slope is significantly different from 0.</p>
+<p>Now, we will run the equivalent test for the lower partner status
+condition.</p>
 <pre class="r"><code>condslope(&quot;fscore.c&quot;, &quot;partner.eff&quot;, -.5, fit)</code></pre>
 <pre><code>## $w0.intercept
 ## [1] 10
@@ -513,8 +558,13 @@ intplot</code></pre>
 ## 
 ## $upper95
 ## [1] 0.24</code></pre>
-<p>Although the slope is positive, <em>b</em> = 0.11, we are unable to conclude that it differs significantly from 0. At most, it is &quot;trending&quot; or &quot;marginal.&quot;</p>
-<p></font> <font size="2"> <em><a href="/Users/zeekatherine/Desktop/WorkSchool/kzee.github.io/Interactions_Demo.Rmd" target="_blank">View .Rmd source code</a></em> </font> <font size="2"><br />
+<p>Although the slope is positive, <em>b</em> = 0.11, we are unable to
+conclude that it differs significantly from 0. At most, it is “trending”
+or “marginal.”</p>
+<p></font> <font size="2"> <em><a
+href="/Users/zeekatherine/Desktop/WorkSchool/kzee.github.io/Interactions_Demo.Rmd"
+target="_blank">View .Rmd source code</a></em> </font>
+<font size="2"><br />
 <em>updated March 19, 2019</em> </font></p>
 </div>
 
@@ -531,24 +581,38 @@ intplot</code></pre>
 
 
 
-<title></title>
+<title>footer2.knit</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.12/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -561,32 +625,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -597,10 +637,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -617,40 +653,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 64px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h2 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h3 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h4 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h5 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h6 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -678,7 +690,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -690,7 +702,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -701,10 +713,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -716,7 +741,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -783,7 +807,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -824,7 +848,7 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -835,22 +859,22 @@ $(document).ready(function () {
 <p><font size="2"></p>
  
 <hr />
-<!--  <p> Copyright &copy; 2021 Katherine S. Zee. All rights reserved. </p>   -->
-<p style="text-align: center;">
-<span style="color: #808080;"><em><a href="mailto:katherinezeephd@gmail.com">katherinezeephd@gmail.com</a></em></span>
-</p>
-<p></font></p>
 <!-- Add icon library -->
 <p><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></p>
 <p><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"></p>
 <p><link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css"></p>
 <!-- Add font awesome icons -->
 <p style="text-align: center;">
-<a href="https://twitter.com/KatherineZee?lang=en/" target="_blank" class="fab fa-twitter"></a> <a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a> <a href="https://osf.io/g579q" target="_blank" class="ai ai-osf ai-1x"></a> <a href="https://www.researchgate.net/profile/Katherine_Zee" target="_blank" class="fab fa-researchgate"></a>
+<a href="https://twitter.com/KatherineZee?lang=en/" target="_blank" class="fab fa-twitter"></a>
+<a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a>
+<a href="https://osf.io/g579q" target="_blank" class="ai ai-osf ai-1x"></a>
+<a href="https://www.researchgate.net/profile/Katherine_Zee" target="_blank" class="fab fa-researchgate"></a>
 </p>
 <font size="2">
 <p style="text-align: center;">
-<span style="color: #808080;">The material above reflects the best of my knowledge on this topic. Please be sure to check your results and code carefully.</span>
+<span style="color: #808080;">The material above reflects the best of my
+knowledge on this topic. Please be sure to check your results and code
+carefully.</span>
 </p>
 <p></font></p>
 
@@ -863,7 +887,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -881,7 +905,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -910,7 +934,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -928,7 +952,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>

@@ -13,22 +13,36 @@
 
 <title>Research</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.12/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -41,32 +55,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -77,10 +67,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -97,40 +83,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 64px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h2 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h3 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h4 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h5 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h6 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -158,7 +120,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -170,7 +132,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -181,10 +143,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -196,7 +171,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -263,7 +237,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -304,7 +278,7 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -315,19 +289,78 @@ $(document).ready(function () {
 
 <p><font size="3"></p>
 <p><br></p>
-<div id="life-has-no-blessing-like-a-wise-friend.---euripides" class="section level3">
-<h3><em>&quot;Life has no blessing like a wise friend.&quot; - Euripides</em></h3>
-<p>I study how interpersonal relationships enable people to cope effectively with challenges and achieve important goals. <br></p>
-<p><strong>My work is driven by two main questions: How can people help each other manage difficulties? And, how do partners coordinate as a unit?</strong></p>
-<p>In pursuit of these questions, I have constructed new theoretical perspectives to illuminate how relationships contribute to well-being. Furthermore, I have leveraged diverse methodologies, including experiments, psychophysiology, and daily experience techniques to reveal key implications of relationship processes across domains and at multiple levels of analysis. Finally, I have developed and implemented state of the art statistical methods to provide the most rigorous and theory-driven tests of my hypotheses. Overall, my research program bridges work on self-regulation, emotion, and lifespan development to advance understanding of how people organize within complex social systems.</p>
+<div id="life-has-no-blessing-like-a-wise-friend.---euripides"
+class="section level3">
+<h3><em>“Life has no blessing like a wise friend.” - Euripides</em></h3>
+<p>I study how interpersonal relationships enable people to cope
+effectively with challenges and achieve important goals. <br></p>
+<p><strong>My work is driven by two main questions: How can people help
+each other manage difficulties? And, how do partners coordinate as a
+unit?</strong></p>
+<p>In pursuit of these questions, I have constructed new theoretical
+perspectives to illuminate how relationships contribute to well-being.
+Furthermore, I have leveraged diverse methodologies, including
+experiments, psychophysiology, and daily experience techniques to reveal
+key implications of relationship processes across domains and at
+multiple levels of analysis. Finally, I have developed and implemented
+state of the art statistical methods to provide the most rigorous and
+theory-driven tests of my hypotheses. Overall, my research program
+bridges work on self-regulation, emotion, and lifespan development to
+advance understanding of how people organize within complex social
+systems.</p>
 <p><br></p>
 </div>
-<div id="how-can-people-help-each-other-manage-difficulties" class="section level2">
+<div id="how-can-people-help-each-other-manage-difficulties"
+class="section level2">
 <h2>How can people help each other manage difficulties?</h2>
-<p>Social support, which refers to practical and emotional assistance from others, is arguably the most vital function of social relationships. Although it is often assumed that social support is universally helpful, empirical evidence has been mixed: Support can sometimes alleviate people’s distress but can also undermine their feelings of competence. I have developed a theoretical perspective to reconcile these mixed findings: I propose that social support is most effective when it addresses support recipients’ motivational needs. I have found robust evidence for this proposition across several studies examining support among strangers and existing relationship partners using a combination of experimental, dyadic, and psychophysiological approaches (<a href="https://psycnet.apa.org/fulltext/2018-03575-001.html" target="_blank">Zee, Cavallo, Flores, Bolger, &amp; Higgins, 2018</a>; <a href="http://dx.doi.org/10.1037/pspi0000235" target="_blank">Zee, Bolger, &amp; Higgins, 2020</a>; <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/pere.12298" target="_blank">Zee &amp; Kumashiro, 2019</a>; <a href="https://journals.sagepub.com/doi/full/10.1177/0146167216651852">Cavallo, Zee, &amp; Higgins, 2016</a>; Cavallo, Zee, &amp; Higgins, in preparation).</p>
-<p>In one project, I found that recipients who received support given in a manner (<em>visible</em> vs. <em>invisible</em>; <a href="https://doi.org/10.1177/0963721419835214" target="_blank">Zee &amp; Bolger, 2019, <em>Current Directions in Psychological Science</em></a>) that matched their motivational orientation felt less distressed, experienced higher self-efficacy, and showed tempered cardiovascular reactivity during a laboratory stressor <a href="https://psycnet.apa.org/fulltext/2018-03575-001.html" target="_blank">(Zee et al., 2018, <em>Journal of Personality and Social Psychology</em>)</a>.</p>
-<p>In subsequent research, I created a theoretical construct to reveal which motivational needs matter most in support contexts and how addressing them uniquely fosters effective goal pursuit <a href="http://dx.doi.org/10.1037/pspi0000235" target="_blank">(Zee, Bolger &amp; Higgins, 2020, <em>Journal of Personality and Social Psychology</em>)</a>. My construct, <strong>Regulatory Effectiveness of Support (RES)</strong>, posits social support that addresses recipients’ motivation to understand and manage their situation enables them to feel effective and succeed on important goals. I found that self-reported and observer-rated RES predicted benefits such as better mood and tempered cardiovascular stress. I also found that RES had downstream implications for performance: People who received support higher on RES felt more motivated to perform well on a stressful speech, and performed better, as rated by independent observers.</p>
-Overall, my research in this area offers an explanation for the mixed effects of support found in prior work and demonstrates the power of addressing motivation to enhance support’s effectiveness. <br> <br>
+<p>Social support, which refers to practical and emotional assistance
+from others, is arguably the most vital function of social
+relationships. Although it is often assumed that social support is
+universally helpful, empirical evidence has been mixed: Support can
+sometimes alleviate people’s distress but can also undermine their
+feelings of competence. I have developed a theoretical perspective to
+reconcile these mixed findings: I propose that social support is most
+effective when it addresses support recipients’ motivational needs. I
+have found robust evidence for this proposition across several studies
+examining support among strangers and existing relationship partners
+using a combination of experimental, dyadic, and psychophysiological
+approaches (<a
+href="https://psycnet.apa.org/fulltext/2018-03575-001.html"
+target="_blank">Zee, Cavallo, Flores, Bolger, &amp; Higgins, 2018</a>;
+<a href="http://dx.doi.org/10.1037/pspi0000235" target="_blank">Zee,
+Bolger, &amp; Higgins, 2020</a>; <a
+href="https://onlinelibrary.wiley.com/doi/full/10.1111/pere.12298"
+target="_blank">Zee &amp; Kumashiro, 2019</a>; <a
+href="https://journals.sagepub.com/doi/full/10.1177/0146167216651852">Cavallo,
+Zee, &amp; Higgins, 2016</a>; Cavallo, Zee, &amp; Higgins, in
+preparation).</p>
+<p>In one project, I found that recipients who received support given in
+a manner (<em>visible</em> vs. <em>invisible</em>; <a
+href="https://doi.org/10.1177/0963721419835214" target="_blank">Zee
+&amp; Bolger, 2019, <em>Current Directions in Psychological
+Science</em></a>) that matched their motivational orientation felt less
+distressed, experienced higher self-efficacy, and showed tempered
+cardiovascular reactivity during a laboratory stressor <a
+href="https://psycnet.apa.org/fulltext/2018-03575-001.html"
+target="_blank">(Zee et al., 2018, <em>Journal of Personality and Social
+Psychology</em>)</a>.</p>
+<p>In subsequent research, I created a theoretical construct to reveal
+which motivational needs matter most in support contexts and how
+addressing them uniquely fosters effective goal pursuit <a
+href="http://dx.doi.org/10.1037/pspi0000235" target="_blank">(Zee,
+Bolger &amp; Higgins, 2020, <em>Journal of Personality and Social
+Psychology</em>)</a>. My construct, <strong>Regulatory Effectiveness of
+Support (RES)</strong>, posits social support that addresses recipients’
+motivation to understand and manage their situation enables them to feel
+effective and succeed on important goals. I found that self-reported and
+observer-rated RES predicted benefits such as better mood and tempered
+cardiovascular stress. I also found that RES had downstream implications
+for performance: People who received support higher on RES felt more
+motivated to perform well on a stressful speech, and performed better,
+as rated by independent observers.</p>
+Overall, my research in this area offers an explanation for the mixed
+effects of support found in prior work and demonstrates the power of
+addressing motivation to enhance support’s effectiveness. <br> <br>
 <div class="figure" style="text-align: center">
 <img src="images/couplehugging.jpg" alt=" " width="50%" />
 <p class="caption">
@@ -335,12 +368,44 @@ Overall, my research in this area offers an explanation for the mixed effects of
 </div>
 <p><br> <br></p>
 </div>
-<div id="how-do-relationship-partners-coordinate-as-a-unit" class="section level2">
+<div id="how-do-relationship-partners-coordinate-as-a-unit"
+class="section level2">
 <h2>How do relationship partners coordinate as a unit?</h2>
-<p>Coordinating with others is an essential part of everyday life. In a second line of research, I study how people coordinate as a unit. My work in this area has largely focused on coregulation in dyadic interactions. Coregulation is a process in which interaction partners experience dynamic coupling of their emotional and physiological states, which stabilizes their responses in the face of difficulties. For instance, a person who has received upsetting feedback might seek out a close friend, and, by drawing on their friend’s calmer state, recover more efficiently.</p>
-<p>I have investigated <em>when</em> and <em>why</em> dyads coregulate (<a href="https://www.tandfonline.com/doi/full/10.1080/00273171.2019.1699392" target="_blank">Zee &amp; Bolger, 2020, <em>Multivariate Behavioral Research</em></a>; Zee &amp; Bolger, under review. <a href="https://psyarxiv.com/83hpa/" target="_blank">Preprint</a>). I showed that physiological coregulation emerges during support discussions, in which partners make explicit attempts to bring each other back to a calmer state. Through synchronizing their physiology, partners helped stabilize each other’s responses and return more efficiently to equilibrium.</p>
-<p>Moreover, I have demonstrated the implications of dyadic coregulation for individuals’ self-regulation (Zee &amp; Bolger, in preparation-a). I found that physiological coregulation during discussions between partners predicted how individuals coped with a stressor: Among dyads who showed better coregulation, individuals later showed better self-regulation as they faced the stressor on their own.</p>
-<p>This work emphasizes that physiological and emotional responses are shaped not only by individuals’ own self-regulatory efforts, but are also intricately tied to how they coordinate with others. This work underscores the importance of studying dyads as a unit and in doing so opens the door to identifying critical links between relationships and well-being. Collectively, these findings provide an exciting foundation for launching further lines of inquiry into coordination among partners and how such coordination impacts individual, interpersonal, and group success.</p>
+<p>Coordinating with others is an essential part of everyday life. In a
+second line of research, I study how people coordinate as a unit. My
+work in this area has largely focused on coregulation in dyadic
+interactions. Coregulation is a process in which interaction partners
+experience dynamic coupling of their emotional and physiological states,
+which stabilizes their responses in the face of difficulties. For
+instance, a person who has received upsetting feedback might seek out a
+close friend, and, by drawing on their friend’s calmer state, recover
+more efficiently.</p>
+<p>I have investigated <em>when</em> and <em>why</em> dyads coregulate
+(<a
+href="https://www.tandfonline.com/doi/full/10.1080/00273171.2019.1699392"
+target="_blank">Zee &amp; Bolger, 2020, <em>Multivariate Behavioral
+Research</em></a>; Zee &amp; Bolger, under review. <a
+href="https://psyarxiv.com/83hpa/" target="_blank">Preprint</a>). I
+showed that physiological coregulation emerges during support
+discussions, in which partners make explicit attempts to bring each
+other back to a calmer state. Through synchronizing their physiology,
+partners helped stabilize each other’s responses and return more
+efficiently to equilibrium.</p>
+<p>Moreover, I have demonstrated the implications of dyadic coregulation
+for individuals’ self-regulation (Zee &amp; Bolger, in preparation-a). I
+found that physiological coregulation during discussions between
+partners predicted how individuals coped with a stressor: Among dyads
+who showed better coregulation, individuals later showed better
+self-regulation as they faced the stressor on their own.</p>
+<p>This work emphasizes that physiological and emotional responses are
+shaped not only by individuals’ own self-regulatory efforts, but are
+also intricately tied to how they coordinate with others. This work
+underscores the importance of studying dyads as a unit and in doing so
+opens the door to identifying critical links between relationships and
+well-being. Collectively, these findings provide an exciting foundation
+for launching further lines of inquiry into coordination among partners
+and how such coordination impacts individual, interpersonal, and group
+success.</p>
 <br> <br>
 <div class="figure" style="text-align: center">
 <img src="images/couplesphysio.jpg" alt=" " width="50%" />
@@ -351,36 +416,95 @@ Overall, my research in this area offers an explanation for the mixed effects of
 </div>
 <div id="statistical-methods" class="section level2">
 <h2>Statistical Methods</h2>
-<p>Statistical methods provide indispensable tools that allow me to address critical questions and achieve the most rigorous and theory-driven tests of my hypotheses. Across my lines of work, I implement and develop cutting-edge statistical methods focused on (1) modeling heterogeneity in psychological and interpersonal processes, (2) capturing dynamics of dyadic interaction, and (3) leveraging Bayesian estimation to better test theoretical predictions.</p>
+<p>Statistical methods provide indispensable tools that allow me to
+address critical questions and achieve the most rigorous and
+theory-driven tests of my hypotheses. Across my lines of work, I
+implement and develop cutting-edge statistical methods focused on (1)
+modeling heterogeneity in psychological and interpersonal processes, (2)
+capturing dynamics of dyadic interaction, and (3) leveraging Bayesian
+estimation to better test theoretical predictions.</p>
 <p><br></p>
 <div id="modeling-between-subject-heterogeneity" class="section level3">
 <h3>Modeling Between-Subject Heterogeneity</h3>
-<p>Not all people, studies, or variables are the same. Thus, I use multilevel modeling to assess heterogeneity in psychological processes. I have used this approach in a range of contexts, including cognitive experiments and dyadic interactions among both younger and older adults. In one project, my colleagues and I proposed the importance of working from the assumption that causal processes are heterogeneous <a href="https://psycnet.apa.org/fulltext/2019-19962-002.html" target="_blank">(Bolger, Zee, Rossignac-Milon, &amp; Hassin, 2019, <em>Journal of Experimental Psychology: General</em>)</a>. Across multiple studies in cognitive and social psychology, we used multilevel modeling to show that between-subject heterogeneity is often present, even in tightly controlled experiments. I have built on this approach in my other empirical work and emphasized the importance of heterogeneity for theory development <a href="https://iaap-journals.onlinelibrary.wiley.com/doi/full/10.1111/aphw.12159" target="_blank">(Bolger &amp; Zee, 2019, <em>Applied Psychology: Health and Wellbeing</em>)</a>.</p>
-<p>I have also used random effects to examine sources of heterogeneity beyond subject-level heterogeneity. For example, I have developed a way of summarizing complex results across outcomes and datasets by treating the outcomes and datasets as crossed random effects, while also assessing the degree of heterogeneity in both influences (<a href="http://dx.doi.org/10.1037/pspi0000235" target="_blank">Zee et al., 2020</a>; Zee &amp; Bolger, in preparation-b).</p>
+<p>Not all people, studies, or variables are the same. Thus, I use
+multilevel modeling to assess heterogeneity in psychological processes.
+I have used this approach in a range of contexts, including cognitive
+experiments and dyadic interactions among both younger and older adults.
+In one project, my colleagues and I proposed the importance of working
+from the assumption that causal processes are heterogeneous <a
+href="https://psycnet.apa.org/fulltext/2019-19962-002.html"
+target="_blank">(Bolger, Zee, Rossignac-Milon, &amp; Hassin, 2019,
+<em>Journal of Experimental Psychology: General</em>)</a>. Across
+multiple studies in cognitive and social psychology, we used multilevel
+modeling to show that between-subject heterogeneity is often present,
+even in tightly controlled experiments. I have built on this approach in
+my other empirical work and emphasized the importance of heterogeneity
+for theory development <a
+href="https://iaap-journals.onlinelibrary.wiley.com/doi/full/10.1111/aphw.12159"
+target="_blank">(Bolger &amp; Zee, 2019, <em>Applied Psychology: Health
+and Wellbeing</em>)</a>.</p>
+<p>I have also used random effects to examine sources of heterogeneity
+beyond subject-level heterogeneity. For example, I have developed a way
+of summarizing complex results across outcomes and datasets by treating
+the outcomes and datasets as crossed random effects, while also
+assessing the degree of heterogeneity in both influences (<a
+href="http://dx.doi.org/10.1037/pspi0000235" target="_blank">Zee et al.,
+2020</a>; Zee &amp; Bolger, in preparation-b).</p>
 <br> <br>
 <div class="figure" style="text-align: center">
 <img src="images/Hetero_Fig2.jpg" alt="Panel plots showing between-subject heterogeneity in experimental effects for five subjects. Reproduced from Bolger, Zee, et al. (2019). *Journal of Experimental Psychology: General.*" width="70%" />
 <p class="caption">
-Panel plots showing between-subject heterogeneity in experimental effects for five subjects. Reproduced from Bolger, Zee, et al. (2019). <em>Journal of Experimental Psychology: General.</em>
+Panel plots showing between-subject heterogeneity in experimental
+effects for five subjects. Reproduced from Bolger, Zee, et al. (2019).
+<em>Journal of Experimental Psychology: General.</em>
 </p>
 </div>
 <p><br></p>
 </div>
 <div id="dynamic-modeling" class="section level3">
 <h3>Dynamic Modeling</h3>
-<p>I combine dyadic analysis and time series analysis to model dynamics of interpersonal interactions. Much of my work in this area has focused on dynamical systems modeling. This method offers advantages over traditional linear approaches because they permit more targeted inferences about how people regulate their responses. These models can be fit so they produce coefficients that capture the rate of change (velocity) and speed of change (acceleration) in responses over time. I have used these models to reveal meaningful patterns of self- and coregulatory dynamics, such as how partners entrain each other’s physiological responses (<a href="https://www.tandfonline.com/doi/full/10.1080/00273171.2019.1699392" target="_blank">Zee &amp; Bolger, 2020, <em>Multivariate Behavioral Research</em></a>; Zee &amp; Bolger, under review. <a href="https://psyarxiv.com/83hpa/" target="_blank">Preprint</a>).</p>
+<p>I combine dyadic analysis and time series analysis to model dynamics
+of interpersonal interactions. Much of my work in this area has focused
+on dynamical systems modeling. This method offers advantages over
+traditional linear approaches because they permit more targeted
+inferences about how people regulate their responses. These models can
+be fit so they produce coefficients that capture the rate of change
+(velocity) and speed of change (acceleration) in responses over time. I
+have used these models to reveal meaningful patterns of self- and
+coregulatory dynamics, such as how partners entrain each other’s
+physiological responses (<a
+href="https://www.tandfonline.com/doi/full/10.1080/00273171.2019.1699392"
+target="_blank">Zee &amp; Bolger, 2020, <em>Multivariate Behavioral
+Research</em></a>; Zee &amp; Bolger, under review. <a
+href="https://psyarxiv.com/83hpa/" target="_blank">Preprint</a>).</p>
 <br>
 <div class="figure" style="text-align: center">
 <img src="images/clo_plots.jpg" alt="Example results from dynamical systems analysis of dyadic physiological data." width="70%" />
 <p class="caption">
-Example results from dynamical systems analysis of dyadic physiological data.
+Example results from dynamical systems analysis of dyadic physiological
+data.
 </p>
 </div>
 <p><br></p>
 </div>
 <div id="bayesian-estimation" class="section level3">
 <h3>Bayesian Estimation</h3>
-<p>Finally, I utilize Bayesian estimation to ask and answer new questions by drawing probability-based inferences about patterns of effects (<a href="http://dx.doi.org/10.1037/pspi0000235" target="_blank">Zee et al., 2020</a>; Zee &amp; Bolger, under review. <a href="https://psyarxiv.com/83hpa/" target="_blank">Preprint</a>). As one example, I have developed a way of synthesizing across model parameters using Bayesian posterior distributions. This method involves assessing whether the effect sizes of more than one predictor in a model all fall above or below a threshold value. This has proven especially useful in my work on coregulation. Because coregulation dynamics involve combinations of nonlinear effects, it can be difficult to gauge the nature of the coregulation process from individual coefficients alone. I have used my method, for instance, to calculate the probability of bidirectional coregulation effects occurring simultaneously (person A affecting person B, and person B affecting person A), an approach that would not be possible within the traditional frequentist framework.</p>
+<p>Finally, I utilize Bayesian estimation to ask and answer new
+questions by drawing probability-based inferences about patterns of
+effects (<a href="http://dx.doi.org/10.1037/pspi0000235"
+target="_blank">Zee et al., 2020</a>; Zee &amp; Bolger, under review. <a
+href="https://psyarxiv.com/83hpa/" target="_blank">Preprint</a>). As one
+example, I have developed a way of synthesizing across model parameters
+using Bayesian posterior distributions. This method involves assessing
+whether the effect sizes of more than one predictor in a model all fall
+above or below a threshold value. This has proven especially useful in
+my work on coregulation. Because coregulation dynamics involve
+combinations of nonlinear effects, it can be difficult to gauge the
+nature of the coregulation process from individual coefficients alone. I
+have used my method, for instance, to calculate the probability of
+bidirectional coregulation effects occurring simultaneously (person A
+affecting person B, and person B affecting person A), an approach that
+would not be possible within the traditional frequentist framework.</p>
 <p><br></p>
 <p></font></p>
 <p><a href="#top">Back to top</a></p>
@@ -400,24 +524,38 @@ Example results from dynamical systems analysis of dyadic physiological data.
 
 
 
-<title></title>
+<title>footer.knit</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.12/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -430,32 +568,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 <link rel="stylesheet" href="styles.css" type="text/css" />
 
@@ -466,10 +580,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -486,40 +596,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 64px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h2 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h3 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h4 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h5 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h6 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -547,7 +633,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -559,7 +645,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -570,10 +656,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -585,7 +684,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -652,7 +750,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -693,7 +791,7 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -705,17 +803,16 @@ $(document).ready(function () {
  
 <hr />
 <!--  <p> Copyright &copy; 2021 Katherine S. Zee. All rights reserved. </p>   -->
-<p style="text-align: center;">
-<span style="color: #808080;"><em><a href="mailto:katherinezeephd@gmail.com">katherinezeephd@gmail.com</a></em></span>
-</p>
-<p></font></p>
 <!-- Add icon library -->
 <p><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></p>
 <p><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"></p>
 <p><link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css"></p>
 <!-- Add font awesome icons -->
 <p style="text-align: center;">
-<a href="https://twitter.com/KatherineZee?lang=en/" target="_blank" class="fab fa-twitter"></a> <a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a> <a href="https://osf.io/g579q" target="_blank" class="ai ai-osf ai-1x"></a> <a href="https://www.researchgate.net/profile/Katherine_Zee" target="_blank" class="fab fa-researchgate"></a>
+<a href="https://twitter.com/KatherineZee?lang=en/" target="_blank" class="fab fa-twitter"></a>
+<a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a>
+<a href="https://osf.io/g579q" target="_blank" class="ai ai-osf ai-1x"></a>
+<a href="https://www.researchgate.net/profile/Katherine_Zee" target="_blank" class="fab fa-researchgate"></a>
 </p>
 
 
@@ -727,7 +824,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -745,7 +842,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -774,7 +871,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -792,7 +889,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>

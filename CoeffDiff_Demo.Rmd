@@ -25,12 +25,13 @@ The reason for conducting such an analysis is that in psychology (and other disc
 
 # Dataset
 
-As an example, we will use the `affect` dataset from the `psych` package in R. Generally speaking, this dataset contains variables corresponding to 5 scales from the Eysenck Personality Inventory and the Motivational State Questionnaire, which was administered twice. For the purposes of this demo, we will examine only extraversion (`ext`) and neuroticism (`neur`) scores as predictors, and tense arousal (`TA2`) from the second measurement occasion as the outcome. 
+As an example, we will use the `affect` dataset from the `psychTools` package in R. Generally speaking, this dataset contains variables corresponding to 5 scales from the Eysenck Personality Inventory and the Motivational State Questionnaire, which was administered twice. For the purposes of this demo, we will examine only extraversion (`ext`) and neuroticism (`neur`) scores as predictors, and tense arousal (`TA2`) from the second measurement occasion as the outcome. 
 
 ```{r library and data, echo = TRUE, results = 'hide', message = FALSE}
 library(dplyr)
 library(car)
 library(psych)
+library(psychTools)
 ```
 
 ```{r}
@@ -176,8 +177,8 @@ postdensplot <- function(m, var1, var2, name1, name2){
   var1name <- noquote(paste("b_", var1, sep = ""))
   var2name <- noquote(paste("b_", var2, sep = ""))
   mp <- as.data.frame(posterior_samples(m))
-  var1_post <- dplyr::select(mp, var1name)
-  var2_post <- dplyr::select(mp, var2name)
+  var1_post <- dplyr::select(mp, as.name(var1name))
+  var2_post <- dplyr::select(mp, as.name(var2name))
   diff <- as.data.frame(var1_post - var2_post)
   
   mpost_var1 <- data.frame(post = var1_post, Coefficient = name1)
@@ -240,8 +241,7 @@ Another thing to add is that in the example above, our predictors were measured 
 &nbsp;
 <hr />
 <!--  <p> Copyright &copy; 2019 Katherine S. Zee. All rights reserved. </p>   -->
-<p style="text-align: center;"><span style="color: #808080;"><em>katherinezeephd@gmail.com</em></span></p>
-</font> 
+
 
 <!-- Add icon library -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

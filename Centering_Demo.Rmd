@@ -142,8 +142,6 @@ As you can see, there are multiple ways of getting us to the same place. I don't
 &nbsp;
 <hr />
 <!--  <p> Copyright &copy; 2021 Katherine S. Zee. All rights reserved. </p>   -->
-<p style="text-align: center;"><span style="color: #808080;"><em>katherinezeephd@gmail.com</em></span></p>
-</font> 
 
 <!-- Add icon library -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
