@@ -18,7 +18,7 @@ output:
 
 **Zee, K. S.**, & Bolger, N. (2022). Physiological coregulation during social support interactions. *Emotion*. [Preprint](https://psyarxiv.com/83hpa){target="_blank"}. [(Datasets & R Code)](https://github.com/kzee/zee-bolger-coreg){target="_blank"}
 
-^+^Paek, J., **Zee, K. S.**, & Higgins, E. T. (2022). *Congratulations, so happy for you! Motivation predicts social support for positive events.* Motivation Science. \
+^+^Paek, J., **Zee, K. S.**, & Higgins, E. T. (2022). Congratulations, so happy for you! Motivation predicts social support for positive events. *Motivation Science*. \
 ^+^*Undergraduate mentee*
 
 **Zee, K. S.**, Bolger, N., & Higgins, E. T. (2020). [Regulatory effectiveness of social support](http://dx.doi.org/10.1037/pspi0000235){target="_blank"}. *Journal of Personality and Social Psychology.* [(Datasets & R Code)](https://github.com/kzee/zee-res){target="_blank"} \
