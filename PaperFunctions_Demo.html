@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Paper Writing Helper Functions</title>
+
+<script src="site_libs/header-attrs-2.12/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Katherine S. Zee</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="publications.html">Publications</a>
+</li>
+<li>
+  <a href="rcode.html">R Code</a>
+</li>
+<li>
+  <a href="research.html">Academic Research</a>
+</li>
+<li>
+  <a href="teaching.html">Teaching</a>
+</li>
+<li>
+  <a href="files/KatherineZeeCV.pdf">CV</a>
+</li>
+<li>
+  <a href="contact.html">Connect</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Paper Writing Helper Functions</h1>
+
+</div>
+
+
+<p><font size="3"></p>
+<p>#Overview One of my favorite things about being an R user is that I
+can use Rmarkdown to write papers. This means I can directly link my
+manuscript to my analysis code. This saves me a lot of work, as I don’t
+have to manually type out the values for my results. It probably means
+there is less opportunity to make a mistake in typing in the results as
+well!</p>
+<p>In this script, I will share some of my favorite paper writing helper
+tips and functions. Most of these are functions that I wrote myself to
+help paper writing. I won’t go into detail about the basics of writing
+manuscripts in R, as there are a number of useful tutorials available
+online. I highly recommend the <code>papaja</code> package for
+submitting papers requiring APA format, so searching for guides to
+<code>papaja</code> is a good place to start. Another package that is
+very helpful is <code>broom</code>, which features the
+<code>tidy()</code> function. <code>tidy()</code> is a very powerful
+tool that converts the output of a model object into a dataframe, which
+can be more easily accessed and manipulated. If you don’t know the
+<code>tidy()</code> function yet, I suggest you check it out! You will
+likely find that it becomes indispensible, especially for paper
+writing.</p>
+<p>#Example To help illustrate some of these functions and tips, we’ll
+use the Moore dataset from the <code>car</code> package. More details
+about this dataset are provided in my <a
+href="https://kzee.github.io/Interactions_Demo.html"
+target="_blank">interaction effects demo</a>.</p>
+<p>Suppose we are writing up a paper on the results from the Moore
+dataset. Our research question is whether the effect of
+<code>partner.status</code> on <code>conformity</code> depends on
+<code>fscore</code> (authoritarianism).</p>
+<pre class="r"><code>library(car)</code></pre>
+<pre><code>## Loading required package: carData</code></pre>
+<pre class="r"><code># Prep data
+d &lt;- Moore
+d$partner.eff &lt;- ifelse(d$partner.status == &quot;low&quot;, -.5, .5)
+d$fscore.c &lt;- as.vector(scale(d$fscore, center = T, scale = F))
+
+# Fit model
+fit &lt;- lm(conformity ~ fscore.c * partner.eff, data = d)
+summary(fit)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = conformity ~ fscore.c * partner.eff, data = d)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -7.5296 -2.5984 -0.4473  2.0994 12.4704 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          12.14060    0.68059  17.838  &lt; 2e-16 ***
+## fscore.c             -0.02055    0.04850  -0.424  0.67402    
+## partner.eff           4.27767    1.36117   3.143  0.00311 ** 
+## fscore.c:partner.eff -0.26110    0.09700  -2.692  0.01024 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.562 on 41 degrees of freedom
+## Multiple R-squared:  0.2942, Adjusted R-squared:  0.2426 
+## F-statistic: 5.698 on 3 and 41 DF,  p-value: 0.002347</code></pre>
+<p>For the Bayesians out there, we can also set this up as a Bayesian
+model using the <code>brms</code> package.</p>
+<pre class="r"><code>library(brms)</code></pre>
+<pre><code>## Loading required package: Rcpp</code></pre>
+<pre><code>## Loading &#39;brms&#39; package (version 2.16.3). Useful instructions
+## can be found by typing help(&#39;brms&#39;). A more detailed introduction
+## to the package is available through vignette(&#39;brms_overview&#39;).</code></pre>
+<pre><code>## 
+## Attaching package: &#39;brms&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     ar</code></pre>
+<pre class="r"><code>bfit &lt;- brm(conformity ~ fscore.c * partner.eff, 
+            data = d,
+            seed = 111)</code></pre>
+<pre><code>## Compiling Stan program...</code></pre>
+<pre><code>## Trying to compile a simple C file</code></pre>
+<pre><code>## Start sampling</code></pre>
+<pre class="r"><code>summary(bfit)</code></pre>
+<pre><code>##  Family: gaussian 
+##   Links: mu = identity; sigma = identity 
+## Formula: conformity ~ fscore.c * partner.eff 
+##    Data: d (Number of observations: 45) 
+##   Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 4000
+## 
+## Population-Level Effects: 
+##                      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+## Intercept               12.14      0.69    10.80    13.49 1.00     4691
+## fscore.c                -0.02      0.05    -0.12     0.08 1.00     4812
+## partner.eff              4.23      1.40     1.49     6.99 1.00     4911
+## fscore.c:partner.eff    -0.26      0.10    -0.46    -0.06 1.00     4654
+##                      Tail_ESS
+## Intercept                2814
+## fscore.c                 2882
+## partner.eff              2704
+## fscore.c:partner.eff     3066
+## 
+## Family Specific Parameters: 
+##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## sigma     4.66      0.52     3.76     5.79 1.00     3913     3278
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<p><br></p>
+<p>#Reporting in-line stats</p>
+<p>In-line code chunks are super useful for reporting results in the
+text of your manuscript, such as in the Results section. The trick to
+having the correct information from your model output piped in as
+in-line stats is to leverage functions to help you pull out the relevant
+information in a concise way.</p>
+<p>Here are a few functions I wrote to facilitate this process. Note
+that there are some other packages that offer similar functions, but I
+found that these other functions were not very useful to me because they
+didn’t include all of the information I wanted to report (e.g., most
+that I found did not include confidence intervals, which are
+increasingly becoming a requirement for journal submissions). So I took
+matters into my own hands!</p>
+<pre class="r"><code># model = name of lm model object
+# est = name of the parameter you want, in quotes
+
+
+lmtxt &lt;- function(model, est) {
+  require(broom)
+  x &lt;- model
+  
+  tidymerged &lt;- cbind(tidy(x), as.data.frame(confint(x)))
+  tidymerged$term &lt;- row.names(tidymerged)
+
+  tidymerged$var &lt;- paste(x$terms)[2]
+  tidymerged$df &lt;- x$df.residual
+  colnames(tidymerged) &lt;- c(&quot;term&quot;, &quot;estimate&quot;, &quot;std.error&quot;, &quot;t.value&quot;, 
+                            &quot;p.value&quot;, &quot;lower&quot;, &quot;upper&quot;, &quot;var&quot;, &quot;df&quot;)
+  tidymerged$p.round &lt;- ifelse(tidymerged$p.value &lt; .001, &quot;&lt; .001&quot;, format(round(tidymerged$p.value, digits =3), nsmall = 3))
+  tidymerged$estimate.round &lt;-  format(round(tidymerged$estimate, digits =2), nsmall = 2)
+  tidymerged$t.value.round &lt;- format(round(tidymerged$t.value, digits =2), nsmall = 2)
+  tidymerged$lower.round &lt;- format(round(tidymerged$lower, digits =2), nsmall = 2)
+  tidymerged$upper.round &lt;- format(round(tidymerged$upper, digits = 2), nsmall = 2)
+  tidymerged$std.error.round &lt;- format(round(tidymerged$std.error, digits = 2), nsmall = 2)
+  tidymerged2 &lt;- dplyr::select(tidymerged, var, term, estimate.round, std.error.round, t.value.round, df, p.round,
+                               lower.round, upper.round)
+  colnames(tidymerged2) &lt;- c(&quot;var&quot;, &quot;term&quot;, &quot;estimate&quot;, &quot;se&quot;, &quot;t&quot;, &quot;df&quot;, &quot;p&quot;, &quot;lwr&quot;, &quot;upr&quot;)
+
+  b &lt;- &quot;*b* = &quot;
+  se &lt;- &quot;*SE* = &quot;
+  tval &lt;- &quot;*t*(&quot;
+  lwr &lt;- &quot;95% CI [&quot;
+  upr &lt;- &quot;]&quot;
+  pval &lt;- &quot;*p*&quot;
+
+  bval &lt;- subset(tidymerged2, term == est)$estimate
+  seval &lt;- subset(tidymerged2, term == est)$se
+  lwrval &lt;- subset(tidymerged2, term == est)$lwr
+  uprval &lt;- subset(tidymerged2, term == est)$upr
+  dfval &lt;- subset(tidymerged2, term == est)$df
+  tval_num &lt;- subset(tidymerged2, term == est)$t
+  pval_num &lt;- subset(tidymerged2, term == est)$p
+
+  
+  noquote(paste(b, bval,
+                &quot;, &quot;,
+                
+                tval, dfval, &quot;) = &quot;, tval_num, 
+                
+                &quot;, &quot;, 
+                
+                pval, ifelse(pval_num == &quot;&lt; .001&quot;, paste(&quot; &quot;, pval_num, sep = &quot;&quot;), 
+                             paste(&quot; = &quot;, pval_num, sep = &quot;&quot;)),
+
+                &quot;, &quot;, 
+
+                lwr, lwrval,
+                &quot;, &quot;, 
+                
+                uprval,   upr,
+                
+                sep = &quot;&quot;))
+  
+  
+}</code></pre>
+<pre class="r"><code>lmtxt(fit, &quot;fscore.c:partner.eff&quot;)</code></pre>
+<pre><code>## Loading required package: broom</code></pre>
+<pre><code>## [1] *b* = -0.26, *t*(41) = -2.69, *p* = 0.010, 95% CI [-0.46, -0.07]</code></pre>
+<p>The asterisks will put the text in italics, which is necessary for
+adherence to APA style. We can then take this code and embed it directly
+into our text. To insert an in-line code chunk, we need to put the code
+in between back-ticks and put in an <code>r</code> at the start of our
+code. It will look like this:</p>
+<pre class="r"><code>`r lmtxt(fit, &quot;fscore.c:partner.eff&quot;)` </code></pre>
+<p>We can then put that code directly into a sentence:</p>
+<pre class="r"><code># There was a significant interaction effect of authoritarianism and partner status on conformity, `r lmtxt(fit, &quot;fscore.c:partner.eff&quot;)`.</code></pre>
+<p>Which gives us:</p>
+<p>There was a significant interaction effect of authoritarianism and
+partner status on conformity, <em>b</em> = -0.26, <em>t</em>(41) =
+-2.69, <em>p</em> = 0.010, 95% CI [-0.46, -0.07].</p>
+<p>The spacing and italics look perfect! The rounding looks good too.
+Values are rounded to two decimal places, except for p-values which are
+rounded to 3, as is common in journal submission requirements (e.g., <a
+href="https://www.psychologicalscience.org/publications/psychological_science/ps-submissions"
+target="_blank"><em>Psychological Science</em> asks for papers to round
+test stats to 2 decimal places and p-values to 3 decimal places</a>).
+Note that if we were to change something about our model, such as add a
+control variable or switch from effect coding to dummy coding, we would
+only need to update the model object (<code>fit</code>) and possibly the
+name of the parameter in the <code>lmtxt()</code> function.</p>
+<p>Also note that this function will automatically handle extremely
+small p-values (i.e., those less than .001) by writing in <em>p</em>
+&lt; .001. For example:</p>
+<pre class="r"><code>lmtxt(fit, &quot;(Intercept)&quot;) </code></pre>
+<pre><code>## [1] *b* = 12.14, *t*(41) = 17.84, *p* &lt; .001, 95% CI [10.77, 13.52]</code></pre>
+<p>##Bayesian Version</p>
+<p>For those using <code>brms</code>, here is a comparable function.
+Note that we don’t have t-values, p-values, and degrees of freedom to
+report here. You could decide to not report standard errors in the text
+by simply removing those lines of code from the function below (or
+commenting them out).</p>
+<pre class="r"><code># model = name of brms model object
+# est = name of the parameter you want, in quotes
+
+txt &lt;- function(model, est) {
+  require(brms)
+  b &lt;- &quot;*b* = &quot;
+  se &lt;- &quot;*SE* = &quot;
+  lwr &lt;- &quot;95% CI [&quot;
+  upr &lt;- &quot;]&quot;
+  bval &lt;- fixef(model)[est, &quot;Estimate&quot;]
+  seval &lt;- fixef(model)[est, &quot;Est.Error&quot;]
+  lwrval &lt;- fixef(model)[est, &quot;Q2.5&quot;]
+  uprval &lt;- fixef(model)[est, &quot;Q97.5&quot;]
+  
+  noquote(paste(b, ifelse(abs(mean(bval)) &lt; .01, 
+                          format(round(mean(bval), 3), nsmall = 3), 
+                          format(round(mean(bval), 2), nsmall = 2)),
+                &quot;, &quot;,
+                 se, ifelse(abs(mean(seval)) &lt; .01, 
+                            format(round(mean(seval), 3), nsmall = 3), 
+                            format(round(mean(seval), 2), nsmall = 2)),
+                &quot;, &quot;, 
+                
+                lwr, ifelse(abs(mean(lwrval)) &lt; .01, 
+                            format(round(mean(lwrval), 3), nsmall = 3), 
+                            format(round(mean(lwrval), 2), nsmall = 2)),
+                &quot;, &quot;, 
+                
+                ifelse(abs(mean(uprval)) &lt; .01, 
+                       format(round(mean(uprval), 3), nsmall = 3), 
+                       format(round(mean(uprval), 2), nsmall = 2)),   upr,
+                
+                sep = &quot;&quot;))
+  
+  
+}</code></pre>
+<pre class="r"><code>txt(bfit, &quot;fscore.c:partner.eff&quot;)</code></pre>
+<pre><code>## [1] *b* = -0.26, *SE* = 0.10, 95% CI [-0.46, -0.06]</code></pre>
+<p>We could use this in a sentence as well, for example:</p>
+<p>Using a Bayesian linear model, we found there was an interaction
+effect of authoritarianism and partner status on conformity, <em>b</em>
+= -0.26, <em>SE</em> = 0.10, 95% CI [-0.46, -0.06].</p>
+<p><br></p>
+<p>#Creating summary tables One of the paper writing tasks I found most
+tedious was putting together results summary tables. There was a lot of
+typing, and I obsessed over checking them for errors. If I needed to
+make a tweak to my analysis, I would also have to redo my tables! Very
+time-consuming.</p>
+<p>Thankfully, using Rmarkdown to generate tables circumvents this task.
+As long as my code is correct, my tables should be correct. I can let R
+worry about rounding and so forth, so I can focus more of my time and
+energy on writing!</p>
+<p>As with the in-line stats, there are a number of existing packages
+that include functions for making tables. These are good places to
+start, but I found that they were not suitable for my needs. Some only
+used asterisks instead of reporting the actual p-values, which was not
+in compliance with some of the journal submission requirements I needed
+to follow. Others did not including confidence intervals. Most also did
+not provide a clear and organized way for presenting results for
+multiple DVs within a single table. Not satisfied with the existing
+options, I decided to just create a function for making my own.</p>
+<pre class="r"><code>regtable &lt;- function(x) {
+  require(broom)
+  tidymerged &lt;- cbind(tidy(x), tidy(confint(x)))
+  tidymerged$term &lt;- row.names(tidymerged)
+  tidymerged$var &lt;- paste(x$terms)[2]
+  tidymerged$df &lt;- x$df.residual
+  colnames(tidymerged) &lt;- c(&quot;term&quot;, &quot;estimate&quot;, &quot;std.error&quot;, &quot;t.value&quot;, 
+                            &quot;p.value&quot;,  &quot;lower&quot;, &quot;upper&quot;, &quot;var&quot;, &quot;df&quot;)
+  tidymerged$p.round &lt;- ifelse(tidymerged$p.value &lt; .001, &quot;&lt;.001&quot;, format(round(tidymerged$p.value, digits =3), nsmall = 3))
+  tidymerged$estimate.round &lt;-  format(round(tidymerged$estimate, digits =2), nsmall = 2)
+  tidymerged$t.value.round &lt;- format(round(tidymerged$t.value, digits =2), nsmall = 2)
+  tidymerged$lower.round &lt;- format(round(tidymerged$lower, digits =2), nsmall = 2)
+  tidymerged$upper.round &lt;- format(round(tidymerged$upper, digits = 2), nsmall = 2)
+  tidymerged$std.error.round &lt;- format(round(tidymerged$std.error, digits = 2), nsmall = 2)
+  tidymerged$nobs &lt;- nobs(x)
+  tidymerged2 &lt;- dplyr::select(tidymerged, var, term, estimate.round, std.error.round, t.value.round, df, p.round,
+                               lower.round, upper.round, nobs)
+  colnames(tidymerged2) &lt;- c(&quot;var&quot;, &quot;term&quot;, &quot;estimate&quot;, &quot;se&quot;, &quot;t&quot;, &quot;df&quot;, &quot;p&quot;, &quot;lwr&quot;, &quot;upr&quot;, &quot;nobs&quot;)
+  print(tidymerged2)
+}
+
+
+regtable(fit)</code></pre>
+<p><br> What if we had multiple DVs we wanted to report? We could simply
+put them all together using <code>rbind()</code>, which appends
+additional rows to an existing dataframe if the column names are the
+same.</p>
+<p>To illustrate, let’s simulate two additional DVs for our example. The
+results are not important for our purposes, we just want to create some
+additional variables to show how results for multiple DVs can be
+combined into one table.</p>
+<pre class="r"><code>set.seed(111)
+d$newdv1 &lt;- rnorm(nrow(d), mean = mean(d$conformity), sd = sd(d$conformity))
+
+set.seed(222)
+d$newdv2 &lt;- rnorm(nrow(d), mean = mean(d$conformity), sd = sd(d$conformity))</code></pre>
+<pre class="r"><code>fit_newdv1 &lt;- lm(newdv1 ~ fscore.c * partner.eff, data = d)
+fit_newdv2 &lt;- lm(newdv2 ~ fscore.c * partner.eff, data = d)</code></pre>
+<pre class="r"><code>all_results &lt;- rbind(regtable(fit),
+                     regtable(fit_newdv1),
+                     regtable(fit_newdv2))
+
+all_results</code></pre>
+<p><br></p>
+<pre class="r"><code>blm_table &lt;- function(x, id) {
+  library(broom)
+  modtidy &lt;- as.data.frame(fixef(x))
+  modtidy$term &lt;- row.names(modtidy)
+  modtidy$var &lt;- colnames(x$data)[1]
+  
+  modtidy$Estimate &lt;- ifelse(abs(modtidy$Estimate) &lt; .01, format(round(modtidy$Estimate, 3), nsmall = 3),
+                             format(round(modtidy$Estimate, 2), nsmall = 2))
+  
+  modtidy$SE &lt;- ifelse(abs(modtidy$Est.Error) &lt; .01, format(round(modtidy$Est.Error, 3), nsmall = 3),
+                       format(round(modtidy$Est.Error, 2), nsmall =2))
+  
+  modtidy$Lower &lt;- ifelse(abs(modtidy$Q2.5) &lt; .01, format(round(modtidy$Q2.5, 3), nsmall = 3), 
+                          format(round(modtidy$Q2.5, 2), nsmall = 2))
+  
+  
+  modtidy$Upper &lt;- ifelse(abs(modtidy$Q97.5) &lt; .01, format(round(modtidy$Q97.5, 3), nsmall = 3), 
+                          format(round(modtidy$Q97.5, 2), nsmall = 2))
+  
+  modtidy90 &lt;- as.data.frame(fixef(x, prob = c(.05, .95)))
+  modtidy$Lower90 &lt;- ifelse(abs(modtidy90$Q5) &lt; .01, format(round(modtidy90$Q5, 3), nsmall = 3), 
+                            format(round(modtidy90$Q5, 2), nsmall = 2))
+  
+  modtidy$Upper90 &lt;- ifelse(abs(modtidy90$Q95) &lt; .01, format(round(modtidy90$Q95, 3), nsmall = 3), 
+                            format(round(modtidy90$Q95, 2), nsmall = 2))
+  
+  modtidy$N_Subj &lt;- ifelse( length(unique(x$data$id)) == 0, nrow(x$data), length(unique(x$data$id)))
+  modtidy$N_Obs &lt;- nobs(x)
+  modtidy &lt;- dplyr::select(modtidy, var, term, Estimate, SE, Lower, Upper, Lower90, Upper90, N_Subj, N_Obs)
+  
+  row.names(modtidy) &lt;- c()
+  return(modtidy)
+  
+}
+
+blm_table(bfit)</code></pre>
+<p><br></p>
+<p>#Organizing supplemental materials</p>
+<p><br></p>
+<p>#Rounding</p>
+<pre class="r"><code>roundto3 &lt;- function(x) {
+  (ifelse(abs(x) &lt; .01, 
+          format(round(x, 3), nsmall = 3),
+          format(round(x, 2), nsmall = 2)))
+}</code></pre>
+<p><br></p>
+<p>#Multilevel Modeling Helper Functions</p>
+<pre class="r"><code>kzmlmtable &lt;- function(x) {
+  library(broom)
+  modtidy &lt;- tidy(summary(x)$coef)
+  modtidy$term &lt;- modtidy$.rownames
+  citidy &lt;- tidy(confint(x))
+  citidy$term &lt;- citidy[,1]
+  tidymerged &lt;- merge(modtidy, citidy, by = &quot;term&quot;)
+  tidymerged$var &lt;- deparse(substitute(x))
+  colnames(tidymerged) &lt;-c(&quot;term&quot;, &quot;term2&quot;, &quot;estimate&quot;, &quot;std.error&quot;, &quot;df&quot;, &quot;t.value&quot;,  &quot;p.value&quot;,
+                           &quot;term3&quot;,  &quot;lower&quot;, &quot;upper&quot;, &quot;var&quot;)
+  tidymerged$p.round &lt;- ifelse(tidymerged$p.value &lt; .001, &quot;&lt;.001&quot;, format(round(tidymerged$p.value, digits =3), nsmall = 3))
+  tidymerged$estimate.round &lt;-  format(round(tidymerged$estimate, digits =2), nsmall = 2)
+  tidymerged$t.value.round &lt;- format(round(tidymerged$t.value, digits =2), nsmall = 2)
+  tidymerged$lower.round &lt;- format(round(tidymerged$lower, digits =2), nsmall = 2)
+  tidymerged$upper.round &lt;- format(round(tidymerged$upper, digits = 2), nsmall = 2)
+  tidymerged$df.round &lt;- round(tidymerged$df, digits = 0)
+  #tidymerged$std.error.round &lt;- sprintf(&#39;%.2f&#39;, round(tidymerged$std.error, digits = 2))
+  tidymerged$std.error.round &lt;- format(round(tidymerged$std.error, digits = 2), nsmall = 2)
+  tidymerged2 &lt;- dplyr::select(tidymerged, var, term, estimate.round, std.error.round, t.value.round, df.round, p.round, lower.round, upper.round)
+  colnames(tidymerged2) &lt;- c(&quot;var&quot;, &quot;term&quot;, &quot;estimate&quot;, &quot;se&quot;, &quot;t&quot;, &quot;df&quot;, &quot;p&quot;, &quot;lwr&quot;, &quot;upr&quot;)
+  print(tidymerged2)
+}
+
+
+# lmer version - random effects
+kzraneftable &lt;- function(x) {
+  library(broom)
+  modtidy &lt;- tidy(summary(x)$varcor)
+  modtidy$term1 &lt;- paste(modtidy$var1, modtidy$var2, sep = &quot;_&quot;, collapse = NULL)
+  modtidy$term &lt;- c(&quot;inter&quot;,&quot;slope&quot;, &quot;intslope&quot;, &quot;resid&quot;) 
+  require(dplyr)
+  modtidy2 &lt;- dplyr::select(modtidy, term, sdcor)
+  citidy &lt;- tidy(confint(x))
+  citidy &lt;- citidy[1:4, ]
+  citidy$term &lt;- c(&quot;inter&quot;, &quot;intslope&quot;, &quot;slope&quot;, &quot;resid&quot;) 
+  tidymerged &lt;- dplyr::full_join(modtidy2, citidy, by = &quot;term&quot;)
+  tidymerged$var &lt;- deparse(substitute(x))
+  tidymerged$sd &lt;- sprintf(&#39;%.2f&#39;, round(tidymerged$sdcor, digits =2))
+  tidymerged$lower &lt;- sprintf(&#39;%.2f&#39;, round(tidymerged$X2.5, digits =2))
+  tidymerged$upper &lt;- sprintf(&#39;%.2f&#39;, round(tidymerged$X97.5, digits = 2))
+  tidymerged &lt;- dplyr::select(tidymerged, var, term, sd, lower, upper)
+  print(tidymerged)
+}</code></pre>
+<pre class="r"><code>branef_table &lt;- function(x) {
+  require(broom)
+  modtidy &lt;- tidy(x, prob = .95)
+  modtidy$dv &lt;- colnames(x$data)[1]
+  
+  
+  modtidy$Estimate &lt;- ifelse(abs(modtidy$estimate) &lt; .01, 
+                             format(round(modtidy$estimate, 3), nsmall = 3),
+                             format(round(modtidy$estimate, 2), nsmall = 2))
+  
+  modtidy$SE &lt;- ifelse(abs(modtidy$std.error) &lt; .01, 
+                       format(round(modtidy$std.error, 3), nsmall = 3), 
+                       format(round(modtidy$std.error, 2), nsmall = 2))
+  
+  modtidy$Lower &lt;- ifelse(abs(modtidy$lower) &lt; .01, 
+                          format(round(modtidy$lower, 3), nsmall = 3),
+                          format(round(modtidy$lower, 2), nsmall = 2))
+  
+  modtidy$Upper &lt;- ifelse(abs(modtidy$upper) &lt; .01, 
+                          format(round(modtidy$upper, 3), nsmall = 3), 
+                          format(round(modtidy$upper, 2), nsmall = 2))
+
+  
+  modtidy2 &lt;- dplyr::select(modtidy, dv, term, Estimate, SE, Lower, Upper)
+  row.names(modtidy2) &lt;- c()
+  
+  top &lt;- which(modtidy2$term == &quot;sd_id__Intercept&quot;)
+  bottom &lt;- which(modtidy2$term == &quot;sigma&quot;)
+  modtidy3 &lt;- modtidy2[top:bottom, ]
+  ar_row &lt;- which(modtidy2$term == &quot;ar[1]&quot;)
+  ar_df &lt;- modtidy2[ar_row, ] 
+  ar_df$term &lt;- &quot;AR(1)&quot;
+  modtidy4 &lt;- rbind(modtidy3, ar_df)
+  
+  
+return(print(modtidy4, row.names = F))
+}</code></pre>
+<p><br></p>
+<p>#Generating .tex files</p>
+<p><br></p>
+<p>#Additional Resources</p>
+<p></font></p>
+<p><br></p>
+<p><font size="2"> <em><a
+href="/Users/zeekatherine/Desktop/WorkSchool/kzee.github.io/PaperFunctions_Demo.Rmd"
+target="_blank">View .Rmd source code</a></em> </font>
+<font size="2"><br />
+<em>updated June 14, 2020</em> </font></p>
+<p><a href="#top">Back to top</a></p>
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>footer2.knit</title>
+
+<script src="site_libs/header-attrs-2.12/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Katherine S. Zee</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="publications.html">Publications</a>
+</li>
+<li>
+  <a href="rcode.html">R Code</a>
+</li>
+<li>
+  <a href="research.html">Academic Research</a>
+</li>
+<li>
+  <a href="teaching.html">Teaching</a>
+</li>
+<li>
+  <a href="files/KatherineZeeCV.pdf">CV</a>
+</li>
+<li>
+  <a href="contact.html">Connect</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<p><font size="2"></p>
+ 
+<hr />
+<!-- Add icon library -->
+<p><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></p>
+<p><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"></p>
+<p><link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css"></p>
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+<a href="https://www.linkedin.com/in/zeekatherine/" target="_blank" class="fab fa-linkedin"></a>
+<a href="https://github.com/kzee/" target="_blank" class="fab fa-github"></a>
+<a href="https://osf.io/g579q" target="_blank" class="ai ai-osf ai-1x"></a>
+<a href="https://www.researchgate.net/profile/Katherine_Zee" target="_blank" class="fab fa-researchgate"></a>
+</p>
+<font size="2">
+<p style="text-align: center;">
+<span style="color: #808080;">The material above reflects the best of my
+knowledge on this topic. Please be sure to check your results and code
+carefully.</span>
+</p>
+<p></font></p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

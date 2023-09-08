@@ -1,0 +1,89 @@
+---
+title: "Mediation in brms"
+output: 
+  html_document:
+    toc: true
+    toc_float: false
+    includes:
+      after_body: footer2.html
+---
+<font size="3">
+
+```{r echo = F}
+knitr::opts_chunk$set(message = F, cache = T, warning = F)  
+```
+
+
+
+```{r libraries, echo = TRUE, results = 'hide', message = FALSE}
+library(brms) 
+library(psych)
+library(psychTools)
+library(dplyr)
+```
+
+
+```{r, eval = F}
+library(brms)
+
+# Define 3 equations that make up your mediation model
+# equation 1 = a path for mediator A (x --> mA)
+model_mA <- bf(mA ~ x + covariates)
+
+# equation 2 = a path for mediator B (x --> mB)
+model_mB <- bf(mB ~ x + covariates)
+
+# equation 3 = a path for mediator B (x --> mB)
+model_y  <- bf(y ~ x + mA + mB + covariates)
+
+# plug the 3 equations into a brms model, calling your data frame
+med_result <- brm(model_mA + model_mB + model_y + set_rescor(FALSE), data = yourdata)
+
+
+# conduct hypothesis test
+# the hypothesis() function from brms is very flexible. 
+# It can basically test any mathematically expressed test you want to do, and will return a 95% credible interval. 
+# Inside the quotes, you need to define both the indirect effects.
+# mA_x*y_mA = this is the indirect effect via Mediator A. 
+# mB_x*y_mB =  this is the indirect effect via Mediator B. 
+# mA_x*y_mA - mB_x*y_mB = 0 indicates we want to know if the difference in the two indirect effects is 0 (i.e., are they the same?)
+
+# Because we have fit a multivariate model (a model with multiple outcome variables), the syntax is as follows: the prefix gives the DV we are interested in, and the suffix gives the predictor. 
+# so mA_x = the effect of x on mA, and y_mA = the effect of mA on y.
+
+hypothesis(med_result, 'mA_x*y_mA - mB_x*y_mB = 0')
+
+```
+
+
+```{r}
+model_mA <- bf(ext ~ BDI + traitanx)
+model_mB <- bf(neur ~ BDI + traitanx)
+model_y  <- bf(NA1 ~ BDI + ext + neur + traitanx)
+
+med_result <- brm(model_mA + model_mB + model_y + set_rescor(TRUE), data = affect)
+```
+```{r}
+med_result
+```
+
+
+```{r}
+hypothesis(med_result, 'ext_BDI*NA1_ext = 0')
+hypothesis(med_result, 'neur_BDI*NA1_neur = 0')
+
+med_result_ind <- hypothesis(med_result, 'ext_BDI*NA1_ext - neur_BDI*NA1_neur = 0')
+print(med_result_ind, digits = 9)
+```
+
+</font> 
+
+<br>
+
+<font size="2"> 
+*[View .Rmd source code](){target="_blank"}*
+</font> 
+<font size="2"> 
+\
+*updated December 29, 2022*
+</font> 
